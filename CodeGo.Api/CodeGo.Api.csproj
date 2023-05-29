@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGo.Application\CodeGo.Application.csproj" />
+    <ProjectReference Include="..\CodeGo.Contracts\CodeGo.Contracts.csproj" />
+    <ProjectReference Include="..\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
