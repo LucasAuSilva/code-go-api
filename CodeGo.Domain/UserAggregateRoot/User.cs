@@ -18,7 +18,7 @@ public sealed class User : AggregateRoot<UserId>
     public string? ProfilePicture { get; }
     public string? Bio { get; }
     public Streak DayStreak { get; }
-    public ExperiencePoints Points { get; }
+    public ExperiencePoints Experience { get; }
     public LevelId Level { get; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
@@ -32,7 +32,7 @@ public sealed class User : AggregateRoot<UserId>
         string email,
         string password,
         Streak dayStreak,
-        ExperiencePoints points,
+        ExperiencePoints experience,
         LevelId level,
         DateTime createdAt,
         DateTime updatedAt,
@@ -44,7 +44,7 @@ public sealed class User : AggregateRoot<UserId>
         Email = email;
         Password = password;
         DayStreak = dayStreak;
-        Points = points;
+        Experience = experience;
         Level = level;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -68,7 +68,7 @@ public sealed class User : AggregateRoot<UserId>
             email: email,
             password: password,
             dayStreak: streak,
-            points: points,
+            experience: points,
             level: level,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
