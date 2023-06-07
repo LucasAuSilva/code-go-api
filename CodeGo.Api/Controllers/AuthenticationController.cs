@@ -1,5 +1,6 @@
 
 using CodeGo.Application.Authentication.Command.Register;
+using CodeGo.Application.Authentication.Queries.Login;
 using CodeGo.Contracts.Authentication;
 using MapsterMapper;
 using MediatR;
@@ -29,5 +30,14 @@ public class AuthenticationController : ApiController
         return result.Match(
             result => Ok(_mapper.Map<AuthenticationResponse>(result)),
             Problem);
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        var query = _mapper.Map<LoginQuery>(request);
+        var result = await _sender.Send(query);
+        return result.Match(result => Ok(_mapper.Map<AuthenticationResponse>(result)),
+        Problem);
     }
 }
