@@ -58,6 +58,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         return new AuthenticationResult(
             user.Id.Value,
             user.FirstName,
+            user.LastName,
             user.Email,
             token);
     }

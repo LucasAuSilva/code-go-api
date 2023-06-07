@@ -41,6 +41,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
             user.Id.Value,
             user.FirstName,
             user.LastName,
+            user.Email,
             token);
     }
 }
