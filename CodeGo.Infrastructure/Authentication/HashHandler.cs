@@ -9,7 +9,7 @@ public class HashHandler : IHashGenerator, IHashComparer
 {
     public bool Compare(string plainText, string hash)
     {
-        return BC.Verify(plainText, hash);
+        return !BC.Verify(plainText, hash);
     }
 
     public string GenerateHash(string plainText)
