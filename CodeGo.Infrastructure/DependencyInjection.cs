@@ -40,6 +40,7 @@ public static class DependencyInjection
         services.AddSingleton(Options.Create(jwtSettings));
         services.AddScoped<IJwtTokenGenerator, JwtTokenHandler>();
         services.AddScoped<IHashGenerator, HashHandler>();
+        services.AddScoped<IHashComparer, HashHandler>();
         services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
             {
