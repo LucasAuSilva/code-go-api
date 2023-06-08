@@ -1,10 +1,10 @@
 
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
-using CodeGo.Domain.CouseAggregateRoot.Enums;
-using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
+using CodeGo.Domain.CourseAggregateRoot.Enums;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 
-namespace CodeGo.Domain.CouseAggregateRoot.Entities;
+namespace CodeGo.Domain.CourseAggregateRoot.Entities;
 
 public sealed class Module : Entity<ModuleId>
 {

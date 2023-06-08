@@ -1,20 +1,20 @@
 
 using CodeGo.Domain.Common.Models;
 
-namespace CodeGo.Domain.CouseAggregateRoot.ValueObjects;
+namespace CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 
-public sealed class ModuleId : ValueObject
+public sealed class SectionId : ValueObject
 {
     public Guid Value { get; }
 
-    private ModuleId(Guid value)
+    private SectionId(Guid value)
     {
         Value = value;
     }
 
-    public static ModuleId CreateNew()
+    public static SectionId CreateNew()
     {
-        return new ModuleId(Guid.NewGuid());
+        return new SectionId(Guid.NewGuid());
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

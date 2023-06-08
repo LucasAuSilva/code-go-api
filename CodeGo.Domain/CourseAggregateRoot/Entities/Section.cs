@@ -1,8 +1,8 @@
 
 using CodeGo.Domain.Common.Models;
-using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 
-namespace CodeGo.Domain.CouseAggregateRoot.Entities;
+namespace CodeGo.Domain.CourseAggregateRoot.Entities;
 
 public sealed class Section : Entity<SectionId>
 {

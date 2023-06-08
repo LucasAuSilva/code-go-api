@@ -1,5 +1,5 @@
 
-namespace CodeGo.Domain.CouseAggregateRoot.Enums;
+namespace CodeGo.Domain.CourseAggregateRoot.Enums;
 
 public enum ModuleType
 {

@@ -1,7 +1,7 @@
 
 using Ardalis.SmartEnum;
 
-namespace CodeGo.Domain.CouseAggregateRoot.Enums;
+namespace CodeGo.Domain.CourseAggregateRoot.Enums;
 
 public sealed class Language : SmartEnum<Language>
 {
