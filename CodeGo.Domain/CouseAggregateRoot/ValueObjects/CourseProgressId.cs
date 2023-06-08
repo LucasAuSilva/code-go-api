@@ -1,8 +1,6 @@
 
 using CodeGo.Domain.Common.Models;
 
-namespace CodeGo.Domain.CourseProgressAggregateRoot.ValueObjects;
-
 public sealed class CourseProgressId : ValueObject
 {
     public Guid Value { get; }
