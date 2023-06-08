@@ -1,6 +1,7 @@
 
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CouseAggregateRoot.Entities;
+using CodeGo.Domain.CouseAggregateRoot.Enums;
 using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
