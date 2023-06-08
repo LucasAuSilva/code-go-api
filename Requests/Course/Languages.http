@@ -1,0 +1,4 @@
+GET http://localhost:5289/course/languages
+Content-Type: application/json
+
+{}
