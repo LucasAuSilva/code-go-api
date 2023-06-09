@@ -5,7 +5,7 @@ namespace CodeGo.Domain.Common.ValueObjects;
 
 public sealed class Difficulty : ValueObject
 {
-    public int Value { get; }
+    public int Value { get; private set; }
 
     private Difficulty(int value)
     {
