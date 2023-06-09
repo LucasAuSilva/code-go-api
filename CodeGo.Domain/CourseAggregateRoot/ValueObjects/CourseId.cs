@@ -17,6 +17,16 @@ public sealed class CourseId : ValueObject
         return new CourseId(Guid.NewGuid());
     }
 
+    public static CourseId Create(string value)
+    {
+        return new CourseId(Guid.Parse(value));
+    }
+
+    public static CourseId Create(Guid value)
+    {
+        return new CourseId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

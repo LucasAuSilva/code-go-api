@@ -22,6 +22,11 @@ public sealed class ModuleId : ValueObject
         return new ModuleId(Guid.Parse(value));
     }
 
+    public static ModuleId Create(Guid value)
+    {
+        return new ModuleId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

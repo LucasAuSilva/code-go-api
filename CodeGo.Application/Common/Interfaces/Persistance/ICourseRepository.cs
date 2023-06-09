@@ -5,6 +5,6 @@ using CodeGo.Domain.CourseAggregateRoot;
 
 public interface ICourseRepository
 {
-    void Add(Course course);
-    Course? FindById(Guid courseId);
+    Task Add(Course course);
+    Task<Course?> FindById(Guid courseId);
 }

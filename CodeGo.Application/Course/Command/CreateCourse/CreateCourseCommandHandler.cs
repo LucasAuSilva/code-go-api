@@ -20,7 +20,6 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, E
 
     public async Task<ErrorOr<CourseAggregate>> Handle(CreateCourseCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
         var language = Language.FromValue(command.LanguageValue);
         if (language is null)
             return Errors.Course.LanguageNotFound;
@@ -28,7 +27,7 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, E
             command.Name,
             command.Description,
             language);
-        _courseRepository.Add(course);
+        await _courseRepository.Add(course);
         return course;
     }
 }

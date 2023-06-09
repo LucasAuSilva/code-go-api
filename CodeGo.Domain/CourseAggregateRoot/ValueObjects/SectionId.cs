@@ -17,6 +17,11 @@ public sealed class SectionId : ValueObject
         return new SectionId(Guid.NewGuid());
     }
 
+    public static SectionId Create(Guid value)
+    {
+        return new SectionId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

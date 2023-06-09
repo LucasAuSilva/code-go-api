@@ -1,8 +1,13 @@
 
+using Ardalis.SmartEnum;
+
 namespace CodeGo.Domain.CourseAggregateRoot.Enums;
 
-public enum ModuleType
+public sealed class ModuleType : SmartEnum<ModuleType>
 {
-    SKILL = 1,
-    TEST = 2,
+    public static readonly Language Skill = new(nameof(Skill), 1);
+    public static readonly Language Test = new(nameof(Test), 2);
+
+    public ModuleType(string name, int value) : base(name, value)
+    {}
 }

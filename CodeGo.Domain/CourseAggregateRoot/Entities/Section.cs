@@ -7,8 +7,8 @@ namespace CodeGo.Domain.CourseAggregateRoot.Entities;
 public sealed class Section : Entity<SectionId>
 {
     private List<Module> _modules = new();
-    public string Name { get; }
-    public string Description { get; }
+    public string Name { get; private set; }
+    public string Description { get; private set; }
     public IReadOnlyCollection<Module> Modules => _modules;
 
     private Section(
@@ -40,4 +40,7 @@ public sealed class Section : Entity<SectionId>
         var module = _modules.Find(module => module.Id == moduleId);
         return module != null;
     }
+#pragma warning disable CS8618
+    private Section() {}
+#pragma warning restore CS8618
 }

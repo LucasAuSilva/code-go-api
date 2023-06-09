@@ -15,18 +15,16 @@ public sealed class Course : AggregateRoot<CourseId>
     private List<ExerciseId> _exerciseIds = new();
     private List<QuestionId> _questionIds = new();
     private List<Section> _sections = new();
-    private List<CourseProgress> _courseProgresses = new();
-    public string Name { get; }
-    public string AuthorName { get; }
-    public string Description { get; }
-    public string? CourseIcon { get; }
-    public Language Language { get; }
-    public DateTime CreatedAt { get; }
-    public DateTime UpdatedAt { get; }
+    public string Name { get; private set; }
+    public string AuthorName { get; private set; }
+    public string Description { get; private set; }
+    public string? CourseIcon { get; private set; }
+    public Language Language { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
     public IReadOnlyCollection<Section> Sections => _sections;
     public IReadOnlyCollection<ExerciseId> ExerciseIds => _exerciseIds;
     public IReadOnlyCollection<QuestionId> QuestionIds => _questionIds;
-    public IReadOnlyCollection<CourseProgress> CourseProgresses => _courseProgresses;
 
     private Course(
         CourseId id,
@@ -62,7 +60,7 @@ public sealed class Course : AggregateRoot<CourseId>
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
-    
+
     public bool HasModule(ModuleId moduleId)
     {
         var module = _sections
@@ -106,4 +104,8 @@ public sealed class Course : AggregateRoot<CourseId>
             .ToList();
         return selectedExercises;
     }
+
+#pragma warning disable CS8618
+    private Course() {}
+#pragma warning restore CS8618
 }

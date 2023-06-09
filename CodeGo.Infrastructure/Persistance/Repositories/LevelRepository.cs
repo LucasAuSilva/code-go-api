@@ -1,8 +1,7 @@
-
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.LevelAggregateRoot;
 
-namespace CodeGo.Infrastructure.Persistance;
+namespace CodeGo.Infrastructure.Persistance.Repositories;
 
 public class LevelRepository : ILevelRepository
 {

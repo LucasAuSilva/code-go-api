@@ -8,10 +8,10 @@ namespace CodeGo.Domain.CourseAggregateRoot.Entities;
 
 public sealed class Module : Entity<ModuleId>
 {
-    public string Name { get; }
-    public int TotalLessons { get; }
-    public ModuleType Type { get; }
-    public Difficulty Difficulty { get; }
+    public string Name { get; private set; }
+    public int TotalLessons { get; private set; }
+    public ModuleType Type { get; private set; }
+    public Difficulty Difficulty { get; private set; }
 
     private Module(
         ModuleId id,
@@ -38,4 +38,8 @@ public sealed class Module : Entity<ModuleId>
             type,
             difficulty);
     }
+
+#pragma warning disable CS8618
+    private Module() {}
+#pragma warning restore CS8618
 }

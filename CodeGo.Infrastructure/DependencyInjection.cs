@@ -4,7 +4,9 @@ using CodeGo.Application.Common.Interfaces.Authentication;
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Infrastructure.Authentication;
 using CodeGo.Infrastructure.Persistance;
+using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -26,9 +28,13 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistance(this IServiceCollection services)
     {
+        services.AddDbContext<CodeGoDbContext>(options =>
+            options.UseNpgsql("Host=localhost; Database=codego; Username=lucassilva; Password=eriador01"));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILevelRepository, LevelRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.AddScoped<IExerciseRepository, ExerciseRepository>();
         return services;
     }
 

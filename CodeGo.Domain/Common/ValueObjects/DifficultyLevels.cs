@@ -31,4 +31,8 @@ public sealed class Difficulty : ValueObject
     {
         return left.Value >= right.Value;
     }
+
+#pragma warning disable CS8618
+    private Difficulty() {}
+#pragma warning restore CS8618
 }
