@@ -2,7 +2,7 @@
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
-using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 
@@ -10,7 +10,7 @@ namespace CodeGo.Domain.QuestionAggregateRoot.Entities;
 
 public sealed class Question : Entity<QuestionId>
 {
-    public List<Alternative> _alternives = new();
+    public List<Alternative> _alternatives = new();
     public string Title { get; }
     public string Description { get; }
     public CategoryId CategoryId { get; }
@@ -18,7 +18,7 @@ public sealed class Question : Entity<QuestionId>
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public CourseId CourseId { get; }
-    public IReadOnlyCollection<Alternative> Alternatives => _alternives;
+    public IReadOnlyCollection<Alternative> Alternatives => _alternatives;
 
     private Question(
         QuestionId id,

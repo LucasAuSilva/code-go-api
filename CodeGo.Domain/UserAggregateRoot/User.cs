@@ -1,8 +1,8 @@
 
-using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 

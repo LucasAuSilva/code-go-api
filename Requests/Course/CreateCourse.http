@@ -1,0 +1,8 @@
+POST http://localhost:5289/course
+Content-Type: application/json
+
+{
+    "name": "Javascript",
+    "description": "The Code&Go base Javascript Course",
+    "languageValue": 1
+}

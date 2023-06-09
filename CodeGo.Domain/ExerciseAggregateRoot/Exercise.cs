@@ -1,7 +1,8 @@
 
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Models;
-using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
+using CodeGo.Domain.Common.ValueObjects;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot.Entities;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 
@@ -13,6 +14,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId>
     public string Title { get; }
     public string Description { get; }
     public string BaseCode { get; }
+    public Difficulty Difficulty { get; }
     public CategoryId CategoryId { get; }
     public CourseId CourseId { get; }
     public DateTime CreatedAt { get; }
@@ -24,6 +26,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId>
         string title,
         string description,
         string baseCode,
+        Difficulty difficulty,
         CategoryId categoryId,
         CourseId courseId,
         DateTime createdAt,
@@ -33,6 +36,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId>
         Description = description;
         BaseCode = baseCode;
         CategoryId = categoryId;
+        Difficulty = difficulty;
         CourseId = courseId;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -42,6 +46,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId>
         string title,
         string description,
         string baseCode,
+        Difficulty difficulty,
         CategoryId categoryId,
         CourseId courseId)
     {
@@ -50,6 +55,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId>
             title: title,
             description: description,
             baseCode: baseCode,
+            difficulty: difficulty,
             categoryId: categoryId,
             courseId: courseId,
             createdAt: DateTime.UtcNow,

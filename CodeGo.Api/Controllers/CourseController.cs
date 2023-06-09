@@ -1,7 +1,8 @@
 
-using CodeGo.Application.Course.Command;
+using CodeGo.Application.Course.Command.CreateCourse;
 using CodeGo.Application.Course.Common;
-using CodeGo.Application.Course.Queries;
+using CodeGo.Application.Course.Queries.ListLanguages;
+using CodeGo.Application.Course.Queries.ListPractices;
 using CodeGo.Contracts.Course;
 using MapsterMapper;
 using MediatR;
@@ -43,5 +44,20 @@ public class CourseController : ApiController
         return result.Match(
             result => Ok(_mapper.Map<CourseResponse>(result)),
             Problem);
+    }
+
+    [HttpPost("{courseId}/module/{moduleId}/start")]
+    public async Task<IActionResult> GetModulePractices(
+        string courseId,
+        string moduleId)
+    {
+        var query = new PracticesQuery(
+            courseId,
+            moduleId);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(
+                _mapper.Map<PracticesResponse>(result)),
+                Problem);
     }
 }

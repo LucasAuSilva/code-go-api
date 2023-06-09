@@ -21,4 +21,14 @@ public sealed class Difficulty : ValueObject
     {
         yield return Value;
     }
+
+    public static bool operator <=(Difficulty left, Difficulty right)
+    {
+        return left.Value <= right.Value;
+    }
+
+    public static bool operator >=(Difficulty left, Difficulty right)
+    {
+        return left.Value >= right.Value;
+    }
 }

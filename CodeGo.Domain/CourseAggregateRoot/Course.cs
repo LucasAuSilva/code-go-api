@@ -3,7 +3,9 @@ using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.CourseAggregateRoot.Enums;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
+using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
+using CodeGo.Domain.QuestionAggregateRoot.Entities;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.CourseAggregateRoot;
@@ -59,5 +61,49 @@ public sealed class Course : AggregateRoot<CourseId>
             language: language,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
+    }
+    
+    public bool HasModule(ModuleId moduleId)
+    {
+        var module = _sections
+            .SelectMany(section => section.Modules)
+            .Select(module => module)
+            .ToList()
+            .Find(module => module.Id == moduleId);
+        return module != null;
+    }
+
+    public List<Question> SelectModuleQuestions(
+        List<Question> questions,
+        ModuleId moduleId)
+    {
+        var module = _sections
+            .SelectMany(section => section.Modules)
+            .Select(module => module)
+            .ToList()
+            .Find(module => module.Id == moduleId)!;
+        var selectedQuestions = questions
+            .Where(question =>
+                question.Difficulty <= module.Difficulty)
+            .Take(8)
+            .ToList();
+        return selectedQuestions.ToList();
+    }
+
+    public List<Exercise> SelectModuleExercises(
+        List<Exercise> exercises,
+        ModuleId moduleId)
+    {
+        var module = _sections
+            .SelectMany(section => section.Modules)
+            .Select(module => module)
+            .ToList()
+            .Find(module => module.Id == moduleId)!;
+        var selectedExercises = exercises
+            .Where(exercise =>
+                exercise.Difficulty <= module.Difficulty)
+            .Take(2)
+            .ToList();
+        return selectedExercises;
     }
 }

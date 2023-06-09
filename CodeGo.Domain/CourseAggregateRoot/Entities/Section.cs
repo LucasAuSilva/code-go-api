@@ -29,4 +29,15 @@ public sealed class Section : Entity<SectionId>
             name,
             description);
     }
+
+    public Module? GetModule(ModuleId moduleId)
+    {
+        return _modules.Find(module => module.Id == moduleId);
+    }
+
+    public bool HasModule(ModuleId moduleId)
+    {
+        var module = _modules.Find(module => module.Id == moduleId);
+        return module != null;
+    }
 }
