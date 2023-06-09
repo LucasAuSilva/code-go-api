@@ -22,6 +22,7 @@ public sealed class Course : AggregateRoot<CourseId>
     public Language Language { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+    // TODO: Section tem ordem de resolução colocar alguma lógica que defina isso
     public IReadOnlyCollection<Section> Sections => _sections;
     public IReadOnlyCollection<ExerciseId> ExerciseIds => _exerciseIds;
     public IReadOnlyCollection<QuestionId> QuestionIds => _questionIds;
@@ -59,6 +60,11 @@ public sealed class Course : AggregateRoot<CourseId>
             language: language,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
+    }
+
+    public void AddSection(Section section)
+    {
+        _sections.Add(section);
     }
 
     public bool HasModule(ModuleId moduleId)

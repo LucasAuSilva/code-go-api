@@ -1,5 +1,6 @@
 
 using CodeGo.Application.Course.Command.CreateCourse;
+using CodeGo.Application.Course.Command.CreateSection;
 using CodeGo.Application.Course.Common;
 using CodeGo.Application.Course.Queries.ListLanguages;
 using CodeGo.Application.Course.Queries.ListPractices;
@@ -45,6 +46,22 @@ public class CourseController : ApiController
             result => Ok(_mapper.Map<CourseResponse>(result)),
             Problem);
     }
+
+    [HttpPost("{courseId}/section")]
+    public async Task<IActionResult> CreateSection([FromBody] CreateSectionRequest request, string courseId)
+    {
+        var command = _mapper.Map<CreateSectionCommand>((request, courseId));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<CourseResponse>(result)),
+            Problem);
+    }
+
+    // [HttpPost("{courseId}/module")]
+    // public async Task<IActionResult> CreateModule(string courseId)
+    // {
+
+    // }
 
     [HttpPost("{courseId}/module/{moduleId}/start")]
     public async Task<IActionResult> GetModulePractices(

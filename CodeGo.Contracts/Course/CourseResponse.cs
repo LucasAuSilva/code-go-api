@@ -24,5 +24,4 @@ public record ModuleResponse(
     string Id,
     string Name,
     int TotalLessons,
-    string ModuleType,
-    int Difficulty);
+    string ModuleType);

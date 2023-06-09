@@ -26,7 +26,7 @@ public class PracticesQueryHandler : IRequestHandler<PracticesQuery, ErrorOr<Pra
 
     public async Task<ErrorOr<PracticesResult>> Handle(PracticesQuery query, CancellationToken cancellationToken)
     {
-        var course = await _courseRepository.FindById(Guid.Parse(query.CourseId));
+        var course = await _courseRepository.FindById(CourseId.Create(query.CourseId));
         if (course is null)
             return Errors.Course.CourseNotFound;
         var moduleId = ModuleId.Create(query.ModuleId);

@@ -1,4 +1,5 @@
 
+using CodeGo.Application.Course.Command.CreateSection;
 using CodeGo.Contracts.Course;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
@@ -14,6 +15,20 @@ public class CourseMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
+        CourseResponseMapping(config);
+        CreateSectionMapping(config);
+        PracticesResponseMapping(config);
+    }
+
+    private static void CreateSectionMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(CreateSectionRequest Request, string CourseId), CreateSectionCommand>()
+            .Map(dest => dest.CourseId, src => src.CourseId)
+            .Map(dest => dest, src => src.Request);
+    }
+
+    private static void CourseResponseMapping(TypeAdapterConfig config)
+    {
         config.NewConfig<Course, CourseResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
 
@@ -21,8 +36,12 @@ public class CourseMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id.Value);
 
         config.NewConfig<Module, ModuleResponse>()
-            .Map(dest => dest.Id, src => src.Id.Value);
+            .Map(dest => dest.Id, src => src.Id.Value)
+            .Map(dest => dest.ModuleType, src => src.Type.Name);
+    }
 
+    private static void PracticesResponseMapping(TypeAdapterConfig config)
+    {
         config.NewConfig<Question, QuestionResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
 
