@@ -1,4 +1,5 @@
 
+using CodeGo.Application.Course.Command.CreateModule;
 using CodeGo.Application.Course.Command.CreateSection;
 using CodeGo.Contracts.Course;
 using CodeGo.Domain.CourseAggregateRoot;
@@ -17,7 +18,15 @@ public class CourseMappingConfig : IRegister
     {
         CourseResponseMapping(config);
         CreateSectionMapping(config);
+        CreateModuleMapping(config);
         PracticesResponseMapping(config);
+    }
+
+    private static void CreateModuleMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(CreateModuleRequest Request, string CourseId), CreateModuleCommand>()
+            .Map(dest => dest.CourseId, src => src.CourseId)
+            .Map(dest => dest, src => src.Request);
     }
 
     private static void CreateSectionMapping(TypeAdapterConfig config)

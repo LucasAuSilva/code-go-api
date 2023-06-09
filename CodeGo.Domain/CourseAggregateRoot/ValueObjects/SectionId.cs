@@ -22,6 +22,11 @@ public sealed class SectionId : ValueObject
         return new SectionId(value);
     }
 
+    public static SectionId Create(string value)
+    {
+        return new SectionId(Guid.Parse(value));
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

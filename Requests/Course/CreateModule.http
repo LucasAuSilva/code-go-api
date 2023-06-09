@@ -1,0 +1,10 @@
+POST http://localhost:5289/course/014bf73c-b548-4c43-a2da-6cbcc20f919e/module
+Content-Type: application/json
+
+{
+    "sectionId": "4bbfa6a9-81dd-4a75-ac25-5b36607fac1a",
+    "name": "Operações Básicas",
+    "totalLessons": 4,
+    "moduleTypeValue": 1,
+    "difficulty": 2
+}

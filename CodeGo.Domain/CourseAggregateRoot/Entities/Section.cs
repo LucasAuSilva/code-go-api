@@ -30,6 +30,11 @@ public sealed class Section : Entity<SectionId>
             description);
     }
 
+    public void AddModule(Module module)
+    {
+        _modules.Add(module);
+    }
+
     public Module? GetModule(ModuleId moduleId)
     {
         return _modules.Find(module => module.Id == moduleId);

@@ -7,6 +7,7 @@ using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot.Entities;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
+using ErrorOr;
 
 namespace CodeGo.Domain.CourseAggregateRoot;
 
@@ -60,6 +61,13 @@ public sealed class Course : AggregateRoot<CourseId>
             language: language,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
+    }
+
+    // TODO: Implementar invariantes nos métodos das classes
+    public void AddModuleToSection(Module module, SectionId sectionId)
+    {
+        var section = _sections.Find(section => section.Id == sectionId)!;
+        section.AddModule(module);
     }
 
     public void AddSection(Section section)

@@ -28,15 +28,16 @@ public sealed class Module : Entity<ModuleId>
 
     public static Module CreateNew(
         string name,
+        int totalLesson,
         ModuleType type,
         Difficulty difficulty)
     {
         return new Module(
-            ModuleId.CreateNew(),
-            name,
-            5,
-            type,
-            difficulty);
+            id: ModuleId.CreateNew(),
+            name: name,
+            totalLessons: totalLesson,
+            type: type,
+            difficulty: difficulty);
     }
 
 #pragma warning disable CS8618
