@@ -29,7 +29,7 @@ public static class DependencyInjection
     private static IServiceCollection AddPersistance(this IServiceCollection services)
     {
         services.AddDbContext<CodeGoDbContext>(options =>
-            options.UseNpgsql("Host=localhost; Database=codego; Username=lucassilva; Password=eriador01"));
+            options.UseNpgsql("Host=localhost; Database=code-go; Username=lucassilva; Password=eriador01"));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILevelRepository, LevelRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();

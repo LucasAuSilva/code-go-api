@@ -1,5 +1,6 @@
 
 using CodeGo.Domain.CourseAggregateRoot;
+using CodeGo.Domain.ExerciseAggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -11,6 +12,7 @@ public class CodeGoDbContext : DbContext
         : base(options)
     {}
 
+    public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<Course> Courses { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
