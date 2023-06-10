@@ -3,9 +3,9 @@ using CodeGo.Domain.Common.Models;
 
 namespace CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 
-public sealed class QuestionId : ValueObject
+public sealed class QuestionId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private QuestionId(Guid value)
     {

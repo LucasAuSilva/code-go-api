@@ -3,9 +3,9 @@ using CodeGo.Domain.Common.Models;
 
 namespace CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 
-public sealed class ExerciseId : ValueObject
+public sealed class ExerciseId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private ExerciseId(Guid value)
     {
@@ -15,6 +15,11 @@ public sealed class ExerciseId : ValueObject
     public static ExerciseId CreateNew()
     {
         return new ExerciseId(Guid.NewGuid());
+    }
+
+    public static ExerciseId Create(Guid value)
+    {
+        return new ExerciseId(value);
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

@@ -17,6 +17,11 @@ public sealed class TestCaseId : ValueObject
         return new TestCaseId(Guid.NewGuid());
     }
 
+    public static TestCaseId Create(Guid value)
+    {
+        return new TestCaseId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

@@ -3,9 +3,9 @@ using CodeGo.Domain.Common.Models;
 
 namespace CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 
-public sealed class CategoryId : ValueObject
+public sealed class CategoryId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private CategoryId(Guid value)
     {
@@ -15,6 +15,11 @@ public sealed class CategoryId : ValueObject
     public static CategoryId CreateNew()
     {
         return new CategoryId(Guid.NewGuid());
+    }
+
+    public static CategoryId Create(Guid value)
+    {
+        return new CategoryId(value);
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

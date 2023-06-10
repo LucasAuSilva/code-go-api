@@ -6,7 +6,7 @@ using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
-public sealed class User : AggregateRoot<UserId>
+public sealed class User : AggregateRoot<UserId, Guid>
 {
     private List<CourseId> _courseIds = new();
     public string FirstName { get; }

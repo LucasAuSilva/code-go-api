@@ -11,7 +11,7 @@ using ErrorOr;
 
 namespace CodeGo.Domain.CourseAggregateRoot;
 
-public sealed class Course : AggregateRoot<CourseId>
+public sealed class Course : AggregateRoot<CourseId, Guid>
 {
     private List<ExerciseId> _exerciseIds = new();
     private List<QuestionId> _questionIds = new();

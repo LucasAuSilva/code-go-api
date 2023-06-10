@@ -8,7 +8,7 @@ using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.ExerciseAggregateRoot;
 
-public sealed class Exercise : AggregateRoot<ExerciseId>
+public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
 {
     private List<TestCase> _testCases = new();
     public string Title { get; }
@@ -61,4 +61,8 @@ public sealed class Exercise : AggregateRoot<ExerciseId>
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
+
+#pragma warning disable CS8618
+    private Exercise() {}
+#pragma warning restore CS8618
 }

@@ -8,7 +8,7 @@ using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.QuestionAggregateRoot.Entities;
 
-public sealed class Question : Entity<QuestionId>
+public sealed class Question : AggregateRoot<QuestionId, Guid>
 {
     public List<Alternative> _alternatives = new();
     public string Title { get; }
