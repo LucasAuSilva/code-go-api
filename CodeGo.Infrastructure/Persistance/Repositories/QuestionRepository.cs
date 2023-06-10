@@ -8,10 +8,10 @@ namespace CodeGo.Infrastructure.Persistance.Repositories;
 public class QuestionRepository : IQuestionRepository
 {
     private static readonly List<Question> _questions = new();
-    public List<Question> FindByCourseId(Guid courseId)
+    public List<Question> FindByCourseId(CourseId courseId)
     {
         return _questions
-            .Where(q => q.CourseId.Value == courseId)
+            .Where(q => q.CourseId == courseId)
             .ToList();
     }
 }

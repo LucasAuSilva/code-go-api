@@ -30,11 +30,12 @@ public class PracticesQueryHandler : IRequestHandler<PracticesQuery, ErrorOr<Pra
         if (course is null)
             return Errors.Course.CourseNotFound;
         var moduleId = ModuleId.Create(query.ModuleId);
+        var courseId = CourseId.Create(course.Id.Value);
         if (!course.HasModule(moduleId))
             return Errors.Course.ModuleNotFound;
 
-        var courseQuestions = _questionRepository.FindByCourseId(course.Id.Value);
-        var courseExercises = _exerciseRepository.FindByCourseId(course.Id.Value);
+        var courseQuestions = _questionRepository.FindByCourseId(courseId);
+        var courseExercises = _exerciseRepository.FindByCourseId(courseId);
 
         var moduleQuestions = course.SelectModuleQuestions(courseQuestions, moduleId);
         var moduleExercises = course.SelectModuleExercises(courseExercises, moduleId);
