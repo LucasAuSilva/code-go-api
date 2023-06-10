@@ -6,7 +6,7 @@ using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 
-namespace CodeGo.Domain.QuestionAggregateRoot.Entities;
+namespace CodeGo.Domain.QuestionAggregateRoot;
 
 public sealed class Question : AggregateRoot<QuestionId, Guid>
 {

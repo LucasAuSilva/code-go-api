@@ -5,7 +5,7 @@ using CodeGo.Domain.CourseAggregateRoot.Enums;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
-using CodeGo.Domain.QuestionAggregateRoot.Entities;
+using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 using ErrorOr;
 

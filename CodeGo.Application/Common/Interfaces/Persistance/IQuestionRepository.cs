@@ -1,5 +1,5 @@
 
-using CodeGo.Domain.QuestionAggregateRoot.Entities;
+using CodeGo.Domain.QuestionAggregateRoot;
 
 namespace CodeGo.Application.Common.Interfaces.Persistance;
 

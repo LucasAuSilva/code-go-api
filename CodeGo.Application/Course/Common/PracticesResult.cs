@@ -1,6 +1,6 @@
 
 using CodeGo.Domain.ExerciseAggregateRoot;
-using CodeGo.Domain.QuestionAggregateRoot.Entities;
+using CodeGo.Domain.QuestionAggregateRoot;
 
 namespace CodeGo.Application.Course.Common;
 

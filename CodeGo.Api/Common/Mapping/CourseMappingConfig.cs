@@ -6,7 +6,7 @@ using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot.Entities;
-using CodeGo.Domain.QuestionAggregateRoot.Entities;
+using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using Mapster;
 
