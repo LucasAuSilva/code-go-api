@@ -11,14 +11,14 @@ namespace CodeGo.Domain.ExerciseAggregateRoot;
 public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
 {
     private List<TestCase> _testCases = new();
-    public string Title { get; }
-    public string Description { get; }
-    public string BaseCode { get; }
-    public Difficulty Difficulty { get; }
-    public CategoryId CategoryId { get; }
-    public CourseId CourseId { get; }
-    public DateTime CreatedAt { get; }
-    public DateTime UpdatedAt { get; }
+    public string Title { get; private set; }
+    public string Description { get; private set; }
+    public string BaseCode { get; private set; }
+    public Difficulty Difficulty { get; private set; }
+    public CategoryId CategoryId { get; private set; }
+    public CourseId CourseId { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
     public IReadOnlyCollection<TestCase> TestCases => _testCases;
 
     private Exercise(

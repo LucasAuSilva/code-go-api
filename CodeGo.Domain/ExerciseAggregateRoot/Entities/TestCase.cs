@@ -6,8 +6,8 @@ namespace CodeGo.Domain.ExerciseAggregateRoot.Entities;
 
 public sealed class TestCase : Entity<TestCaseId>
 {
-    public string Title { get; }
-    public string Result { get; }
+    public string Title { get; private set; }
+    public string Result { get; private set; }
 
     private TestCase(
         TestCaseId id,

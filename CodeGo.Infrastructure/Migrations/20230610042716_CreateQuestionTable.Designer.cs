@@ -3,6 +3,7 @@ using System;
 using CodeGo.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeGo.Infrastructure.Migrations
 {
     [DbContext(typeof(CodeGoDbContext))]
-    partial class CodeGoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230610042716_CreateQuestionTable")]
+    partial class CreateQuestionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,20 +78,6 @@ namespace CodeGo.Infrastructure.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.HasKey("Id");
 
                     b.ToTable("exercises", (string)null);
@@ -105,20 +94,10 @@ namespace CodeGo.Infrastructure.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("character varying(80)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -333,13 +312,6 @@ namespace CodeGo.Infrastructure.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid")
                                 .HasColumnName("AlternativeId");
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<bool>("IsCorrect")
-                                .HasColumnType("boolean");
 
                             b1.HasKey("QuestionId", "Id");
 

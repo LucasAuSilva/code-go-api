@@ -6,8 +6,8 @@ namespace CodeGo.Domain.QuestionAggregateRoot.Entity;
 
 public sealed class Alternative : Entity<AlternativeId>
 {
-    public string Description { get; }
-    public bool IsCorrect { get; }
+    public string Description { get; private set; }
+    public bool IsCorrect { get; private set; }
 
     private Alternative(
         AlternativeId id,

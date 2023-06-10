@@ -11,13 +11,13 @@ namespace CodeGo.Domain.QuestionAggregateRoot;
 public sealed class Question : AggregateRoot<QuestionId, Guid>
 {
     public List<Alternative> _alternatives = new();
-    public string Title { get; }
-    public string Description { get; }
-    public CategoryId CategoryId { get; }
-    public Difficulty Difficulty { get; }
-    public DateTime CreatedAt { get; }
-    public DateTime UpdatedAt { get; }
-    public CourseId CourseId { get; }
+    public string Title { get; private set; }
+    public string Description { get; private set; }
+    public CategoryId CategoryId { get; private set; }
+    public Difficulty Difficulty { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+    public CourseId CourseId { get; private set; }
     public IReadOnlyCollection<Alternative> Alternatives => _alternatives;
 
     private Question(
