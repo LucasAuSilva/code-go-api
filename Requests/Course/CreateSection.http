@@ -1,4 +1,4 @@
-POST http://localhost:5289/course/014bf73c-b548-4c43-a2da-6cbcc20f919e/section
+POST http://localhost:5289/course/a863c2e3-562c-468b-a76d-e86000d69806/section
 Content-Type: application/json
 
 {

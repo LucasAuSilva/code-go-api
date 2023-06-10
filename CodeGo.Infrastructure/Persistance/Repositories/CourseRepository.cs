@@ -2,6 +2,7 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;
 
@@ -14,16 +15,15 @@ public class CourseRepository : ICourseRepository
         _dbContext = dbContext;
     }
 
-    public async Task Add(Course level)
+    public async Task Add(Course course)
     {
-        _dbContext.Add(level);
+        _dbContext.Add(course);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task<Course?> FindById(CourseId courseId)
     {
-        return await _dbContext.Courses
-            .FindAsync(courseId);
+        return await _dbContext.Courses.FirstOrDefaultAsync(course => course.Id == courseId);
     }
 
     public async Task Update(Course course)
