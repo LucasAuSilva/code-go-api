@@ -39,7 +39,7 @@ public class CourseMappingConfig : IRegister
     private static void CourseResponseMapping(TypeAdapterConfig config)
     {
         config.NewConfig<Course, CourseResponse>()
-            .Map(dest => dest.Id, src => src.Id.Value);
+            .Map(dest => dest.Id, src => src.Id.Value.ToString());
 
         config.NewConfig<Section, SectionResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
@@ -52,13 +52,13 @@ public class CourseMappingConfig : IRegister
     private static void PracticesResponseMapping(TypeAdapterConfig config)
     {
         config.NewConfig<Question, QuestionResponse>()
-            .Map(dest => dest.Id, src => src.Id.Value);
+            .Map(dest => dest.Id, src => src.Id.Value.ToString());
 
         config.NewConfig<Alternative, AlternativeResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
 
         config.NewConfig<Exercise, ExerciseResponse>()
-            .Map(dest => dest.Id, src => src.Id.Value);
+            .Map(dest => dest.Id, src => src.Id.Value.ToString());
 
         config.NewConfig<TestCase, TestCaseResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
