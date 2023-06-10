@@ -17,6 +17,11 @@ public sealed class AlternativeId : ValueObject
         return new AlternativeId(Guid.NewGuid());
     }
 
+    public static AlternativeId Create(Guid value)
+    {
+        return new AlternativeId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

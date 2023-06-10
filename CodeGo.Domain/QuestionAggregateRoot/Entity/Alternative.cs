@@ -27,4 +27,8 @@ public sealed class Alternative : Entity<AlternativeId>
             description,
             isCorrect);
     }
+
+#pragma warning disable CS8618
+    private Alternative() {}
+#pragma warning restore CS8618
 }

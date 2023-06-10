@@ -17,6 +17,11 @@ public sealed class QuestionId : AggregateRootId<Guid>
         return new QuestionId(Guid.NewGuid());
     }
 
+    public static QuestionId Create(Guid value)
+    {
+        return new QuestionId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;
