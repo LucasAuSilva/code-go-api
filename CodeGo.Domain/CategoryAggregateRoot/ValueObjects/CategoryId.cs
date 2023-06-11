@@ -22,6 +22,11 @@ public sealed class CategoryId : AggregateRootId<Guid>
         return new CategoryId(value);
     }
 
+    public static CategoryId Create(string value)
+    {
+        return new CategoryId(Guid.Parse(value));
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;
