@@ -6,5 +6,6 @@ namespace CodeGo.Application.Common.Interfaces.Persistance;
 
 public interface IQuestionRepository
 {
-    List<Question> FindByCourseId(CourseId courseId);
+    Task<List<Question>> FindByCourseId(CourseId courseId);
+    Task Add(Question question);
 }
