@@ -6,6 +6,7 @@ public record CreateExerciseRequest(
     string Description,
     string BaseCode,
     int DifficultyValue,
+    int TypeValue,
     string CategoryId,
     string CourseId,
     List<TestCase> TestCases);

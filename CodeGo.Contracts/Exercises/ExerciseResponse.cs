@@ -5,6 +5,8 @@ public record ExerciseResponse(
     string ExerciseId,
     string Title,
     string Description,
+    int Difficulty,
+    string Type,
     string BaseCode,
     string CourseId,
     string CategoryId,

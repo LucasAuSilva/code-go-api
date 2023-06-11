@@ -9,6 +9,8 @@ public record CreateExerciseCommand(
     string Title,
     string Description,
     string BaseCode,
+    int Difficulty,
+    int TypeValue,
     string CourseId,
     string CategoryId,
     List<CreateTestCaseCommand> TestCases) : IRequest<ErrorOr<Exercise>>;
