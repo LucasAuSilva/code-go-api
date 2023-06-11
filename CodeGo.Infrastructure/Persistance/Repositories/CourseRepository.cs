@@ -17,7 +17,7 @@ public class CourseRepository : ICourseRepository
 
     public async Task Add(Course course)
     {
-        _dbContext.Add(course);
+        await _dbContext.AddAsync(course);
         await _dbContext.SaveChangesAsync();
     }
 
@@ -30,5 +30,10 @@ public class CourseRepository : ICourseRepository
     {
         _dbContext.Update(course);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<bool> Exists(CourseId courseId)
+    {
+        return await _dbContext.Courses.AnyAsync(course => course.Id == courseId);
     }
 }
