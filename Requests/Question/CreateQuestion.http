@@ -5,7 +5,7 @@ Content-Type: application/json
     "courseId": "{{courseId}}",
     "title": "Variáveis Javascript",
     "description": "Qual é a **Keyword** para declarar variáveis em javascript",
-    "categoryId": "{{$guid}}",
+    "categoryId": "{{categoryId}}",
     "difficultyValue": 1,
     "alternatives": [
         {
@@ -23,6 +23,6 @@ Content-Type: application/json
         {
             "description": "string myVariable = \"I'm an variable\"",
             "isCorrect": false
-        },
+        }
     ]
 }

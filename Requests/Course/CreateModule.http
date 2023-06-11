@@ -2,7 +2,7 @@ POST {{baseUrl}}/course/{{courseId}}/module
 Content-Type: application/json
 
 {
-    "sectionId": "f17b66f9-d63e-4bf2-bb02-7324437600f4",
+    "sectionId": "{{sectionId}}",
     "name": "Declaração de Variavéis",
     "totalLessons": 4,
     "moduleTypeValue": 1,
