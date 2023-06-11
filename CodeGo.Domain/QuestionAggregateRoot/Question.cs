@@ -1,10 +1,12 @@
 
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
+using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
+using ErrorOr;
 
 namespace CodeGo.Domain.QuestionAggregateRoot;
 
@@ -59,6 +61,14 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow,
             alternatives: alternatives ?? new());
+    }
+
+    public ErrorOr<bool> Resolve(AlternativeId alternativeId)
+    {
+        var alternative = _alternatives.Find(a => a.Id == alternativeId);
+        if (alternative is null)
+            return Errors.Question.AlternativeNotFound;
+        return alternative.IsCorrect;
     }
 
 #pragma warning disable CS8618

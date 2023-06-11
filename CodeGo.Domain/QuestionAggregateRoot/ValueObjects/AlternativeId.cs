@@ -22,6 +22,11 @@ public sealed class AlternativeId : ValueObject
         return new AlternativeId(value);
     }
 
+    public static AlternativeId Create(string value)
+    {
+        return new AlternativeId(Guid.Parse(value));
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;
