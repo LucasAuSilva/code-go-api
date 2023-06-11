@@ -22,14 +22,16 @@ public static class DependencyInjection
     {
         services
             .AddAuthentication(configuration)
-            .AddPersistance();
+            .AddPersistance(configuration);
         return services;
     }
 
-    private static IServiceCollection AddPersistance(this IServiceCollection services)
+    private static IServiceCollection AddPersistance(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
     {
         services.AddDbContext<CodeGoDbContext>(options =>
-            options.UseNpgsql("Host=localhost; Database=code-go; Username=lucassilva; Password=eriador01"));
+            options.UseNpgsql(configuration.GetConnectionString("CodeGoDatabase")));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILevelRepository, LevelRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
