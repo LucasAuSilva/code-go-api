@@ -1,6 +1,7 @@
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot;
+using CodeGo.Domain.ExerciseAggregateRoot.Enums;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -60,5 +61,9 @@ public class ExerciseConfigurations : IEntityTypeConfiguration<Exercise>
                 value => CategoryId.Create(value));
         builder.Property(e => e.BaseCode)
             .HasColumnType("TEXT");
+        builder.Property(e => e.Type)
+            .HasConversion(
+                type => type.Value,
+                value => ExerciseType.FromValue(value));
     }
 }
