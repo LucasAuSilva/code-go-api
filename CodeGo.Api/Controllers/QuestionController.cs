@@ -1,6 +1,7 @@
 
 using CodeGo.Application.Questions.Command.CreateQuestion;
 using CodeGo.Application.Questions.Queries.ResolveQuestion;
+using CodeGo.Contracts.Common;
 using CodeGo.Contracts.Questions;
 using MapsterMapper;
 using MediatR;

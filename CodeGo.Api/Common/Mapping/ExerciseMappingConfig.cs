@@ -1,4 +1,5 @@
 
+using CodeGo.Application.Exercises.Queries.ResolveExercise;
 using CodeGo.Contracts.Exercises;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using Mapster;
@@ -20,5 +21,10 @@ public class ExerciseMappingConfig : IRegister
 
         config.NewConfig<TestCase, TestCaseResponse>()
             .Map(dest => dest.TestCaseId, src => src.Id.Value);
+
+        config.NewConfig<(string ExerciseId, string TestCaseId, ResolveExerciseRequest request), ResolveExerciseQuery>()
+            .Map(dest => dest.ExerciseId, src => src.ExerciseId)
+            .Map(dest => dest.TestCaseId, src => src.TestCaseId)
+            .Map(dest => dest, src => src.request);
     }
 }

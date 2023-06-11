@@ -1,5 +1,7 @@
 
 using CodeGo.Application.Exercises.Command.CreateExercise;
+using CodeGo.Application.Exercises.Queries.ResolveExercise;
+using CodeGo.Contracts.Common;
 using CodeGo.Contracts.Exercises;
 using MapsterMapper;
 using MediatR;
@@ -28,6 +30,16 @@ public class ExerciseController : ApiController
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<ExerciseResponse>(result)),
+            Problem);
+    }
+
+    [HttpPost("{exerciseId}/resolve/{testCaseId}")]
+    public async Task<IActionResult> ResolveExercise([FromBody] ResolveExerciseRequest request, string exerciseId, string testCaseId)
+    {
+        var query = _mapper.Map<ResolveExerciseQuery>((exerciseId, testCaseId, request));
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<ResolveResponse>(result)),
             Problem);
     }
 }

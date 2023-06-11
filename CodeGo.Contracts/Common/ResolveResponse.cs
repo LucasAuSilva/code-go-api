@@ -1,5 +1,5 @@
 
-namespace CodeGo.Contracts.Questions;
+namespace CodeGo.Contracts.Common;
 
 public record ResolveResponse(
     string Message,
