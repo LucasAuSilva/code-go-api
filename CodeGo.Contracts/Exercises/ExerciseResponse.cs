@@ -5,7 +5,7 @@ public record ExerciseResponse(
     string ExerciseId,
     string Title,
     string Description,
-    int Difficulty,
+    int DifficultyValue,
     string Type,
     string BaseCode,
     string CourseId,
@@ -14,5 +14,6 @@ public record ExerciseResponse(
 );
 
 public record TestCaseResponse(
+    string TestCaseId,
     string Title,
     string Result);
