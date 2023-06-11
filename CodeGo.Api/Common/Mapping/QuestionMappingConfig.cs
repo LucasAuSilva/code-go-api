@@ -1,4 +1,5 @@
 
+using CodeGo.Application.Questions.Query.ResolveQuestion;
 using CodeGo.Contracts.Questions;
 using CodeGo.Domain.QuestionAggregateRoot;
 using Mapster;
@@ -19,5 +20,9 @@ public class QuestionMappingConfig : IRegister
 
         config.NewConfig<Alternative, AlternativeResponse>()
             .Map(dest => dest.AlternativeId, src => src.Id.Value);
+
+        config.NewConfig<(string QuestionId, string AlternativeId), ResolveQuestionQuery>()
+            .Map(dest => dest.QuestionId, src => src.QuestionId)
+            .Map(dest => dest.AlternativeId, src => src.AlternativeId);
     }
 }
