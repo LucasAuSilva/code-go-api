@@ -11,9 +11,9 @@ public record CreateQuestionCommand(
     string CategoryId,
     string CourseId,
     int DifficultyValue,
-    List<Alternative> Alternatives) : IRequest<ErrorOr<Question>>;
+    List<CreateAlternativeCommand> Alternatives) : IRequest<ErrorOr<Question>>;
 
-public record Alternative(
+public record CreateAlternativeCommand(
     string Description,
     bool IsCorrect
 );
