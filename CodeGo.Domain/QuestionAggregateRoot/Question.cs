@@ -28,7 +28,8 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         Difficulty difficulty,
         CourseId courseId,
         DateTime createdAt,
-        DateTime updatedAt) : base(id)
+        DateTime updatedAt,
+        List<Alternative> alternatives) : base(id)
     {
         Title = title;
         Description = description;
@@ -37,6 +38,7 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         CourseId = courseId;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
+        _alternatives = alternatives;
     }
 
     public static Question CreateNew(
@@ -44,7 +46,8 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         string description,
         Difficulty difficulty,
         CategoryId categoryId,
-        CourseId courseId)
+        CourseId courseId,
+        List<Alternative>? alternatives = null)
     {
         return new Question(
             id: QuestionId.CreateNew(),
@@ -54,7 +57,8 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
             difficulty: difficulty,
             courseId: courseId,
             createdAt: DateTime.UtcNow,
-            updatedAt: DateTime.UtcNow);
+            updatedAt: DateTime.UtcNow,
+            alternatives: alternatives ?? new());
     }
 
 #pragma warning disable CS8618
