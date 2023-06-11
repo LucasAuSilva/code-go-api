@@ -3,7 +3,7 @@ using CodeGo.Application.Questions.Common;
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Questions.Query.ResolveQuestion;
+namespace CodeGo.Application.Questions.Queries.ResolveQuestion;
 
 public record ResolveQuestionQuery(
     string QuestionId,

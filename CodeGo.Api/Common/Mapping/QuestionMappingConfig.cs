@@ -1,5 +1,5 @@
 
-using CodeGo.Application.Questions.Query.ResolveQuestion;
+using CodeGo.Application.Questions.Queries.ResolveQuestion;
 using CodeGo.Contracts.Questions;
 using CodeGo.Domain.QuestionAggregateRoot;
 using Mapster;
