@@ -35,7 +35,7 @@ public class PracticesQueryHandler : IRequestHandler<PracticesQuery, ErrorOr<Pra
             return Errors.Course.ModuleNotFound;
 
         var courseQuestions = await _questionRepository.FindByCourseId(courseId);
-        var courseExercises = _exerciseRepository.FindByCourseId(courseId);
+        var courseExercises = await _exerciseRepository.FindByCourseId(courseId);
 
         var moduleQuestions = course.SelectModuleQuestions(courseQuestions, moduleId);
         var moduleExercises = course.SelectModuleExercises(courseExercises, moduleId);

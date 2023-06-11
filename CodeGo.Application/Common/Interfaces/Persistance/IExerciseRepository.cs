@@ -6,5 +6,6 @@ namespace CodeGo.Application.Common.Interfaces.Persistance;
 
 public interface IExerciseRepository
 {
-    List<Exercise> FindByCourseId(CourseId courseId);
+    Task<List<Exercise>> FindByCourseId(CourseId courseId);
+    Task Add(Exercise exercise);
 }
