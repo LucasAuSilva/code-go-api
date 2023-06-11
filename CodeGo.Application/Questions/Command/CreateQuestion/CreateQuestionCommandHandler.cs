@@ -28,7 +28,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
     {
         var courseId = CourseId.Create(command.CourseId);
         var categoryId = CategoryId.Create(command.CategoryId);
-        if (await _courseRepository.Exists(courseId))
+        if (!await _courseRepository.Exists(courseId))
             return Errors.Course.CourseNotFound;
         // TODO: After create category table, check if exists on database
         var difficulty = Difficulty.CreateNew(command.DifficultyValue);
