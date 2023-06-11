@@ -32,6 +32,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         ExerciseType type,
         CategoryId categoryId,
         CourseId courseId,
+        List<TestCase> testCases,
         DateTime createdAt,
         DateTime updatedAt) : base(id)
     {
@@ -53,7 +54,8 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         ExerciseType type,
         Difficulty difficulty,
         CategoryId categoryId,
-        CourseId courseId)
+        CourseId courseId,
+        List<TestCase>? testCases = null)
     {
         return new Exercise(
             id: ExerciseId.CreateNew(),
@@ -64,6 +66,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
             type: type,
             categoryId: categoryId,
             courseId: courseId,
+            testCases: testCases ?? new(),
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
