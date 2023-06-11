@@ -22,6 +22,7 @@ public class QuestionController : ApiController
         _sender = sender;
     }
 
+    [HttpPost]
     public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionRequest request)
     {
         var command = _mapper.Map<CreateQuestionCommand>(request);

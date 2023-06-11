@@ -21,6 +21,7 @@ public class ExerciseController : ApiController
         _sender = sender;
     }
 
+    [HttpPost]
     public async Task<IActionResult> CreateExercise([FromBody] CreateExerciseRequest request)
     {
         var command = _mapper.Map<CreateExerciseCommand>(request);
