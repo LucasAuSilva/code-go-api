@@ -9,7 +9,7 @@ public record CreateExerciseCommand(
     string Title,
     string Description,
     string BaseCode,
-    int Difficulty,
+    int DifficultyValue,
     int TypeValue,
     string CourseId,
     string CategoryId,
