@@ -1,0 +1,28 @@
+POST {{baseUrl}}/question
+Content-Type: application/json
+
+{
+    "courseId": "{{courseId}}",
+    "title": "Variáveis Javascript",
+    "description": "Qual é a **Keyword** para declarar variáveis em javascript",
+    "categoryId": "{{$guid}}",
+    "difficultyValue": 1,
+    "alternatives": [
+        {
+            "description": "myVariable = \"I'm an variable\"",
+            "isCorrect": false
+        },
+        {
+            "description": "var myVariable = \"I'm an variable\"",
+            "isCorrect": true
+        },
+        {
+            "description": "var myVariable: string = \"I'm an variable\"",
+            "isCorrect": false
+        },
+        {
+            "description": "string myVariable = \"I'm an variable\"",
+            "isCorrect": false
+        },
+    ]
+}

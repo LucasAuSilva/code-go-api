@@ -1,7 +1,7 @@
-POST http://localhost:5289/course/a863c2e3-562c-468b-a76d-e86000d69806/section
+POST {{baseUrl}}/course/{{courseId}}/section
 Content-Type: application/json
 
 {
-    "name": "Seção 2",
-    "description": "Intermediário do Javascript"
+    "name": "Seção 1",
+    "description": "Básico do Javascript"
 }

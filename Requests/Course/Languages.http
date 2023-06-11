@@ -1,4 +1,4 @@
-GET http://localhost:5289/course/languages
+GET {{baseUrl}}/course/languages
 Content-Type: application/json
 
 {}
