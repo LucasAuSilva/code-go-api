@@ -15,9 +15,9 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
     public string Description { get; private set; }
     public CategoryId CategoryId { get; private set; }
     public Difficulty Difficulty { get; private set; }
+    public CourseId CourseId { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-    public CourseId CourseId { get; private set; }
     public IReadOnlyCollection<Alternative> Alternatives => _alternatives;
 
     private Question(
