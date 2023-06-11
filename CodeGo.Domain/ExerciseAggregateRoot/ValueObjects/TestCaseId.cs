@@ -22,6 +22,11 @@ public sealed class TestCaseId : ValueObject
         return new TestCaseId(value);
     }
 
+    public static TestCaseId Create(string value)
+    {
+        return new TestCaseId(Guid.Parse(value));
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

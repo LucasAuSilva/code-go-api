@@ -22,6 +22,11 @@ public sealed class ExerciseId : AggregateRootId<Guid>
         return new ExerciseId(value);
     }
 
+    public static ExerciseId Create(string value)
+    {
+        return new ExerciseId(Guid.Parse(value));
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

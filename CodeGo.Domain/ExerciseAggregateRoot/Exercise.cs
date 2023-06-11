@@ -1,11 +1,13 @@
 
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
+using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot.Entities;
 using CodeGo.Domain.ExerciseAggregateRoot.Enums;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
+using ErrorOr;
 
 namespace CodeGo.Domain.ExerciseAggregateRoot;
 
@@ -70,6 +72,21 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
             testCases: testCases ?? new(),
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
+    }
+
+    public string MakeRunCode(string solutionCode)
+    {
+        if (Type == ExerciseType.Complete)
+            return solutionCode;
+        return BaseCode.Replace("BaseCode", solutionCode);
+    }
+
+    public ErrorOr<bool> Resolve(TestCaseId testCaseId, string result)
+    {
+        var testCase = _testCases.Find(testCase => testCase.Id == testCaseId);
+        if (testCase is null)
+            return Errors.Exercise.TestCaseNotFound;
+        return testCase.Result == result;
     }
 
 #pragma warning disable CS8618
