@@ -45,6 +45,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         CourseId = courseId;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
+        _testCases = testCases;
     }
 
     public static Exercise CreateNew(
