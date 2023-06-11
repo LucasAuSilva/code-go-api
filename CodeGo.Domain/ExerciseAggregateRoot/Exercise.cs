@@ -4,6 +4,7 @@ using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot.Entities;
+using CodeGo.Domain.ExerciseAggregateRoot.Enums;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.ExerciseAggregateRoot;
@@ -17,6 +18,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
     public Difficulty Difficulty { get; private set; }
     public CategoryId CategoryId { get; private set; }
     public CourseId CourseId { get; private set; }
+    public ExerciseType Type { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     public IReadOnlyCollection<TestCase> TestCases => _testCases;
@@ -27,6 +29,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         string description,
         string baseCode,
         Difficulty difficulty,
+        ExerciseType type,
         CategoryId categoryId,
         CourseId courseId,
         DateTime createdAt,
@@ -35,6 +38,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         Title = title;
         Description = description;
         BaseCode = baseCode;
+        Type = type;
         CategoryId = categoryId;
         Difficulty = difficulty;
         CourseId = courseId;
@@ -46,6 +50,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         string title,
         string description,
         string baseCode,
+        ExerciseType type,
         Difficulty difficulty,
         CategoryId categoryId,
         CourseId courseId)
@@ -56,6 +61,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
             description: description,
             baseCode: baseCode,
             difficulty: difficulty,
+            type: type,
             categoryId: categoryId,
             courseId: courseId,
             createdAt: DateTime.UtcNow,
