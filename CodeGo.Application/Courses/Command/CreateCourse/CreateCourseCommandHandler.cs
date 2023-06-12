@@ -4,12 +4,11 @@ using CodeGo.Domain.CourseAggregateRoot.Enums;
 using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
-
-using CourseAggregate = CodeGo.Domain.CourseAggregateRoot.Course;
+using CodeGo.Domain.CourseAggregateRoot;
 
 namespace CodeGo.Application.Courses.Command.CreateCourse;
 
-public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, ErrorOr<CourseAggregate>>
+public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, ErrorOr<Course>>
 {
     private readonly ICourseRepository _courseRepository;
 
@@ -18,12 +17,12 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, E
         _courseRepository = courseRepository;
     }
 
-    public async Task<ErrorOr<CourseAggregate>> Handle(CreateCourseCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Course>> Handle(CreateCourseCommand command, CancellationToken cancellationToken)
     {
         var language = Language.FromValue(command.LanguageValue);
         if (language is null)
             return Errors.Course.LanguageNotFound;
-        var course = CourseAggregate.CreateNew(
+        var course = Course.CreateNew(
             command.Name,
             command.Description,
             language);

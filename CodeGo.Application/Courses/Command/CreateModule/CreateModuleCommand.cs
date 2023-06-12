@@ -1,10 +1,10 @@
 
+using CodeGo.Domain.CourseAggregateRoot;
 using ErrorOr;
 using MediatR;
 
 namespace CodeGo.Application.Courses.Command.CreateModule;
 
-using CodeGo.Domain.CourseAggregateRoot;
 
 public record CreateModuleCommand(
     string CourseId,

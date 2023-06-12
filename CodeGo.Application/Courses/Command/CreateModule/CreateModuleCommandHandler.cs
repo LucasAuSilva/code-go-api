@@ -1,11 +1,6 @@
 
 using ErrorOr;
 using MediatR;
-
-namespace CodeGo.Application.Courses.Command.CreateModule;
-
-using System.Threading;
-using System.Threading.Tasks;
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.ValueObjects;
@@ -13,6 +8,8 @@ using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.CourseAggregateRoot.Enums;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
+
+namespace CodeGo.Application.Courses.Command.CreateModule;
 
 public class CreateModuleCommandHandler : IRequestHandler<CreateModuleCommand, ErrorOr<Course>>
 {
