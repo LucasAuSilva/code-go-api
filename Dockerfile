@@ -12,5 +12,5 @@ WORKDIR /app
 COPY --from=build /app ./
 
 EXPOSE 5000
-CMD []"dotnet", "CodeGo.Api.dll"]
+ENTRYPOINT ["dotnet", "CodeGo.Api.dll"]
 
