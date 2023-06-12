@@ -11,8 +11,8 @@ Content-Type: application/json
     "testCases": [
         {
             "title": "Test Case 1",
-            "result": "I'm an variable"
+            "result": "I'm an variable\n"
         }
     ],
-    "baseCode": "BaseCode\\n\\nconsole.log(myVariable);"
+    "baseCode": "\nBaseCode\n\nconsole.log(myVariable);\n"
 }

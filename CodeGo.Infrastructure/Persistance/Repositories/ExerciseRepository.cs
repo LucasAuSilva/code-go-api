@@ -2,6 +2,7 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot;
+using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;
@@ -26,5 +27,11 @@ public class ExerciseRepository : IExerciseRepository
     {
         await _dbContext.AddAsync(exercise);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Exercise?> FindById(ExerciseId exerciseId)
+    {
+        return await _dbContext.Exercises
+            .FirstOrDefaultAsync(exercise => exercise.Id == exerciseId);
     }
 }

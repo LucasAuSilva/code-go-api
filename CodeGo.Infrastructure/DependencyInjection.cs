@@ -1,8 +1,10 @@
 
 using System.Text;
 using CodeGo.Application.Common.Interfaces.Authentication;
+using CodeGo.Application.Common.Interfaces.Http;
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Infrastructure.Authentication;
+using CodeGo.Infrastructure.Http.Judge0Api;
 using CodeGo.Infrastructure.Persistance;
 using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +24,19 @@ public static class DependencyInjection
     {
         services
             .AddAuthentication(configuration)
-            .AddPersistance(configuration);
+            .AddPersistance(configuration)
+            .AddHttp(configuration);
+        return services;
+    }
+
+    private static IServiceCollection AddHttp(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var judge0Settings = new Judge0Settings();
+        configuration.Bind(Judge0Settings.SectionName, judge0Settings);
+        services.AddSingleton(Options.Create(judge0Settings));
+        services.AddSingleton<ICompilerApi, CompilerApi>();
         return services;
     }
 

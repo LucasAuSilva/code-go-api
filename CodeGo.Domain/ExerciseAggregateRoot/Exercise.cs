@@ -76,7 +76,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
 
     public string MakeRunCode(string solutionCode)
     {
-        if (Type == ExerciseType.Complete)
+        if (Type == ExerciseType.FromZero)
             return solutionCode;
         return BaseCode.Replace("BaseCode", solutionCode);
     }
