@@ -1,5 +1,5 @@
 
-namespace CodeGo.Contracts.Course;
+namespace CodeGo.Contracts.Courses;
 
 public record CreateSectionRequest(
     string Name,

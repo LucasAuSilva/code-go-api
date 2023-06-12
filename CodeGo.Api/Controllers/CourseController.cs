@@ -1,7 +1,7 @@
 
 using CodeGo.Application.Course.Command.CreateSection;
 using CodeGo.Application.Course.Command.CreateModule;
-using CodeGo.Contracts.Course;
+using CodeGo.Contracts.Courses;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

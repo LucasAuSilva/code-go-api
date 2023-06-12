@@ -1,7 +1,7 @@
 
 using CodeGo.Application.Course.Command.CreateModule;
 using CodeGo.Application.Course.Command.CreateSection;
-using CodeGo.Contracts.Course;
+using CodeGo.Contracts.Courses;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.ExerciseAggregateRoot;
