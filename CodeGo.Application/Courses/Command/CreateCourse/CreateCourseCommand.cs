@@ -4,7 +4,7 @@ using MediatR;
 
 using CourseAggregate = CodeGo.Domain.CourseAggregateRoot.Course;
 
-namespace CodeGo.Application.Course.Command.CreateCourse;
+namespace CodeGo.Application.Courses.Command.CreateCourse;
 
 public record CreateCourseCommand(
     string Name,

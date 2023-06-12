@@ -2,7 +2,7 @@
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
 
-namespace CodeGo.Application.Course.Common;
+namespace CodeGo.Application.Courses.Common;
 
 public record PracticesResult(
     List<Question> Questions,

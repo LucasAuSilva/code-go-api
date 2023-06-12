@@ -1,10 +1,10 @@
 
-using CodeGo.Application.Course.Common;
+using CodeGo.Application.Courses.Common;
 using CodeGo.Domain.CourseAggregateRoot.Enums;
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Course.Queries.ListLanguages;
+namespace CodeGo.Application.Courses.Queries.ListLanguages;
 
 public class LanguageQueryHandler : IRequestHandler<LanguageQuery, ErrorOr<List<LanguageResult>>>
 {

@@ -1,12 +1,12 @@
 
 using CodeGo.Application.Common.Interfaces.Persistance;
-using CodeGo.Application.Course.Common;
+using CodeGo.Application.Courses.Common;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Course.Queries.ListPractices;
+namespace CodeGo.Application.Courses.Queries.ListPractices;
 
 public class PracticesQueryHandler : IRequestHandler<PracticesQuery, ErrorOr<PracticesResult>>
 {

@@ -2,7 +2,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Course.Command.CreateSection;
+namespace CodeGo.Application.Courses.Command.CreateSection;
 
 using System.Threading;
 using System.Threading.Tasks;

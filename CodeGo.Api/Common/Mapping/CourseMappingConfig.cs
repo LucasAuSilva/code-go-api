@@ -1,6 +1,6 @@
 
-using CodeGo.Application.Course.Command.CreateModule;
-using CodeGo.Application.Course.Command.CreateSection;
+using CodeGo.Application.Courses.Command.CreateModule;
+using CodeGo.Application.Courses.Command.CreateSection;
 using CodeGo.Contracts.Courses;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;

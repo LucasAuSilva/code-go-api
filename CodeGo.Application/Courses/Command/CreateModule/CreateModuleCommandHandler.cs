@@ -2,7 +2,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Course.Command.CreateModule;
+namespace CodeGo.Application.Courses.Command.CreateModule;
 
 using System.Threading;
 using System.Threading.Tasks;

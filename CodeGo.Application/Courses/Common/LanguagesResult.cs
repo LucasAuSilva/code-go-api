@@ -1,5 +1,5 @@
 
-namespace CodeGo.Application.Course.Common;
+namespace CodeGo.Application.Courses.Common;
 
 public record LanguageResult(
     string Name,

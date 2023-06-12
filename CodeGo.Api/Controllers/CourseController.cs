@@ -1,14 +1,14 @@
 
-using CodeGo.Application.Course.Command.CreateSection;
-using CodeGo.Application.Course.Command.CreateModule;
+using CodeGo.Application.Courses.Command.CreateSection;
+using CodeGo.Application.Courses.Command.CreateModule;
 using CodeGo.Contracts.Courses;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CodeGo.Application.Course.Command.CreateCourse;
-using CodeGo.Application.Course.Queries.ListLanguages;
-using CodeGo.Application.Course.Queries.ListPractices;
+using CodeGo.Application.Courses.Command.CreateCourse;
+using CodeGo.Application.Courses.Queries.ListLanguages;
+using CodeGo.Application.Courses.Queries.ListPractices;
 
 namespace CodeGo.Api.Controllers;
 
