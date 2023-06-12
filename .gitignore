@@ -9,6 +9,7 @@
 
 .vscode
 .env
+data
 
 # User-specific files
 *.rsuser
