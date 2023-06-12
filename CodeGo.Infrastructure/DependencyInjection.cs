@@ -1,10 +1,14 @@
 
 using System.Text;
 using CodeGo.Application.Common.Interfaces.Authentication;
+using CodeGo.Application.Common.Interfaces.Http;
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Infrastructure.Authentication;
+using CodeGo.Infrastructure.Http.Judge0Api;
 using CodeGo.Infrastructure.Persistance;
+using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,14 +24,33 @@ public static class DependencyInjection
     {
         services
             .AddAuthentication(configuration)
-            .AddPersistance();
+            .AddPersistance(configuration)
+            .AddHttp(configuration);
         return services;
     }
 
-    private static IServiceCollection AddPersistance(this IServiceCollection services)
+    private static IServiceCollection AddHttp(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
     {
+        var judge0Settings = new Judge0Settings();
+        configuration.Bind(Judge0Settings.SectionName, judge0Settings);
+        services.AddSingleton(Options.Create(judge0Settings));
+        services.AddSingleton<ICompilerApi, CompilerApi>();
+        return services;
+    }
+
+    private static IServiceCollection AddPersistance(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        services.AddDbContext<CodeGoDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("CodeGoDatabase")));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILevelRepository, LevelRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.AddScoped<IExerciseRepository, ExerciseRepository>();
         return services;
     }
 

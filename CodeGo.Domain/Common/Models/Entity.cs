@@ -26,7 +26,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
         return Equals(left, right);
     }
 
-    public static bool operator !=(Entity<TId> left, Entity<TId> right)
+    public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
     {
         return !Equals(left, right);
     }
@@ -35,4 +35,8 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
     {
         return Id.GetHashCode();
     }
+
+#pragma warning disable CS8618
+    protected Entity() {}
+#pragma warning restore CS8618
 }

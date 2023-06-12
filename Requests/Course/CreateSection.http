@@ -1,0 +1,7 @@
+POST {{baseUrl}}/course/{{courseId}}/section
+Content-Type: application/json
+
+{
+    "name": "Seção 1",
+    "description": "Básico do Javascript"
+}

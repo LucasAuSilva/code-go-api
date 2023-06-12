@@ -1,0 +1,4 @@
+POST {{baseUrl}}/question/{{questionId}}/resolve/{{alternativeId}}
+Content-Type: application/json
+
+{}

@@ -1,0 +1,18 @@
+POST {{baseUrl}}/exercise
+Content-Type: application/json
+
+{
+    "courseId": "{{courseId}}",
+    "title": "Declaração de MyVariable",
+    "description": "Usando o editor abaixo declare a variavel 'MyVariable', e com seu valor(em string) de: I'm an variable",
+    "categoryId": "{{$guid}}",
+    "difficultyValue": 1,
+    "typeValue": 1,
+    "testCases": [
+        {
+            "title": "Test Case 1",
+            "result": "I'm an variable\n"
+        }
+    ],
+    "baseCode": "\nBaseCode\n\nconsole.log(myVariable);\n"
+}

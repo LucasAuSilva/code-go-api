@@ -1,0 +1,4 @@
+GET {{baseUrl}}/course/languages
+Content-Type: application/json
+
+{}

@@ -1,16 +1,14 @@
 
-using CodeGo.Domain.CouseAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
-using CodeGo.Domain.CourseProgressAggregateRoot.ValueObjects;
 using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
-public sealed class User : AggregateRoot<UserId>
+public sealed class User : AggregateRoot<UserId, Guid>
 {
     private List<CourseId> _courseIds = new();
-    private List<CourseProgressId> _progressIds = new();
     public string FirstName { get; }
     public string LastName { get; }
     public string Email { get; }
@@ -23,7 +21,6 @@ public sealed class User : AggregateRoot<UserId>
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
-    public IReadOnlyCollection<CourseProgressId> CourseProgressIds => _progressIds;
 
     private User(
         UserId id,

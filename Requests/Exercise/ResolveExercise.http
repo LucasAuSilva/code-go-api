@@ -1,0 +1,6 @@
+POST {{baseUrl}}/exercise/{{exerciseId}}/resolve/{{testCaseId}}
+Content-Type: application/json
+
+{
+    "solutionCode": "var myVariable = \"I'm an variable\""
+}

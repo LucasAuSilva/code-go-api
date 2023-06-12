@@ -1,0 +1,10 @@
+POST {{baseUrl}}/course/{{courseId}}/module
+Content-Type: application/json
+
+{
+    "sectionId": "{{sectionId}}",
+    "name": "Declaração de Variavéis",
+    "totalLessons": 4,
+    "moduleTypeValue": 1,
+    "difficulty": 1
+}

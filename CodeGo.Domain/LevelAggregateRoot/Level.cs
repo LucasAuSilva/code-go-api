@@ -5,7 +5,7 @@ using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.LevelAggregateRoot;
 
-public sealed class Level : AggregateRoot<LevelId>
+public sealed class Level : AggregateRoot<LevelId, Guid>
 {
     public int NumberRepresentation { get; }
     public ExperiencePoints MinimumPoints { get; }

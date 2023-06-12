@@ -7,6 +7,7 @@ using ErrorOr;
 using MediatR;
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.LevelAggregateRoot;
+using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 
 namespace CodeGo.Application.Authentication.Command.Register;
 
@@ -51,7 +52,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             command.LastName,
             command.Email,
             hashedPassword,
-            level.Id);
+            LevelId.Create(level.Id.Value));
         // save user and return
         _userRepository.Add(user);
         var token = _jwtTokenGenerator.GenerateToken(user.Id.Value, user.FirstName, user.LastName);
