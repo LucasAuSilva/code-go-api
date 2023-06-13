@@ -67,7 +67,7 @@ public class CourseController : ApiController
             Problem);
     }
 
-    [HttpPost("{courseId}/module/{moduleId}/start")]
+    [HttpGet("{courseId}/module/{moduleId}/start")]
     public async Task<IActionResult> GetModulePractices(
         string courseId,
         string moduleId)

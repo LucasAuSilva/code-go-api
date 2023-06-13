@@ -1,0 +1,4 @@
+GET {{baseUrl}}/course/{{courseId}}/module/{{moduleId}}/start
+Content-Type: application/json
+
+{}
