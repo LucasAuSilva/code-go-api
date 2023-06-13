@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddSingleton<ProblemDetailsFactory, CodeGoProblemDetailsFactory>();
         services.AddScoped<IMapper, ServiceMapper>();
+        services.AddCors();
         return services;
     }
 }
