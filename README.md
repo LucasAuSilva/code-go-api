@@ -44,7 +44,7 @@ This API is for the application Code&GO, where is design to be a educational pla
 ## Link to api docs
 
 - [Auth](./Docs/Api/Auth.md)
-- [Course](./Docs/Api/Course)
+- [Course](./Docs/Api/Course.md)
 - [Exercise](./Docs/Api/Exercise.md)
 - [Question](./Docs/Api/Question.md)
 
