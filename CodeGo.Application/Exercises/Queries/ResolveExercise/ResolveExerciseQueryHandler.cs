@@ -30,6 +30,7 @@ public class ResolveExerciseQueryHandler : IRequestHandler<ResolveExerciseQuery,
             return Errors.Exercise.NotFound;
         var testCaseId = TestCaseId.Create(query.TestCaseId);
         var runCode = exercise.MakeRunCode(query.SolutionCode);
+        // Make validation when the code return an exception from compiler
         var result = await _compilerApi.SendCodeToCompile(runCode);
         var isCorrect = exercise.Resolve(testCaseId, result);
         if (isCorrect.IsError)
