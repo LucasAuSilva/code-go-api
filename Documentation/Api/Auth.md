@@ -1,5 +1,5 @@
 
-# Code&Go Authentication API
+# Code&Go API
 
 - [Code&Go API](#code&go-api)
   - [Authentication](#authentication)

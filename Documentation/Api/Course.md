@@ -1,5 +1,5 @@
 
-# Code&Go Course API
+# Code&Go API
 
 - [Code&Go API](#code&go-api)
   - [Course](#course)
