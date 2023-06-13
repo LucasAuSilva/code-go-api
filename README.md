@@ -11,7 +11,6 @@
   <img height="42" width="42" src="https://simpleicons.now.sh/nuget/004880" alt="git" />
   <img height="42" width="42" src="https://simpleicons.now.sh/git/F05032" alt="git" />
   <img height="42" width="42" src="https://simpleicons.now.sh/postgresql/4169E1" alt="mongodb logo" />
-  <img height="42" width="42" src="https://simpleicons.now.sh/swagger/85EA2D" alt="swagger logo" />
   <img height="42" width="42" src="https://simpleicons.now.sh/githubactions/2088FF" alt="github actions logo" />
 </div>
 
