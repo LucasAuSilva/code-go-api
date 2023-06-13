@@ -27,6 +27,7 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
 
     public async Task<ErrorOr<Exercise>> Handle(CreateExerciseCommand command, CancellationToken cancellationToken)
     {
+        // TODO: Make validations for empty strings before command
         var courseId = CourseId.Create(command.CourseId);
         var categoryId = CategoryId.Create(command.CategoryId);
         if (!await _courseRepository.Exists(courseId))

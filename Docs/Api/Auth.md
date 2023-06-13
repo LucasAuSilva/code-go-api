@@ -1,7 +1,7 @@
 
-# Code&Go Authentication API
+# Code&Go API
 
-- [Code&Go API](#code&go-api)
+- [Code&Go API](../../README.md)
   - [Authentication](#authentication)
     - [Register](#register)
     - [Login](#login)
