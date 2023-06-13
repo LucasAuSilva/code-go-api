@@ -17,7 +17,13 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddSingleton<ProblemDetailsFactory, CodeGoProblemDetailsFactory>();
         services.AddScoped<IMapper, ServiceMapper>();
-        services.AddCors();
+        services.AddCors(options => {
+            options.AddPolicy("_MyCorsPolicies", policy => {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+            });
+        });
         return services;
     }
 }
