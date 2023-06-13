@@ -1,7 +1,7 @@
 
 # Code&Go API
 
-- [Code&Go Api](#codego-questions-api)
+- [Code&Go Api](#codego-api)
   - [Questions](#questions)
     - [Create](#create)
     - [Resolve Question](#resolve-question)
