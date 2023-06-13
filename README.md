@@ -82,23 +82,23 @@ This API is for the application Code&GO, where is design to be a educational pla
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/LucasAuSilva/code-go-api
+git clone https://github.com/LucasAuSilva/code-go-api
 ```
 ```bash
 # Access the directory where you clone the repo
-$ cd code-go-api
+cd code-go-api
 ```
 ```bash
 # Install the dependencies
-$ dotnet restore
+dotnet restore
 ```
 ```bash
 # Start the project
-$ dotnet build
+dotnet build
 ```
 ```bash
 # Start the with the CodeGo.Api project
-$ dotnet run --project CodeGo.Api
+dotnet run --project CodeGo.Api
 ```
 
 ### Docker
@@ -121,11 +121,11 @@ JwtSettings__Audience=CodeGoApp
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/LucasAuSilva/code-go-api
+git clone https://github.com/LucasAuSilva/code-go-api
 ```
 ```bash
 # Access the directory where you clone the repo
-$ cd code-go-api
+cd code-go-api
 ```
 ```bash
 # Executing the docker compose
