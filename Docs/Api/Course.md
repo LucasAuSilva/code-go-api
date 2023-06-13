@@ -1,7 +1,7 @@
 
 # Code&Go API
 
-- [Code&Go API](#code&go-api)
+- [Code&Go API](../../README.md)
   - [Course](#course)
     - [Languages](#languages)
     - [General Responses](#general-responses)

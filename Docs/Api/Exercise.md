@@ -1,7 +1,7 @@
 
 # Code&Go API
 
-- [Code&Go Api](#codego-api)
+- [Code&Go API](../../README.md)
   - [Exercises](#exercises)
     - [Create](#create)
     - [Resolve Exercises](#resolve-exercise)
