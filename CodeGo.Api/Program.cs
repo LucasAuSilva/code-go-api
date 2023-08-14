@@ -13,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    Console.WriteLine(app.Environment.IsDocker());
+    if (app.Environment.IsDocker())
+    {
+        Console.WriteLine("Hello Docker");
+        app.MigrationInitialization();
+    }
     app.UseExceptionHandler("/error");
     app.MapControllers();
     app.Run();

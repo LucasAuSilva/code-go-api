@@ -8,6 +8,7 @@ using CodeGo.Infrastructure.Http.Judge0Api;
 using CodeGo.Infrastructure.Persistance;
 using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,5 +78,11 @@ public static class DependencyInjection
                     Encoding.UTF8.GetBytes(jwtSettings.Secret))
             });
         return services;
+    }
+
+    public static void MigrationInitialization(this IApplicationBuilder app)
+    {
+        using var serviceScope = app.ApplicationServices.CreateScope();
+        serviceScope.ServiceProvider.GetService<CodeGoDbContext>()?.Database.Migrate();
     }
 }
