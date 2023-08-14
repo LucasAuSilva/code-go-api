@@ -26,8 +26,8 @@ Contents
   * [Principles](#principles)
   * [Methodologies](#designs-and-methodologies)
 * [How to run it](#how-to-run-it)
-  * [Normal (Without Docker)](#normal-way-without-docker)
-  * [Docker](#docker)
+  * [Without Docker](#without-docker)
+  * [With Docker](#with-docker)
   * [Database](#database)
 * [Technologies](#technologies-in-the-project)
 * [Versioning](#versioning)
@@ -74,7 +74,7 @@ This API is for the application Code&GO, where is design to be a educational pla
 
 ## How to run it
 
-### Normal way (without docker)
+### Without docker
 
 > Before run the project you need to confirm that you have this tools installed:
 > [Git](https://git-scm.com), [Dotnet](https://dotnet.microsoft.com/download)
@@ -95,21 +95,26 @@ dotnet restore
 # Start the project
 dotnet build
 ```
+
+> **Before Run:** You need to execute the migrations on your database with [this](#database) steps.  
+> And don't forget to change the your appsettings for you configuration.
+
 ```bash
 # Start the with the CodeGo.Api project
 dotnet run --project CodeGo.Api
 ```
 
-### Docker
+### With Docker
 
 > Before run the project you need to confirm that you have installed the following tools:
-> [Git](https://git-scm.com), [Dotnet](https://dotnet.microsoft.com/download), [Docker](https://www.docker.com/)
+> [Git](https://git-scm.com), [Docker](https://www.docker.com/)
 
 ```text
 # For docker you need to set an .env file with this variables, in the root of the project
 # base connection string for the docker no need to change
 ConnectionStrings__CodeGoDatabase="Host=localhost; Database=codegodev; Username=user; Password=teste@123"
 
+# You don't need to setup this key, but the api to run exercise will not work ;)
 Judge0Settings__ApiKey=YourApiKeyHere
 Judge0Settings__Host=YourJudge0HostHere
 
@@ -140,6 +145,7 @@ docker compose down
 ```
 
 ### Database
+> **IMPORTANT:** This step is only applicable if you are running the app without docker, running with docker compose will run the migrations on startup
 > You can use an database installed by driver or docker. Either way you have to make sure that is an **PostgreSQL** database.
 
 > **PS:** This steps for the migrations only have to been applied for the first time or when clean or changed the database
@@ -155,12 +161,6 @@ dotnet tool install --global dotnet-ef
 ```bash
 # Executing the migration with your connection string
 dotnet ef database update -p CodeGo.Infrastructure -s CodeGo.Api --connection "your connection string goes here"
-```
-
-#### Docker
-```bash
-# Executing the migration with your docker db connection string
-dotnet ef database update -p CodeGo.Infrastructure -s CodeGo.Api --connection "Host=localhost; Database=codegodev; Username=user; Password=teste@123"
 ```
 
 ## Technologies in the project
