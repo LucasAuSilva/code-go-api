@@ -17,13 +17,15 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddSingleton<ProblemDetailsFactory, CodeGoProblemDetailsFactory>();
         services.AddScoped<IMapper, ServiceMapper>();
-        services.AddCors(options => {
-            options.AddPolicy("_MyCorsPolicies", policy => {
-                policy.AllowAnyOrigin();
-                policy.AllowAnyHeader();
-                policy.AllowAnyMethod();
-            });
-        });
+        services.AddCors(options => options
+            .AddDefaultPolicy(policy => policy
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
         return services;
+    }
+
+    public static bool IsDocker(this IWebHostEnvironment environment)
+    {
+        return environment.Equals("Docker");
     }
 }
