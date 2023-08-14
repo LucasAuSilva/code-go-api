@@ -20,6 +20,7 @@ services:
         environment:
             - ASPNETCORE_HTTP_PORT=https://+:2601
             - ASPNETCORE_URLS=http://+:2600
+            - ASPNETCORE_ENVIRONMENT=Docker
         env_file: .env
         ports:
             - "2600:2600"
