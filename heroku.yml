@@ -4,4 +4,4 @@ build:
 release:
   image: web
   command:
-    - "dotnet ef database update -p CodeGo.Infrastructure -s CodeGo.Api $ConnectionStrings__CodeGoDatabase"
+    - dotnet ef database update -p CodeGo.Infrastructure -s CodeGo.Api
