@@ -16,7 +16,9 @@ services:
             - codegodev-network
     app:
         container_name: app
-        build: .
+        build:
+            context: .
+            dockerfile: Dockerfile.develop
         environment:
             - ASPNETCORE_HTTP_PORT=https://+:2601
             - ASPNETCORE_URLS=http://+:2600
