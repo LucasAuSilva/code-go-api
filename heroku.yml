@@ -1,0 +1,7 @@
+build:
+  docker:
+    web: Dockerfile
+release:
+  image: web
+  command:
+    - "dotnet ef database update -p CodeGo.Infrastructure -s CodeGo.Api"
