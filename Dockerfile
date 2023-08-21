@@ -13,4 +13,4 @@ COPY --from=build /app ./
 
 # ENTRYPOINT ["dotnet", "CarterAPI.dll"]
 # Recomended setup for heroku deploy
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet CarterAPI.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet CodeGo.Api.dll
