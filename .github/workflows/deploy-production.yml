@@ -7,7 +7,20 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  migration:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3 
+          with:
+            dotnet-version: 7.0.x
+        - name: Install Entity EF Core
+          run: dotnet tool install --global dotnet-ef
+        - name: Run Migrations on Database
+          run: dotnet-ef database update -p .\CodeGo.Infrastructure\ -s .\CodeGo.Api\ --connection {{secrets.DATABASE_CONNECTION_STRING}}
+
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
