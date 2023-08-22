@@ -15,15 +15,13 @@ jobs:
           uses: actions/setup-dotnet@v3 
           with:
             dotnet-version: 7.0.x
-        - name: Publish
-          run: dotnet publish -c release -o "${{ github.workspace }}/build_publish"
         - name: Setup Entity Framework Tool
           run: |
             dotnet tool install --global dotnet-ef
             dotnet tool restore
         - name: Run Migrations on Database
           run: |
-            dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}}" --msbuildprojectextensionspath "${{ github.workspace }}/build_publish"
+            dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --context CodeGoDbContext --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
 
   deploy:
     needs: migration
