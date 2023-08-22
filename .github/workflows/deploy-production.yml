@@ -10,19 +10,14 @@ jobs:
   migration:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v3
-        - name: Setup .NET
-          uses: actions/setup-dotnet@v3 
-          with:
-            dotnet-version: 7.0.x
-        - name: Setup Entity Framework Tool
-          run: |
-            dotnet tool install --global dotnet-ef
-            dotnet tool restore
-        - name: Run Migrations on Database
-          run: |
-            cd "${{ github.workspace }}"
-            dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --context CodeGoDbContext --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Migrate DB
+        shell: pwsh
+        run: |
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore
+          dotnet-ef database update 0 --project "CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" --startup-project "CodeGo.Api\CodeGo.Api.csproj" --context CodeGoDbContext --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
 
   deploy:
     needs: migration
