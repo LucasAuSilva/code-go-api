@@ -19,11 +19,10 @@ jobs:
           run: dotnet build
         - name: Setup Entity Framework Tool
           run: |
-            dotnet new tool-manifest
-            dotnet tool install dotnet-ef
+            dotnet tool install --global dotnet-ef
         - name: Run Migrations on Database
           run: |
-            dotnet tool run dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
+            dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
 
   deploy:
     needs: migration
