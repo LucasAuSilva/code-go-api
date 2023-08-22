@@ -12,7 +12,7 @@ public static partial class Errors
             description: "Language with this value doesn't exists");
 
         public static Error CourseNotFound => Error.NotFound(
-            code: "Course.CourseNotFound",
+            code: "Course.NotFound",
             description: "Course with this id doesn't exists");
 
         public static Error ModuleNotFound => Error.NotFound(

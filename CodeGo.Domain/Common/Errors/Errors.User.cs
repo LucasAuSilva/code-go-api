@@ -12,7 +12,7 @@ public static partial class Errors
             description: "User with this email already exists");
 
         public static Error UserNotFound => Error.NotFound(
-            code: "User.UserNotFound",
+            code: "User.NotFound",
             description: "User with this id doesn't exists");
     }
 }
