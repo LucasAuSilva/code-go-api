@@ -1,0 +1,5 @@
+GET {{baseUrl}}/course
+Content-Type: application/json
+
+{}
+
