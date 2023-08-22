@@ -21,7 +21,7 @@ jobs:
             dotnet tool restore
         - name: Run Migrations on Database
           run: |
-            dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}}" --msbuildprojectextensionspath obj/Debug
+            dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}}" --msbuildprojectextensionspath "bin/Debug/net7.0"
 
   deploy:
     needs: migration
