@@ -1,0 +1,10 @@
+POST {{baseUrl}}/user/{{userId}}/register/{{courseId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "FirstName": "Lucas Augusto",
+    "LastName": "Silva",
+    "Email": "lucas@email.com",
+    "Password": "lucas@1234"
+}

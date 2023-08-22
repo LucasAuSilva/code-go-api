@@ -3,6 +3,7 @@
 
 - [Code&Go API](../../README.md)
   - [Course](#course)
+    - [List Courses](#list-courses)
     - [Languages](#languages)
     - [Create Course](#create-course)
     - [Create Section](#create-section)
@@ -45,6 +46,39 @@ GET /course/languages
     "name": "Python",
     "value": 3
   }
+]
+```
+
+## List Courses
+
+> This routes is for list courses of the application
+
+#### List Course Request
+
+```http
+GET /course
+```
+
+#### List Course Response
+
+```http
+200 OK
+```
+
+```json
+[
+    {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "Javascript",
+        "authorName": "code&go",
+        "description": "The Code&Go base Javascript Course",
+        "courseIcon": null,
+        "language": {
+            "name": "Javascript",
+            "value": 1
+        },
+        "sections": []
+    }
 ]
 ```
 
