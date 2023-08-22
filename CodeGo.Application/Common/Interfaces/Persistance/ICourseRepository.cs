@@ -10,4 +10,5 @@ public interface ICourseRepository
     Task Add(Course course);
     Task<Course?> FindById(CourseId courseId);
     Task Update(Course course);
+    Task<List<Course>> ListAsync();
 }

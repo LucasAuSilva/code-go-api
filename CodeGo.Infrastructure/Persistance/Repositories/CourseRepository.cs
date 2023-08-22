@@ -36,4 +36,9 @@ public class CourseRepository : ICourseRepository
     {
         return await _dbContext.Courses.AnyAsync(course => course.Id == courseId);
     }
+
+    public async Task<List<Course>> ListAsync()
+    {
+        return await _dbContext.Courses.ToListAsync();
+    }
 }
