@@ -21,9 +21,11 @@ jobs:
             dotnet tool install dotnet-ef
         - name: Run Migrations on Database
           run: |
+            cd code-go-api
             dotnet tool run dotnet-ef database update -p .\CodeGo.Infrastructure\ -s .\CodeGo.Api\ --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
 
   deploy:
+    needs: migration
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
