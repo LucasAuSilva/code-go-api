@@ -7,20 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  migration:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Migrate DB
-        shell: pwsh
-        run: |
-          dotnet tool install --global dotnet-ef
-          dotnet tool restore
-          dotnet-ef database update 0 --project "CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" --startup-project "CodeGo.Api\CodeGo.Api.csproj" --context CodeGoDbContext --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
-
   deploy:
-    needs: migration
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
