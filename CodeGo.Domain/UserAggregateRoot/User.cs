@@ -70,4 +70,9 @@ public sealed class User : AggregateRoot<UserId, Guid>
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
+
+    public void RegisterCourse(CourseId courseId)
+    {
+        _courseIds.Add(courseId);
+    }
 }
