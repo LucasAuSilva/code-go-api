@@ -15,14 +15,13 @@ jobs:
           uses: actions/setup-dotnet@v3 
           with:
             dotnet-version: 7.0.x
-        - name: Install Entity EF Core
+        - name: Setup Entity Framework Tool
           run: |
             dotnet new tool-manifest
             dotnet tool install dotnet-ef
         - name: Run Migrations on Database
           run: |
-            cd code-go-api
-            dotnet tool run dotnet-ef database update -p .\CodeGo.Infrastructure\ -s .\CodeGo.Api\ --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
+            dotnet tool run dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\" -s "${{ github.workspace }}\CodeGo.Api\" --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
 
   deploy:
     needs: migration
