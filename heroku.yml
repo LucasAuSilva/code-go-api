@@ -8,4 +8,5 @@ run:
 release:
   image: web
   command:
+    - dotnet tool install --global dotnet-ef
     - dotnet ef database update -p CodeGo.Infrastructure -s CodeGo.Api
