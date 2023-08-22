@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using CodeGo.Application.Courses.Command.CreateCourse;
 using CodeGo.Application.Courses.Queries.ListLanguages;
 using CodeGo.Application.Courses.Queries.ListPractices;
+using CodeGo.Application.Courses.Queries.ListCourses;
 
 namespace CodeGo.Api.Controllers;
 
@@ -34,6 +35,16 @@ public class CourseController : ApiController
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<List<LanguageResponse>>(result)),
+            Problem);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ListCourses()
+    {
+        var query = new ListCoursesQuery();
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<List<CourseResponse>>(result)),
             Problem);
     }
 
