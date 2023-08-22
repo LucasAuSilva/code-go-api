@@ -15,13 +15,15 @@ jobs:
           uses: actions/setup-dotnet@v3 
           with:
             dotnet-version: 7.0.x
+        - name: Build Project
+          run: dotnet build
         - name: Setup Entity Framework Tool
           run: |
             dotnet new tool-manifest
             dotnet tool install dotnet-ef
         - name: Run Migrations on Database
           run: |
-            dotnet tool run dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}} --msbuildprojectextensionspath obj/local"
+            dotnet tool run dotnet-ef database update -p "${{ github.workspace }}\CodeGo.Infrastructure\CodeGo.Infrastructure.csproj" -s "${{ github.workspace }}\CodeGo.Api\CodeGo.Api.csproj" --connection "${{secrets.DATABASE_CONNECTION_STRING}}"
 
   deploy:
     needs: migration
