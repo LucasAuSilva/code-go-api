@@ -14,9 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     Console.WriteLine(app.Environment.IsDocker());
-    if (app.Environment.IsDocker())
+    if (app.Environment.IsDocker() || app.Environment.IsProduction())
     {
-        Console.WriteLine("Hello Docker");
         app.MigrationInitialization();
     }
     app.UseExceptionHandler("/error");
