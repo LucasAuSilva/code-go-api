@@ -14,6 +14,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string LastName { get; }
     public string Email { get; }
     public string Password { get; }
+    public ProfileVisiblity Visibility { get; }
     public UserRole Role { get; }
     public string? ProfilePicture { get; }
     public string? Bio { get; }
