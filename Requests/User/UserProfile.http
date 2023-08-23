@@ -1,0 +1,5 @@
+GET {{baseUrl}}/user/{{otherUserId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{}
