@@ -1,5 +1,6 @@
-
+using System.Security.Claims;
 using CodeGo.Api.Common.Http;
+using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,16 @@ public class ApiController : ControllerBase
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
         };
+
+        if (error.NumericType >= 12)
+        {
+            statusCode = error.NumericType switch
+            {
+                CustomErrorTypes.Forbidden => StatusCodes.Status403Forbidden,
+                _ => StatusCodes.Status500InternalServerError
+            };
+        }
+
         return Problem(detail: error.Description, statusCode: statusCode);
     }
 
@@ -46,5 +57,11 @@ public class ApiController : ControllerBase
                 error.Description);
         }
         return ValidationProblem(modelStateDictionary);
+    }
+
+    protected string? GetUserId()
+    {
+        var value = this.User.Claims.First(c => c.Type ==  ClaimTypes.NameIdentifier)?.Value;
+        return value;
     }
 }

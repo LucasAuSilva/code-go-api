@@ -14,5 +14,10 @@ public static partial class Errors
         public static Error UserNotFound => Error.NotFound(
             code: "User.NotFound",
             description: "User with this id doesn't exists");
+
+        public static Error CantAccess => Error.Custom(
+            type: CustomErrorTypes.Forbidden,
+            code: "User.CantAccess",
+            description: "User logged can access this content");
     }
 }
