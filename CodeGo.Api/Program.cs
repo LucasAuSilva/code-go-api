@@ -13,7 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    Console.WriteLine(app.Environment.IsDocker());
     if (app.Environment.IsDocker() || app.Environment.IsProduction())
     {
         app.MigrationInitialization();
