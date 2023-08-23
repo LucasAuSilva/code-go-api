@@ -3,6 +3,7 @@ using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot.Enums;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -13,6 +14,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string LastName { get; }
     public string Email { get; }
     public string Password { get; }
+    public UserRole Role { get; }
     public string? ProfilePicture { get; }
     public string? Bio { get; }
     public Streak DayStreak { get; }
@@ -28,6 +30,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string lastName,
         string email,
         string password,
+        UserRole role,
         Streak dayStreak,
         ExperiencePoints experience,
         LevelId level,
@@ -40,6 +43,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         LastName = lastName;
         Email = email;
         Password = password;
+        Role = role;
         DayStreak = dayStreak;
         Experience = experience;
         Level = level;
@@ -64,6 +68,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
             lastName: lastName,
             email: email,
             password: password,
+            role: UserRole.User,
             dayStreak: streak,
             experience: points,
             level: level,
