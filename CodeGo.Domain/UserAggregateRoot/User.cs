@@ -14,7 +14,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string LastName { get; }
     public string Email { get; }
     public string Password { get; }
-    public ProfileVisiblity Visibility { get; }
+    public ProfileVisibility Visibility { get; }
     public UserRole Role { get; }
     public string? ProfilePicture { get; }
     public string? Bio { get; }
@@ -31,6 +31,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string lastName,
         string email,
         string password,
+        ProfileVisibility visibility,
         UserRole role,
         Streak dayStreak,
         ExperiencePoints experience,
@@ -44,6 +45,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         LastName = lastName;
         Email = email;
         Password = password;
+        Visibility = visibility;
         Role = role;
         DayStreak = dayStreak;
         Experience = experience;
@@ -69,6 +71,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
             lastName: lastName,
             email: email,
             password: password,
+            visibility: ProfileVisibility.Private,
             role: UserRole.User,
             dayStreak: streak,
             experience: points,
@@ -84,7 +87,8 @@ public sealed class User : AggregateRoot<UserId, Guid>
 
     public bool CheckProfileAccess(User accessUser)
     {
-        // TODO: Make Check for user public profile
+        if (Visibility == ProfileVisibility.Public)
+            return true;
         if (accessUser.Role == UserRole.Admin)
             return true;
         // TODO: Make Check for user Friends can see
