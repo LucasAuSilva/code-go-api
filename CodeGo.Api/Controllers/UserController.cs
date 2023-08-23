@@ -33,6 +33,7 @@ public class UserController : ApiController
     public async Task<IActionResult> UserProfile(string userId)
     {
         var loggedUserId = GetUserId();
+        if (loggedUserId is null) return Problem();
         var query = new UserProfileQuery(loggedUserId, userId);
         var result = await _sender.Send(query); 
         return result.Match(

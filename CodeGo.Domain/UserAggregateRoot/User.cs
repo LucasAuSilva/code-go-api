@@ -80,4 +80,13 @@ public sealed class User : AggregateRoot<UserId, Guid>
     {
         _courseIds.Add(courseId);
     }
+
+    public bool CheckProfileAccess(User accessUser)
+    {
+        // TODO: Make Check for user public profile
+        if (accessUser.Role == UserRole.Admin)
+            return true;
+        // TODO: Make Check for user Friends can see
+        return false;
+    }
 }
