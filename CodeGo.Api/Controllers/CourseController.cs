@@ -14,7 +14,6 @@ using CodeGo.Application.Courses.Queries.ListCourses;
 namespace CodeGo.Api.Controllers;
 
 [Route("[controller]")]
-[AllowAnonymous]
 public class CourseController : ApiController
 {
     private readonly ISender _sender;
@@ -29,6 +28,7 @@ public class CourseController : ApiController
     }
 
     [HttpGet("languages")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Languages()
     {
         var query = new LanguageQuery();
@@ -49,6 +49,7 @@ public class CourseController : ApiController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateCourse([FromBody] CreateCourseRequest request)
     {
         var command = _mapper.Map<CreateCourseCommand>(request);
@@ -59,6 +60,7 @@ public class CourseController : ApiController
     }
 
     [HttpPost("{courseId}/section")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateSection([FromBody] CreateSectionRequest request, string courseId)
     {
         var command = _mapper.Map<CreateSectionCommand>((request, courseId));
@@ -69,6 +71,7 @@ public class CourseController : ApiController
     }
 
     [HttpPost("{courseId}/module")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateModule([FromBody] CreateModuleRequest request, string courseId)
     {
         var command = _mapper.Map<CreateModuleCommand>((request, courseId));
