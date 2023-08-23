@@ -14,6 +14,7 @@
 ### Create
 
 > This routes is used for create an new question for course
+> **IMPORTANT:** Only `admin` can access this route
 
 #### Create Request
 
