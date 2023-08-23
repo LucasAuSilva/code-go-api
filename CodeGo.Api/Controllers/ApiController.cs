@@ -1,4 +1,4 @@
-
+using System.Security.Claims;
 using CodeGo.Api.Common.Http;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
@@ -46,5 +46,11 @@ public class ApiController : ControllerBase
                 error.Description);
         }
         return ValidationProblem(modelStateDictionary);
+    }
+
+    protected string? GetUserId()
+    {
+        var value = this.User.Claims.First(c => c.Type ==  ClaimTypes.NameIdentifier)?.Value;
+        return value;
     }
 }
