@@ -26,6 +26,8 @@ public class PracticesQueryHandler : IRequestHandler<PracticesQuery, ErrorOr<Pra
 
     public async Task<ErrorOr<PracticesResult>> Handle(PracticesQuery query, CancellationToken cancellationToken)
     {
+        // TODO: Check if user is registered in the course
+        // TODO: Check if user can start this module
         var course = await _courseRepository.FindById(CourseId.Create(query.CourseId));
         if (course is null)
             return Errors.Course.CourseNotFound;
