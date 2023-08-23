@@ -14,11 +14,11 @@
 ## Course
 
 > Routes related to the courses, like create new course, find course, modules or sections. As well 
-> **IMPORTANT:** Only `admin` can access this type of routes
 
 ### Languages
 
 > This routes is for check the supported languages of the application
+> **IMPORTANT:** Only `admin` can access this route
 
 #### Languages Request
 
@@ -85,6 +85,7 @@ GET /course
 ### Create Course
 
 > This route is for create an new course on the application
+> **IMPORTANT:** Only `admin` can access this route
 
 #### Create Course Request
 
@@ -141,6 +142,7 @@ POST /course
 ### Create Section
 
 > This route is used for create an section for specific course
+> **IMPORTANT:** Only `admin` can access this route
 
 #### Create Section Request
 
@@ -203,6 +205,7 @@ POST course/{courseId}/section
 ### Create Module
 
 > This route is for create an module on a specific course and section
+> **IMPORTANT:** Only `admin` can access this route
 
 #### Create Module Request
 
@@ -275,7 +278,6 @@ POST course/{courseId}/module
 ### Start Module
 
 > This route is used when the user start an module for practice
-
 > **BREAKING:** Probably this route going to change in future updates
 
 #### Start Module Request
