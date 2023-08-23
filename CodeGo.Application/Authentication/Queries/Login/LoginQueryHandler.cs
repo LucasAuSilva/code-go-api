@@ -35,7 +35,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         if (_hashComparer.Compare(query.Password, user.Password))
             return Errors.Authentication.InvalidCredentials;
         // create token jwt token
-        var token = _jwtTokenGenerator.GenerateToken(user.Id.Value, user.FirstName, user.LastName);
+        var token = _jwtTokenGenerator.GenerateToken(user);
         // return result
         return new AuthenticationResult(
             user.Id.Value,

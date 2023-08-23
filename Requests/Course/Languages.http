@@ -1,4 +1,5 @@
 GET {{baseUrl}}/course/languages
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {}

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeGo.Api.Controllers;
 
 [Route("[controller]")]
-[AllowAnonymous]
 public class ExerciseController : ApiController
 {
     private readonly IMapper _mapper;
@@ -24,6 +23,7 @@ public class ExerciseController : ApiController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateExercise([FromBody] CreateExerciseRequest request)
     {
         var command = _mapper.Map<CreateExerciseCommand>(request);
