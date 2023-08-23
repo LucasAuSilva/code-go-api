@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeGo.Api.Controllers;
 
 [Route("[controller]")]
-[AllowAnonymous]
 public class QuestionController : ApiController
 {
     private readonly IMapper _mapper;
@@ -25,6 +24,7 @@ public class QuestionController : ApiController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionRequest request)
     {
         var command = _mapper.Map<CreateQuestionCommand>(request);
