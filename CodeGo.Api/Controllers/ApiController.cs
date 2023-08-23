@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CodeGo.Api.Common.Http;
+using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,16 @@ public class ApiController : ControllerBase
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
         };
+
+        if (error.NumericType >= 12)
+        {
+            statusCode = error.NumericType switch
+            {
+                CustomErrorTypes.Forbidden => StatusCodes.Status403Forbidden,
+                _ => StatusCodes.Status500InternalServerError
+            };
+        }
+
         return Problem(detail: error.Description, statusCode: statusCode);
     }
 
