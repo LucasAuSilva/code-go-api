@@ -113,24 +113,24 @@ public sealed class User : AggregateRoot<UserId, Guid>
     }
 
     public bool RespondFriendRequest(
-        UserId userId,
+        FriendshipRequestId requestId,
         FriendshipRequestStatus status
     )
     {
-        var friendshipRequest = _friendshipRequests.First(fr => fr.Requester.Equals(userId));
-        if (friendshipRequest is null)
+        var request = _friendshipRequests.First(fr => fr.Id.Equals(requestId));
+        if (request is null)
             return false;
         status
             .When(FriendshipRequestStatus.Accepted).Then(() => {
-                friendshipRequest.Accept();
-                _friendIds.Add(userId);
+                request.Accept();
+                _friendIds.Add(request.Requester);
             })
             .When(FriendshipRequestStatus.Blocked).Then(() => {
-                friendshipRequest.Blocked();
-                _blockedUserIds.Add(userId);
+                request.Blocked();
+                _blockedUserIds.Add(request.Requester);
             })
-            .When(FriendshipRequestStatus.Ignored).Then(friendshipRequest.Ignored)
-            .When(FriendshipRequestStatus.Refused).Then(friendshipRequest.Refused);
+            .When(FriendshipRequestStatus.Ignored).Then(request.Ignored)
+            .When(FriendshipRequestStatus.Refused).Then(request.Refused);
         return true;
     }
 }

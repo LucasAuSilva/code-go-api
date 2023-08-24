@@ -7,5 +7,5 @@ namespace CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 
 public record ResponseFriendshipRequestCommand(
     string UserId,
-    string RequesterId,
+    string RequestId,
     int Response) : IRequest<ErrorOr<User>>;

@@ -53,7 +53,7 @@ public class UserController : ApiController
         var command = _mapper.Map<SendFriendshipRequestCommand>((userId, receiverId, request));
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(),
+            result => Ok(_mapper.Map<FriendshipRequestResponse>(result)),
             Problem);
     }
 
@@ -61,9 +61,9 @@ public class UserController : ApiController
     public async Task<IActionResult> ResponseFriendRequest(
         [FromBody] ResponseFriendshipRequest request,
         string userId,
-        string requesterId)
+        string requestId)
     {
-        var command = _mapper.Map<ResponseFriendshipRequestCommand>((userId, requesterId, request));
+        var command = _mapper.Map<ResponseFriendshipRequestCommand>((userId, requestId, request));
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<UserResponse>(result)),

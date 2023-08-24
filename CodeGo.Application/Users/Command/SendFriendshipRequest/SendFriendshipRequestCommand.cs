@@ -1,5 +1,3 @@
-
-using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.Entities;
 using ErrorOr;
 using MediatR;
@@ -10,4 +8,4 @@ public record SendFriendshipRequestCommand(
     string UserId,
     string ReceiverId,
     string? Message
-) : IRequest<ErrorOr<User>>;
+) : IRequest<ErrorOr<FriendshipRequest>>;

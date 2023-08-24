@@ -1,7 +1,7 @@
 
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.Common.Errors;
-using CodeGo.Domain.UserAggregateRoot;
+using CodeGo.Domain.UserAggregateRoot.Entities;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 using MediatR;
@@ -9,7 +9,7 @@ using MediatR;
 namespace CodeGo.Application.Users.Command.SendFriendshipRequest;
 
 public class SendFriendshipRequestCommandHandler
-    : IRequestHandler<SendFriendshipRequestCommand, ErrorOr<User>>
+    : IRequestHandler<SendFriendshipRequestCommand, ErrorOr<FriendshipRequest>>
 {
     private readonly IUserRepository _userRepository;
 
@@ -19,18 +19,24 @@ public class SendFriendshipRequestCommandHandler
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<User>> Handle(
+    public async Task<ErrorOr<FriendshipRequest>> Handle(
         SendFriendshipRequestCommand command,
         CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
+        var requesterId = UserId.Create(command.UserId);
         var receiver = _userRepository.FindById(UserId.Create(command.ReceiverId));
         if (receiver is null)
             return Errors.User.NotFound;
         receiver.ReceiveFriendshipRequest(
-            UserId.Create(command.UserId),
+            requesterId,
             command.Message);
         _userRepository.Update(receiver);
-        return receiver;
+        var request = receiver.FriendshipRequests.FirstOrDefault(
+            fr => fr.Requester.Equals(requesterId)
+        );
+        if (request is null)
+            return Errors.User.NotFound;
+        return request;
     }
 }
