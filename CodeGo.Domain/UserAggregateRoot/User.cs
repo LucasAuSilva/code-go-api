@@ -4,6 +4,7 @@ using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Enums;
 using CodeGo.Domain.UserAggregateRoot.Entities;
+using ErrorOr;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -118,18 +119,18 @@ public sealed class User : AggregateRoot<UserId, Guid>
         _friendshipRequests.Add(friendshipRequest);
     }
 
-    public bool RespondFriendRequest(
+    public ErrorOr<UserId> RespondFriendRequest(
         FriendshipRequestId requestId,
         FriendshipRequestStatus status
     )
     {
         var request = _friendshipRequests.First(fr => fr.Id.Equals(requestId));
         if (request is null)
-            return false;
+            return Error.Failure();
         status
             .When(FriendshipRequestStatus.Accepted).Then(() => {
                 request.Accept();
-                _friendIds.Add(request.Requester);
+                AddFriend(request.Requester);
             })
             .When(FriendshipRequestStatus.Blocked).Then(() => {
                 request.Blocked();
@@ -137,6 +138,13 @@ public sealed class User : AggregateRoot<UserId, Guid>
             })
             .When(FriendshipRequestStatus.Ignored).Then(request.Ignored)
             .When(FriendshipRequestStatus.Refused).Then(request.Refused);
-        return true;
+        if (!request.Status.Equals(FriendshipRequestStatus.Accepted))
+            return Error.Failure();
+        return request.Requester;
+    }
+
+    public void AddFriend(UserId id)
+    {
+        _friendIds.Add(id);
     }
 }

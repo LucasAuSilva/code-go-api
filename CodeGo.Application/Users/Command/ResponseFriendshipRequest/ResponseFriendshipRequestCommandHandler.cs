@@ -25,13 +25,20 @@ public class ResponseFriendshipRequestCommandHandler
         await Task.CompletedTask;
         if (!command.LoggedUserId.Equals(command.UserId))
             return Errors.User.CantAccess;
-        var user = _userRepository.FindById(
-            UserId.Create(command.UserId));
+        var userId = UserId.Create(command.UserId);
+        var user = _userRepository.FindById(userId);
         if (user is null)
             return Errors.User.NotFound;
-        user.RespondFriendRequest(
+        var result = user.RespondFriendRequest(
             FriendshipRequestId.Create(command.RequestId),
             FriendshipRequestStatus.FromValue(command.Response));
+        if (!result.IsError)
+        {
+            var requester = _userRepository.FindById(result.Value);
+            if (requester is null)
+                return Errors.User.RequesterNotFound;
+            requester.AddFriend(userId);
+        }
         _userRepository.Update(user);
         return user;
     }
