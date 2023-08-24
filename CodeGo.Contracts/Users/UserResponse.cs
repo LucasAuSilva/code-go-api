@@ -12,6 +12,7 @@ public record UserResponse(
     int ExperiencePoints,
     string Level,
     List<FriendshipRequestResponse> FriendshipRequests,
+    List<string> FriendIds,
     List<string> CourseIds
 );
 
