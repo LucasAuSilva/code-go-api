@@ -108,6 +108,12 @@ public sealed class User : AggregateRoot<UserId, Guid>
     )
     {
         // TODO: Invariant for checking if already has an friendship request with that user
+        // TODO: Understand if has to return something when user is blocked
+        if (_blockedUserIds.Contains(userId))
+            return;
+        var request = _friendshipRequests.Find(fr => fr.Requester.Equals(userId));
+        if (request is not null && request.Status.Equals(FriendshipRequestStatus.Ignored))
+            return;
         var friendshipRequest = FriendshipRequest.CreateNew(userId, message);
         _friendshipRequests.Add(friendshipRequest);
     }
