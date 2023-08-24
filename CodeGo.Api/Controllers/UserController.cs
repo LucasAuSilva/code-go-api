@@ -1,4 +1,5 @@
 using CodeGo.Application.Users.Command.RegisterCourse;
+using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Queries;
 using CodeGo.Contracts.Users;
@@ -53,6 +54,19 @@ public class UserController : ApiController
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(),
+            Problem);
+    }
+
+    [HttpPost("{userId}/request/{requesterId}/response")]
+    public async Task<IActionResult> ResponseFriendRequest(
+        [FromBody] ResponseFriendshipRequest request,
+        string userId,
+        string requesterId)
+    {
+        var command = _mapper.Map<ResponseFriendshipRequestCommand>((userId, requesterId, request));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<UserResponse>(result)),
             Problem);
     }
 }
