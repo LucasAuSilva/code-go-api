@@ -52,7 +52,7 @@ public class UserController : ApiController
         var command = _mapper.Map<SendFriendshipRequestCommand>((userId, receiverId, request));
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<FriendshipRequestResponse>(result)),
+            result => Ok(),
             Problem);
     }
 }
