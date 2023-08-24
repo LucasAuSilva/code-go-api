@@ -1,15 +1,18 @@
-
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Enums;
+using CodeGo.Domain.UserAggregateRoot.Entities;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
 public sealed class User : AggregateRoot<UserId, Guid>
 {
     private List<CourseId> _courseIds = new();
+    private List<UserId> _friendIds = new();
+    private List<UserId> _blockedUserIds = new();
+    private List<FriendshipRequest> _friendshipRequests = new();
     public string FirstName { get; }
     public string LastName { get; }
     public string Email { get; }
@@ -24,6 +27,9 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
+    public IReadOnlyCollection<UserId> FriendIds => _friendIds;
+    public IReadOnlyCollection<UserId> BlockedUserIds => _blockedUserIds;
+    public IReadOnlyCollection<FriendshipRequest> FriendshipRequests => _friendshipRequests;
 
     private User(
         UserId id,
@@ -93,5 +99,37 @@ public sealed class User : AggregateRoot<UserId, Guid>
             return true;
         // TODO: Make Check for user Friends can see
         return false;
+    }
+
+    public void ReceiveFriendshipRequest(
+        UserId userId,
+        string? message
+    )
+    {
+        // TODO: Invariant for checking if already has an friendship request with that user
+        var friendshipRequest = FriendshipRequest.CreateNew(userId, message);
+        _friendshipRequests.Add(friendshipRequest);
+    }
+
+    public bool RespondFriendRequest(
+        UserId userId,
+        FriendshipRequestStatus status
+    )
+    {
+        var friendshipRequest = _friendshipRequests.First(fr => fr.Requester.Equals(userId));
+        if (friendshipRequest is null)
+            return false;
+        status
+            .When(FriendshipRequestStatus.Accepted).Then(() => {
+                friendshipRequest.Accept();
+                _friendIds.Add(userId);
+            })
+            .When(FriendshipRequestStatus.Blocked).Then(() => {
+                friendshipRequest.Blocked();
+                _blockedUserIds.Add(userId);
+            })
+            .When(FriendshipRequestStatus.Ignored).Then(friendshipRequest.Ignored)
+            .When(FriendshipRequestStatus.Refused).Then(friendshipRequest.Refused);
+        return true;
     }
 }
