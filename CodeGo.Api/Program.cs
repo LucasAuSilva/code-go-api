@@ -19,5 +19,6 @@ var app = builder.Build();
     }
     app.UseExceptionHandler("/error");
     app.MapControllers();
+    app.UseCors();
     app.Run();
 }

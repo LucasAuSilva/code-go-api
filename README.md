@@ -144,6 +144,10 @@ docker compose up -d
 # For take the application down even when you CTRL+C the app you need to make this
 docker compose down
 ```
+> ***IMPORTANT:** If any change happens in the code, and you have already done the `docker-compose up`, you will need to run the follow command to apply the changes:
+```bash
+docker compose up --build
+```
 
 ### Database
 > **IMPORTANT:** This step is only applicable if you are running the app without docker, running with docker compose will run the migrations on startup
