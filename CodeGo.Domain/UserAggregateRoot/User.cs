@@ -1,15 +1,19 @@
-
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Enums;
+using CodeGo.Domain.UserAggregateRoot.Entities;
+using ErrorOr;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
 public sealed class User : AggregateRoot<UserId, Guid>
 {
     private List<CourseId> _courseIds = new();
+    private List<UserId> _friendIds = new();
+    private List<UserId> _blockedUserIds = new();
+    private List<FriendshipRequest> _friendshipRequests = new();
     public string FirstName { get; }
     public string LastName { get; }
     public string Email { get; }
@@ -24,6 +28,9 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
+    public IReadOnlyCollection<UserId> FriendIds => _friendIds;
+    public IReadOnlyCollection<UserId> BlockedUserIds => _blockedUserIds;
+    public IReadOnlyCollection<FriendshipRequest> FriendshipRequests => _friendshipRequests;
 
     private User(
         UserId id,
@@ -91,7 +98,53 @@ public sealed class User : AggregateRoot<UserId, Guid>
             return true;
         if (accessUser.Role == UserRole.Admin)
             return true;
-        // TODO: Make Check for user Friends can see
+        if (_friendIds.Contains(accessUser.Id))
+            return true;
         return false;
+    }
+
+    public void ReceiveFriendshipRequest(
+        UserId userId,
+        string? message
+    )
+    {
+        // TODO: Invariant for checking if already has an friendship request with that user
+        // TODO: Understand if has to return something when user is blocked
+        if (_blockedUserIds.Contains(userId))
+            return;
+        var request = _friendshipRequests.Find(fr => fr.Requester.Equals(userId));
+        if (request is not null && request.Status.Equals(FriendshipRequestStatus.Ignored))
+            return;
+        var friendshipRequest = FriendshipRequest.CreateNew(userId, message);
+        _friendshipRequests.Add(friendshipRequest);
+    }
+
+    public ErrorOr<UserId> RespondFriendRequest(
+        FriendshipRequestId requestId,
+        FriendshipRequestStatus status
+    )
+    {
+        var request = _friendshipRequests.First(fr => fr.Id.Equals(requestId));
+        if (request is null)
+            return Error.Failure();
+        status
+            .When(FriendshipRequestStatus.Accepted).Then(() => {
+                request.Accept();
+                AddFriend(request.Requester);
+            })
+            .When(FriendshipRequestStatus.Blocked).Then(() => {
+                request.Blocked();
+                _blockedUserIds.Add(request.Requester);
+            })
+            .When(FriendshipRequestStatus.Ignored).Then(request.Ignored)
+            .When(FriendshipRequestStatus.Refused).Then(request.Refused);
+        if (!request.Status.Equals(FriendshipRequestStatus.Accepted))
+            return Error.Failure();
+        return request.Requester;
+    }
+
+    public void AddFriend(UserId id)
+    {
+        _friendIds.Add(id);
     }
 }

@@ -7,7 +7,7 @@ using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Users.Command;
+namespace CodeGo.Application.Users.Command.RegisterCourse;
 
 public class RegisterCourseCommandHandler : IRequestHandler<RegisterCourseCommand, ErrorOr<User>>
 {
@@ -30,7 +30,7 @@ public class RegisterCourseCommandHandler : IRequestHandler<RegisterCourseComman
         // Find User
         var user = _userRepository.FindById(UserId.Create(command.UserId));
         if (user is null)
-            return Errors.User.UserNotFound;
+            return Errors.User.NotFound;
         // Register Course In User
         user.RegisterCourse(courseId);
         // Save In Database

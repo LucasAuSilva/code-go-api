@@ -29,7 +29,6 @@ POST /user/{userId}/register/{courseId}
 ```
 
 ```json
-
 {
   "id": "00000000-0000-0000-0000-000000000000",
   "firstName": "Lucas Augusto",
@@ -47,6 +46,83 @@ POST /user/{userId}/register/{courseId}
 ```
 
 ---
+
+### Send Friendship
+
+> This routes is used for send an friendship request to another user.
+
+#### Send Friendship Request
+
+```http
+POST /user/{userId}/request/{otherUserId}
+```
+
+```json
+{
+    "message": "Lets be friends!!" // optional field
+}
+```
+
+#### Send Friendship Response
+
+```http
+200 OK
+```
+
+```json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "requesterId": "00000000-0000-0000-0000-000000000000",
+  "message": "Lets be friends!!"
+}
+```
+
+---
+
+### Response Friendship
+
+> This routes is used for respond an friendship request
+
+#### Response Friendship Request
+
+```http
+POST /user/{otherUserId}/request/{requestId}/response
+```
+
+```json
+{
+    // Can be: Accepted - 2, Refused - 3, Ignored - 4, Blocked - 5
+    "Response": 2 // only numbers
+}
+```
+
+#### 'Response' Friendship Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "firstName": "Lucas Augusto",
+  "lastName": "Silva",
+  "email": "lucas@email.com",
+  "profilePicture": null,
+  "bio": null,
+  "streakCount": 0,
+  "experiencePoints": 0,
+  "level": "00000000-0000-0000-0000-000000000000",
+  "courseIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ]
+}
+```
+
+---
+
+### General Responses
 
 ```http
 400 Bad Request
@@ -80,3 +156,5 @@ POST /user/{userId}/register/{courseId}
   "traceId": "00-99b3a04a641db2a5e0e4235b16f3ce1b-e02ba7fb23e2ed88-00"
 }
 ```
+
+---

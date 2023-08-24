@@ -1,0 +1,7 @@
+POST {{baseUrl}}/user/{{userId}}/request/{{otherUserId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "message": "Lets be friends!!"
+}
