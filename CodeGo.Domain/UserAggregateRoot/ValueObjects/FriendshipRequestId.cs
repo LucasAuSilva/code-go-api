@@ -3,9 +3,9 @@ using CodeGo.Domain.Common.Models;
 
 namespace CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
-public sealed class FriendshipRequestId : AggregateRootId<Guid>
+public sealed class FriendshipRequestId : ValueObject
 {
-    public override Guid Value { get; protected set; }
+    public Guid Value { get; private set; }
 
     private FriendshipRequestId(Guid value)
     {

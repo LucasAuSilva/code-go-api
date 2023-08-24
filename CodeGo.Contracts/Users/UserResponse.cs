@@ -11,5 +11,12 @@ public record UserResponse(
     int StreakCount,
     int ExperiencePoints,
     string Level,
+    List<FriendshipRequestResponse> FriendshipRequests,
     List<string> CourseIds
+);
+
+public record FriendshipRequestResponse(
+    string Id,
+    string RequesterId,
+    string Message
 );
