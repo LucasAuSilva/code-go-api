@@ -57,7 +57,7 @@ public class UserController : ApiController
             Problem);
     }
 
-    [HttpPost("{userId}/request/{requesterId}/response")]
+    [HttpPost("{userId}/request/{requestId}/response")]
     public async Task<IActionResult> ResponseFriendRequest(
         [FromBody] ResponseFriendshipRequest request,
         string userId,
