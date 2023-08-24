@@ -97,7 +97,8 @@ public sealed class User : AggregateRoot<UserId, Guid>
             return true;
         if (accessUser.Role == UserRole.Admin)
             return true;
-        // TODO: Make Check for user Friends can see
+        if (_friendIds.Contains(accessUser.Id))
+            return true;
         return false;
     }
 
