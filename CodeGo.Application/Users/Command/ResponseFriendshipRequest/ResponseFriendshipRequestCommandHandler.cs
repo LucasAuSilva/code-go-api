@@ -23,6 +23,8 @@ public class ResponseFriendshipRequestCommandHandler
         CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
+        if (!command.LoggedUserId.Equals(command.UserId))
+            return Errors.User.CantAccess;
         var user = _userRepository.FindById(
             UserId.Create(command.UserId));
         if (user is null)

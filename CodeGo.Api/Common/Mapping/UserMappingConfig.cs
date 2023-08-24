@@ -67,8 +67,9 @@ public class UserMappingConfig : IRegister
     private static void ResponseFriendshipRequestMapping(TypeAdapterConfig config)
     {
         config.NewConfig<
-            (string UserId, string RequestId, ResponseFriendshipRequest Request), ResponseFriendshipRequestCommand
+            (string LoggedUserId, string UserId, string RequestId, ResponseFriendshipRequest Request), ResponseFriendshipRequestCommand
         >()
+            .Map(dest => dest.LoggedUserId, src => src.LoggedUserId)
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest.RequestId, src => src.RequestId)
             .Map(dest => dest, src => src.Request);

@@ -63,7 +63,9 @@ public class UserController : ApiController
         string userId,
         string requestId)
     {
-        var command = _mapper.Map<ResponseFriendshipRequestCommand>((userId, requestId, request));
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null) return Problem();
+        var command = _mapper.Map<ResponseFriendshipRequestCommand>((loggedUserId ,userId, requestId, request));
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<UserResponse>(result)),
