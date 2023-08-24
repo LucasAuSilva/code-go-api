@@ -4,7 +4,7 @@ using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.UserAggregateRoot.Entities;
 
-public sealed class FriendshipRequest : AggregateRoot<FriendshipRequestId, Guid>
+public sealed class FriendshipRequest : Entity<FriendshipRequestId>
 {
     public UserId Requester { get; }
     public string Message { get; }
