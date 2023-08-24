@@ -15,6 +15,7 @@ public class UserMappingConfig : IRegister
         UserResponseMapping(config);
         RegisterCourseCommandMapping(config);
         SendFriendRequestMapping(config);
+        UserProfileMapping(config);
     }
 
     private static void RegisterCourseCommandMapping(TypeAdapterConfig config)
@@ -40,7 +41,7 @@ public class UserMappingConfig : IRegister
             .Map(dest => dest.RequesterId, src => src.Requester.ToString());
     }
 
-    private static void UserProfile(TypeAdapterConfig config)
+    private static void UserProfileMapping(TypeAdapterConfig config)
     {
         config.NewConfig<(string LoggedUserId, string UserId), UserProfileQuery>()
             .Map(dest => dest.LoggedUserId, src => src.LoggedUserId)
