@@ -19,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<IMapper, ServiceMapper>();
         services.AddCors(options => options
             .AddDefaultPolicy(policy => policy
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         return services;
