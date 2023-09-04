@@ -23,5 +23,9 @@ public static partial class Errors
             type: CustomErrorTypes.Forbidden,
             code: "User.CantAccess",
             description: "User logged can access this content");
+
+        public static Error ProfileVisibilityIncorrect => Error.Validation(
+            code: "User.ProfileVisibilityIncorrect",
+            description: "Profile Visibility value is not valid");
     }
 }

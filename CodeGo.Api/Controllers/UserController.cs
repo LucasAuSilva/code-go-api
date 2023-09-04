@@ -1,3 +1,4 @@
+using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
@@ -66,6 +67,20 @@ public class UserController : ApiController
         var loggedUserId = GetUserId();
         if (loggedUserId is null) return Problem();
         var command = _mapper.Map<ResponseFriendshipRequestCommand>((loggedUserId ,userId, requestId, request));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<UserResponse>(result)),
+            Problem);
+    }
+
+    [HttpPost("{userId}/edit")]
+    public async Task<IActionResult> EditProfile(
+        [FromBody] EditProfileRequest request,
+        string userId)
+    {
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null) return Problem();
+        var command = _mapper.Map<EditProfileCommand>((loggedUserId ,userId, request));
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<UserResponse>(result)),

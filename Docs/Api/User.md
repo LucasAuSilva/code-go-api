@@ -122,6 +122,52 @@ POST /user/{otherUserId}/request/{requestId}/response
 
 ---
 
+### Edit Profile
+
+> This routes is used for user for edit his profile on the website
+
+#### Edit Profile Request
+
+```http
+POST /user/{userId}/edit
+```
+
+```json
+{
+    "FirstName": "Lucas Augusto",
+    "LastName": "Silva",
+    "Email": "lucas@email.com",
+    // Can be: Public - 1 and Private - 2
+    "Visibility": 1, //only numbers
+    "Bio": "I'm like very much to develop in C# and NodeJS"
+}
+```
+
+#### Edit Profile Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "firstName": "Lucas Augusto",
+  "lastName": "Silva",
+  "email": "lucas@email.com",
+  "profilePicture": null, // or https://imagem.com
+  "bio": "I'm like very much to develop in C# and NodeJS", // or null
+  "streakCount": 0,
+  "experiencePoints": 0,
+  "level": "00000000-0000-0000-0000-000000000000",
+  "friendshipRequests": [],
+  "friendIds": [],
+  "courseIds": []
+}
+```
+
+---
+
 ### General Responses
 
 ```http
@@ -139,6 +185,25 @@ POST /user/{otherUserId}/request/{requestId}/response
       "User with this id doesn't exists"
     ]
   }
+}
+```
+
+---
+
+```http
+403 Forbidden
+```
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.3",
+  "title": "Forbidden",
+  "status": 403,
+  "detail": "User logged can access this content",
+  "traceId": "00-00000000000000000000000000000000-0000000000000000-00",
+  "errorsCodes": [
+    "User.CantAccess"
+  ]
 }
 ```
 

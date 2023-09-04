@@ -5,6 +5,7 @@ using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Enums;
 using CodeGo.Domain.UserAggregateRoot.Entities;
 using ErrorOr;
+using CodeGo.Domain.Common.Errors;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -14,14 +15,14 @@ public sealed class User : AggregateRoot<UserId, Guid>
     private List<UserId> _friendIds = new();
     private List<UserId> _blockedUserIds = new();
     private List<FriendshipRequest> _friendshipRequests = new();
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string Email { get; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string Email { get; private set; }
     public string Password { get; }
-    public ProfileVisibility Visibility { get; }
+    public ProfileVisibility Visibility { get; private set; }
     public UserRole Role { get; }
     public string? ProfilePicture { get; }
-    public string? Bio { get; }
+    public string? Bio { get; private set; }
     public Streak DayStreak { get; }
     public ExperiencePoints Experience { get; }
     public LevelId Level { get; }
@@ -146,5 +147,17 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public void AddFriend(UserId id)
     {
         _friendIds.Add(id);
+    }
+
+    public ErrorOr<Success> EditProfile(string firstName, string lastName, string email, int visibility, string? bio)
+    {
+        if (!ProfileVisibility.TryFromValue(visibility, out var profileVisibility))
+            return Errors.User.ProfileVisibilityIncorrect;
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        Visibility = profileVisibility;
+        Bio = bio;
+        return Result.Success;
     }
 }
