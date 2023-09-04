@@ -1,3 +1,4 @@
+using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
@@ -19,6 +20,7 @@ public class UserMappingConfig : IRegister
         SendFriendRequestMapping(config);
         UserProfileMapping(config);
         ResponseFriendshipRequestMapping(config);
+        EditProfileRequestMapping(config);
     }
 
     private static void RegisterCourseCommandMapping(TypeAdapterConfig config)
@@ -61,6 +63,15 @@ public class UserMappingConfig : IRegister
         >()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest.ReceiverId, src => src.ReceiverId)
+            .Map(dest => dest, src => src.Request);
+    }
+
+    private static void EditProfileRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(
+            string LoggedUserId, string UserId, EditProfileRequest Request), EditProfileCommand>()
+            .Map(dest => dest.LoggedUserId , src => src.LoggedUserId)
+            .Map(dest => dest.UserId , src => src.UserId)
             .Map(dest => dest, src => src.Request);
     }
 
