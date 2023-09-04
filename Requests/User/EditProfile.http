@@ -1,0 +1,11 @@
+POST {{baseUrl}}/user/{{userId}}/edit
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "FirstName": "Lucas Augusto",
+    "LastName": "Silva",
+    "Email": "lucas@email.com",
+    "Visibility": 1,
+    "Bio": "I'm like very much to develop in C# and NodeJS"
+}
