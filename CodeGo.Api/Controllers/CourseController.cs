@@ -14,6 +14,7 @@ using CodeGo.Application.Courses.Queries.ListCourses;
 namespace CodeGo.Api.Controllers;
 
 [Route("[controller]")]
+[AllowAnonymous]
 public class CourseController : ApiController
 {
     private readonly ISender _sender;
