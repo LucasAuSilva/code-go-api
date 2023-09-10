@@ -11,6 +11,7 @@ public record UserResponse(
     int StreakCount,
     int ExperiencePoints,
     string Level,
+    int Visibility,
     List<FriendshipRequestResponse> FriendshipRequests,
     List<string> FriendIds,
     List<string> CourseIds

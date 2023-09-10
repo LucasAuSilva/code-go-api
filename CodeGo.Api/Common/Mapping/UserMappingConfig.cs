@@ -42,7 +42,8 @@ public class UserMappingConfig : IRegister
                 src => src.CourseIds.AsEnumerable().Select(id => id.Value.ToString()).ToList())
             .Map(
                 dest => dest.FriendIds,
-                src => src.FriendIds.AsEnumerable().Select(id => id.Value.ToString()).ToList());
+                src => src.FriendIds.AsEnumerable().Select(id => id.Value.ToString()).ToList())
+            .Map(dest => dest.Visibility, src => src.Visibility.Value);
         
         config.NewConfig<FriendshipRequest, FriendshipRequestResponse>()
             .Map(dest => dest.Id, src => src.Id.Value.ToString())
