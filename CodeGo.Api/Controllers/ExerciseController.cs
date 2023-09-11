@@ -23,7 +23,8 @@ public class ExerciseController : ApiController
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateExercise([FromBody] CreateExerciseRequest request)
     {
         var command = _mapper.Map<CreateExerciseCommand>(request);
