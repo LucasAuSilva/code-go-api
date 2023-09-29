@@ -16,7 +16,9 @@ public class CreateQuestionCommandValidator : AbstractValidator<CreateQuestionCo
         RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();
         RuleFor(x => x.DifficultyValue).NotEmpty();
-        RuleForEach(x => x.Alternatives).SetValidator(new CreateAlternativeCommandValidator());
+        RuleForEach(x => x.Alternatives)
+            .NotEmpty()
+            .SetValidator(new CreateAlternativeCommandValidator());
     }
 }
 

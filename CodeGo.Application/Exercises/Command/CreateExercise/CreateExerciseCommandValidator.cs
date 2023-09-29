@@ -18,7 +18,9 @@ public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCo
         RuleFor(x => x.BaseCode).NotEmpty();
         RuleFor(x => x.DifficultyValue).NotEmpty();
         RuleFor(x => x.TypeValue).NotEmpty();
-        RuleForEach(x => x.TestCases).SetValidator(new CreateTestCaseCommandValidator());
+        RuleForEach(x => x.TestCases)
+            .NotEmpty()
+            .SetValidator(new CreateTestCaseCommandValidator());
     }
 }
 
