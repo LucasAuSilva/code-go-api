@@ -3,7 +3,10 @@
 
 - [Code&Go API](../../README.md)
   - [User](#user)
+    - [Edit Profile](#edit-profile)
     - [Register Course](#register-course)
+    - [Response Friendship](#response-friendship)
+    - [Send Friendship](#send-friendship)
 
 ## User
 

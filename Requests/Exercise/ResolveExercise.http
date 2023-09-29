@@ -1,5 +1,6 @@
 POST {{baseUrl}}/exercise/{{exerciseId}}/resolve/{{testCaseId}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "solutionCode": "var myVariable = \"I'm an variable\""
