@@ -21,8 +21,6 @@ public class EditProfileCommandHandler : IRequestHandler<EditProfileCommand, Err
     public async Task<ErrorOr<User>> Handle(EditProfileCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        if (!command.UserId.Equals(command.LoggedUserId))
-            return Errors.User.CantAccess;
         var user = _userRepository.FindById(UserId.Create(command.UserId));
         if (user is null)
             return Errors.User.NotFound;
