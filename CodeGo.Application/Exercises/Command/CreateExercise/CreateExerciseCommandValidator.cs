@@ -1,4 +1,4 @@
-using System.Security.Cryptography.Xml;
+using CodeGo.Application.Common.Validators;
 using FluentValidation;
 
 namespace CodeGo.Application.Exercises.Command.CreateExercise;
@@ -7,13 +7,17 @@ public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCo
 {
     public CreateExerciseCommandValidator()
     {
+        RuleFor(x => x.CourseId)
+            .NotEmpty()
+            .IsId();
+        RuleFor(x => x.CategoryId)
+            .NotEmpty()
+            .IsId();
         RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();
         RuleFor(x => x.BaseCode).NotEmpty();
         RuleFor(x => x.DifficultyValue).NotEmpty();
         RuleFor(x => x.TypeValue).NotEmpty();
-        RuleFor(x => x.CourseId).NotEmpty();
-        RuleFor(x => x.CategoryId).NotEmpty();
         RuleForEach(x => x.TestCases).SetValidator(new CreateTestCaseCommandValidator());
     }
 }
