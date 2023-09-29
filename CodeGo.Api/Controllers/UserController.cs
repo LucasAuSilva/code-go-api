@@ -4,7 +4,6 @@ using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Queries;
 using CodeGo.Contracts.Users;
-using CodeGo.Domain.UserAggregateRoot.Entities;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
