@@ -27,9 +27,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
         // find email for validation
-        var result = _userRepository.FindByEmail(command.Email);
+        var result = await _userRepository.FindByEmail(command.Email);
         if (result is not null)
             return Errors.User.DuplicateEmail;
         // encrypt password
