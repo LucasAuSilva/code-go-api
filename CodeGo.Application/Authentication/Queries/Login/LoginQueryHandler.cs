@@ -28,7 +28,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
     {
         await Task.CompletedTask;
         // check if user exists
-        var user = _userRepository.FindByEmail(query.Email);
+        var user = await _userRepository.FindByEmail(query.Email);
         if (user is null)
             return Errors.Authentication.InvalidCredentials;
         // check user hashed password

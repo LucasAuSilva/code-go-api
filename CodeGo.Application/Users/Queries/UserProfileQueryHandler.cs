@@ -23,14 +23,14 @@ public class UserProfileQueryHandler : IRequestHandler<UserProfileQuery, ErrorOr
         await Task.CompletedTask;
         // Check if logged user exists
         var loggedUserId = UserId.Create(query.LoggedUserId);
-        var loggedUser = _userRepository.FindById(loggedUserId);
+        var loggedUser = await _userRepository.FindById(loggedUserId);
         if (loggedUser is null)
             return Errors.User.NotFound;
         var userId = UserId.Create(query.UserId);
         if (loggedUser.Id.Equals(userId))
             return loggedUser;
         // Check if userId exists
-        var user = _userRepository.FindById(userId);
+        var user = await _userRepository.FindById(userId);
         if (user is null)
             return Errors.User.NotFound;
         // Check if logged user can see profile

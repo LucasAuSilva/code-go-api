@@ -21,7 +21,7 @@ public class EditProfileCommandHandler : IRequestHandler<EditProfileCommand, Err
     public async Task<ErrorOr<User>> Handle(EditProfileCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        var user = _userRepository.FindById(UserId.Create(command.UserId));
+        var user = await _userRepository.FindById(UserId.Create(command.UserId));
         if (user is null)
             return Errors.User.NotFound;
         var result = user.EditProfile(
@@ -33,7 +33,7 @@ public class EditProfileCommandHandler : IRequestHandler<EditProfileCommand, Err
         );
         if (result.IsError)
             return result.Errors;
-        _userRepository.Update(user);
+        await _userRepository.Update(user);
         return user;
     }
 }

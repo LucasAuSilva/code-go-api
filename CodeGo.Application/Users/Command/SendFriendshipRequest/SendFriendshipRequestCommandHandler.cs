@@ -25,14 +25,14 @@ public class SendFriendshipRequestCommandHandler
     {
         await Task.CompletedTask;
         var requesterId = UserId.Create(command.UserId);
-        var requester = _userRepository.FindById(requesterId)!;
-        var receiver = _userRepository.FindById(UserId.Create(command.ReceiverId));
-        if (receiver is null)
+        var requester = await _userRepository.FindById(requesterId)!;
+        var receiver = await _userRepository.FindById(UserId.Create(command.ReceiverId));
+        if (receiver is null || requester is null)
             return Errors.User.NotFound;
         receiver.ReceiveFriendshipRequest(
             requester,
             command.Message);
-        _userRepository.Update(receiver);
+        await _userRepository.Update(receiver);
         var request = receiver.FriendshipRequests.FirstOrDefault(
             fr => fr.RequesterId.Equals(requesterId)
         );

@@ -9,23 +9,27 @@ public class UserRepository : IUserRepository
 {
     private static readonly List<User> _users = new();
 
-    public void Add(User user)
+    public async Task Add(User user)
     {
+        await Task.CompletedTask;
         _users.Add(user);
     }
 
-    public User? FindByEmail(string email)
+    public async Task<User?> FindByEmail(string email)
     {
+        await Task.CompletedTask;
         return _users.Find(user => user.Email == email);
     }
 
-    public User? FindById(UserId id)
+    public async Task<User?> FindById(UserId id)
     {
+        await Task.CompletedTask;
         return _users.Find(user => user.Id == id);
     }
 
-    public void Update(User user)
+    public async Task Update(User user)
     {
+        await Task.CompletedTask;
         _users.Remove(user);
         _users.Add(user);
     }

@@ -41,7 +41,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             command.Email,
             hashedPassword);
         // save user and return
-        _userRepository.Add(user);
+        await _userRepository.Add(user);
         var token = _jwtTokenGenerator.GenerateToken(user);
         return new AuthenticationResult(
             user.Id.Value,

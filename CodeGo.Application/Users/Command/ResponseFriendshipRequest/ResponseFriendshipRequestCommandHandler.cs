@@ -22,11 +22,10 @@ public class ResponseFriendshipRequestCommandHandler
         ResponseFriendshipRequestCommand command,
         CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
         if (!command.LoggedUserId.Equals(command.UserId))
             return Errors.User.CantAccess;
         var userId = UserId.Create(command.UserId);
-        var user = _userRepository.FindById(userId);
+        var user = await _userRepository.FindById(userId);
         if (user is null)
             return Errors.User.NotFound;
         var result = user.RespondFriendRequest(
@@ -34,12 +33,12 @@ public class ResponseFriendshipRequestCommandHandler
             FriendshipRequestStatus.FromValue(command.Response));
         if (!result.IsError)
         {
-            var requester = _userRepository.FindById(result.Value);
+            var requester = await _userRepository.FindById(result.Value);
             if (requester is null)
                 return Errors.User.RequesterNotFound;
             requester.AddFriend(userId);
         }
-        _userRepository.Update(user);
+        await _userRepository.Update(user);
         return user;
     }
 }
