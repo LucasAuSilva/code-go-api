@@ -2,8 +2,8 @@
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
+using CodeGo.Domain.UserAggregateRoot;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CodeGo.Infrastructure.Persistance;
 
@@ -13,6 +13,7 @@ public class CodeGoDbContext : DbContext
         : base(options)
     {}
 
+    public DbSet<User> Users { get; set; } = null!;
     public DbSet<Question> Questions { get; set; } = null!;
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<Course> Courses { get; set; } = null!;
