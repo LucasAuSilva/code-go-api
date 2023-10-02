@@ -5,3 +5,14 @@ Content-Type: application/json
     "Email": "lucas@email.com",
     "Password": "lucas@1234"
 }
+
+###
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "Email": "guilherme@email.com",
+    "Password": "guilherme@1234"
+}
+
