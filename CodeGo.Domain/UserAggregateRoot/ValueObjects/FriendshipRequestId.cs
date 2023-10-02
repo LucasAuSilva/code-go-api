@@ -3,7 +3,6 @@ using CodeGo.Domain.Common.Models;
 
 namespace CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
-// TODO: Put photo and name for the requester
 public sealed class FriendshipRequestId : ValueObject
 {
     public Guid Value { get; private set; }
@@ -23,8 +22,17 @@ public sealed class FriendshipRequestId : ValueObject
         return new FriendshipRequestId(Guid.Parse(value));
     }
 
+    public static FriendshipRequestId Create(Guid value)
+    {
+        return new FriendshipRequestId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618
+    private FriendshipRequestId() {}
+#pragma warning restore CS8618
 }

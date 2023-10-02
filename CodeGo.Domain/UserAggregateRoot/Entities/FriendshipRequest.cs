@@ -6,23 +6,31 @@ namespace CodeGo.Domain.UserAggregateRoot.Entities;
 
 public sealed class FriendshipRequest : Entity<FriendshipRequestId>
 {
-    public UserId Requester { get; }
+    public UserId RequesterId { get; }
+    public string RequesterEmail { get; }
+    public string? RequesterPhoto { get; }
     public string Message { get; }
     public FriendshipRequestStatus Status { get; private set; }
 
     private FriendshipRequest(
         FriendshipRequestId id,
-        UserId requester,
+        string requesterEmail,
+        string? requesterPhoto,
+        UserId requesterId,
         FriendshipRequestStatus status,
         string message) : base(id)
     {
-        Requester = requester;
+        RequesterId = requesterId;
+        RequesterEmail = requesterEmail;
+        RequesterPhoto = requesterPhoto;
         Status = status;
         Message = message;
     }
 
     public static FriendshipRequest CreateNew(
-        UserId requester,
+        UserId requesterId,
+        string requesterEmail,
+        string? requesterPhoto,
         string? message
     )
     {
@@ -30,7 +38,9 @@ public sealed class FriendshipRequest : Entity<FriendshipRequestId>
 
         return new FriendshipRequest(
             id: FriendshipRequestId.CreateNew(),
-            requester: requester,
+            requesterId: requesterId,
+            requesterEmail: requesterEmail,
+            requesterPhoto: requesterPhoto,
             status: FriendshipRequestStatus.Pending,
             message: message
         );
@@ -55,4 +65,8 @@ public sealed class FriendshipRequest : Entity<FriendshipRequestId>
     {
         Status = FriendshipRequestStatus.Accepted;
     }
+
+#pragma warning disable CS8618
+    private FriendshipRequest() {}
+#pragma warning restore CS8618
 }

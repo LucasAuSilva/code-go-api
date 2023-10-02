@@ -2,31 +2,38 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private static readonly List<User> _users = new();
+    private readonly CodeGoDbContext _dbContext;
 
-    public void Add(User user)
+    public UserRepository(CodeGoDbContext dbContext)
     {
-        _users.Add(user);
+        _dbContext = dbContext;
     }
 
-    public User? FindByEmail(string email)
+    public async Task Add(User user)
     {
-        return _users.Find(user => user.Email == email);
+        await _dbContext.AddAsync(user);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public User? FindById(UserId id)
+    public async Task<User?> FindByEmail(string email)
     {
-        return _users.Find(user => user.Id == id);
+        return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email); 
     }
 
-    public void Update(User user)
+    public async Task<User?> FindById(UserId id)
     {
-        _users.Remove(user);
-        _users.Add(user);
+        return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id); 
+    }
+
+    public async Task Update(User user)
+    {
+        _dbContext.Update(user);
+        await _dbContext.SaveChangesAsync();
     }
 }

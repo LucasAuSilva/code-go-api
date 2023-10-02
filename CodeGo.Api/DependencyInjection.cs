@@ -27,6 +27,6 @@ public static class DependencyInjection
 
     public static bool IsDocker(this IWebHostEnvironment environment)
     {
-        return environment.Equals("Docker");
+        return environment.EnvironmentName.Equals("Docker");
     }
 }

@@ -20,5 +20,7 @@ public record UserResponse(
 public record FriendshipRequestResponse(
     string Id,
     string RequesterId,
+    string RequesterEmail,
+    string RequesterPhoto,
     string Message
 );

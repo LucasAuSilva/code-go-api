@@ -48,7 +48,6 @@ public static class DependencyInjection
         services.AddDbContext<CodeGoDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("CodeGoDatabase")));
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ILevelRepository, LevelRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();
         services.AddScoped<IExerciseRepository, ExerciseRepository>();

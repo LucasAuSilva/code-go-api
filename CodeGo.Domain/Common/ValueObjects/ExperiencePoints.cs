@@ -26,4 +26,8 @@ public sealed class ExperiencePoints : ValueObject
     {
         yield return Points;
     }
+
+#pragma warning disable CS8618
+    private ExperiencePoints() {}
+#pragma warning restore CS8618
 }

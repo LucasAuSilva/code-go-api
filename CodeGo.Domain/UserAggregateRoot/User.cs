@@ -1,6 +1,5 @@
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
-using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Enums;
 using CodeGo.Domain.UserAggregateRoot.Entities;
@@ -25,7 +24,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string? Bio { get; private set; }
     public Streak DayStreak { get; }
     public ExperiencePoints Experience { get; }
-    public LevelId Level { get; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
@@ -43,7 +41,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
         UserRole role,
         Streak dayStreak,
         ExperiencePoints experience,
-        LevelId level,
         DateTime createdAt,
         DateTime updatedAt,
         string? profilePicture = null,
@@ -57,7 +54,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Role = role;
         DayStreak = dayStreak;
         Experience = experience;
-        Level = level;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         ProfilePicture = profilePicture;
@@ -68,8 +64,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string firstName,
         string lastName,
         string email,
-        string password,
-        LevelId level)
+        string password)
     {
         var streak = Streak.CreateNew();
         var points = ExperiencePoints.CreateNew();
@@ -83,7 +78,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
             role: UserRole.User,
             dayStreak: streak,
             experience: points,
-            level: level,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
@@ -105,18 +99,23 @@ public sealed class User : AggregateRoot<UserId, Guid>
     }
 
     public void ReceiveFriendshipRequest(
-        UserId userId,
+        User user,
         string? message
     )
     {
         // TODO: Invariant for checking if already has an friendship request with that user
         // TODO: Understand if has to return something when user is blocked
+        var userId = UserId.Create(user.Id.Value);
         if (_blockedUserIds.Contains(userId))
             return;
-        var request = _friendshipRequests.Find(fr => fr.Requester.Equals(userId));
+        var request = _friendshipRequests.Find(fr => fr.RequesterId.Equals(userId));
         if (request is not null && request.Status.Equals(FriendshipRequestStatus.Ignored))
             return;
-        var friendshipRequest = FriendshipRequest.CreateNew(userId, message);
+        var friendshipRequest = FriendshipRequest.CreateNew(
+            userId,
+            user.Email,
+            user.ProfilePicture,
+            message);
         _friendshipRequests.Add(friendshipRequest);
     }
 
@@ -125,23 +124,23 @@ public sealed class User : AggregateRoot<UserId, Guid>
         FriendshipRequestStatus status
     )
     {
-        var request = _friendshipRequests.First(fr => fr.Id.Equals(requestId));
+        var request = _friendshipRequests.FirstOrDefault(fr => fr.Id.Equals(requestId));
         if (request is null)
-            return Error.Failure();
+            return Errors.Users.RequestNotFound;
         status
             .When(FriendshipRequestStatus.Accepted).Then(() => {
                 request.Accept();
-                AddFriend(request.Requester);
+                AddFriend(request.RequesterId);
             })
             .When(FriendshipRequestStatus.Blocked).Then(() => {
                 request.Blocked();
-                _blockedUserIds.Add(request.Requester);
+                _blockedUserIds.Add(request.RequesterId);
             })
             .When(FriendshipRequestStatus.Ignored).Then(request.Ignored)
             .When(FriendshipRequestStatus.Refused).Then(request.Refused);
         if (!request.Status.Equals(FriendshipRequestStatus.Accepted))
             return Error.Failure();
-        return request.Requester;
+        return request.RequesterId;
     }
 
     public void AddFriend(UserId id)
@@ -152,7 +151,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public ErrorOr<Success> EditProfile(string firstName, string lastName, string email, int visibility, string? bio)
     {
         if (!ProfileVisibility.TryFromValue(visibility, out var profileVisibility))
-            return Errors.User.ProfileVisibilityIncorrect;
+            return Errors.Users.ProfileVisibilityIncorrect;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
@@ -160,4 +159,8 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Bio = bio;
         return Result.Success;
     }
+
+#pragma warning disable CS8618
+    private User() {}
+#pragma warning restore CS8618
 }

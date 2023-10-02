@@ -24,4 +24,8 @@ public sealed class Streak : ValueObject
         yield return StreakCount;
         yield return StreakLastUpdate;
     }
+
+#pragma warning disable CS8618
+    private Streak() {}
+#pragma warning restore CS8618
 }

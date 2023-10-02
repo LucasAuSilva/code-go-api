@@ -5,7 +5,7 @@ namespace CodeGo.Domain.Common.Errors;
 
 public static partial class Errors
 {
-    public static class User
+    public static class Users
     {
         public static Error DuplicateEmail => Error.Validation(
             code: "User.DuplicateEmail",
@@ -18,6 +18,10 @@ public static partial class Errors
         public static Error RequesterNotFound => Error.NotFound(
             code: "User.RequesterNotFound",
             description: "Requester with this id doesn't exists");
+
+        public static Error RequestNotFound => Error.NotFound(
+            code: "User.FriendshipRequestNotFound",
+            description: "Request with this id doesn't exists");
 
         public static Error CantAccess => Error.Custom(
             type: CustomErrorTypes.Forbidden,

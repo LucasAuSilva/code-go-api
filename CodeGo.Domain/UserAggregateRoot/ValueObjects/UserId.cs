@@ -22,8 +22,17 @@ public sealed class UserId : AggregateRootId<Guid>
         return new UserId(Guid.Parse(value));
     }
 
+    public static UserId Create(Guid value)
+    {
+        return new UserId(value);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618
+    private UserId() {}
+#pragma warning restore CS8618
 }
