@@ -99,18 +99,23 @@ public sealed class User : AggregateRoot<UserId, Guid>
     }
 
     public void ReceiveFriendshipRequest(
-        UserId userId,
+        User user,
         string? message
     )
     {
         // TODO: Invariant for checking if already has an friendship request with that user
         // TODO: Understand if has to return something when user is blocked
+        var userId = UserId.Create(user.Id.Value);
         if (_blockedUserIds.Contains(userId))
             return;
-        var request = _friendshipRequests.Find(fr => fr.Requester.Equals(userId));
+        var request = _friendshipRequests.Find(fr => fr.RequesterId.Equals(userId));
         if (request is not null && request.Status.Equals(FriendshipRequestStatus.Ignored))
             return;
-        var friendshipRequest = FriendshipRequest.CreateNew(userId, message);
+        var friendshipRequest = FriendshipRequest.CreateNew(
+            userId,
+            user.Email,
+            user.ProfilePicture,
+            message);
         _friendshipRequests.Add(friendshipRequest);
     }
 
@@ -125,17 +130,17 @@ public sealed class User : AggregateRoot<UserId, Guid>
         status
             .When(FriendshipRequestStatus.Accepted).Then(() => {
                 request.Accept();
-                AddFriend(request.Requester);
+                AddFriend(request.RequesterId);
             })
             .When(FriendshipRequestStatus.Blocked).Then(() => {
                 request.Blocked();
-                _blockedUserIds.Add(request.Requester);
+                _blockedUserIds.Add(request.RequesterId);
             })
             .When(FriendshipRequestStatus.Ignored).Then(request.Ignored)
             .When(FriendshipRequestStatus.Refused).Then(request.Refused);
         if (!request.Status.Equals(FriendshipRequestStatus.Accepted))
             return Error.Failure();
-        return request.Requester;
+        return request.RequesterId;
     }
 
     public void AddFriend(UserId id)

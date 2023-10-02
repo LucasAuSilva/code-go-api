@@ -46,7 +46,7 @@ public class UserMappingConfig : IRegister
         
         config.NewConfig<FriendshipRequest, FriendshipRequestResponse>()
             .Map(dest => dest.Id, src => src.Id.Value.ToString())
-            .Map(dest => dest.RequesterId, src => src.Requester.Value.ToString());
+            .Map(dest => dest.RequesterId, src => src.RequesterId.Value.ToString());
     }
 
     private static void UserProfileMapping(TypeAdapterConfig config)
