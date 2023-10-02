@@ -419,6 +419,29 @@ namespace CodeGo.Infrastructure.Migrations
 
             modelBuilder.Entity("CodeGo.Domain.UserAggregateRoot.User", b =>
                 {
+                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.ValueObjects.UserId", "FriendIds", b1 =>
+                        {
+                            b1.Property<Guid>("ReceiverId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("RequesterId");
+
+                            b1.HasKey("ReceiverId", "Id");
+
+                            b1.ToTable("userFriendIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("ReceiverId");
+                        });
+
                     b.OwnsMany("CodeGo.Domain.CourseAggregateRoot.ValueObjects.CourseId", "CourseIds", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -476,7 +499,7 @@ namespace CodeGo.Infrastructure.Migrations
 
                             b1.HasIndex("UserId");
 
-                            b1.ToTable("friendship_requests", (string)null);
+                            b1.ToTable("friendshipRequests", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
@@ -502,31 +525,6 @@ namespace CodeGo.Infrastructure.Migrations
                             b1.HasIndex("UserId");
 
                             b1.ToTable("userBlockedIds", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.ValueObjects.UserId", "FriendIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("FriendId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("UserId");
-
-                            b1.ToTable("userFriendIds", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");

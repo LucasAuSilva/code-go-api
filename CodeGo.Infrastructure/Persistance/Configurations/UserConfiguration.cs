@@ -2,7 +2,6 @@
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.Enums;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,7 +22,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.OwnsMany(u => u.FriendshipRequests, frb =>
         {
-            frb.ToTable("friendship_requests");
+            frb.ToTable("friendshipRequests");
             frb.WithOwner().HasForeignKey("UserId");
             frb.HasKey("Id", "UserId");
             frb.Property(fr => fr.Id)
@@ -69,10 +68,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.OwnsMany(u => u.FriendIds, fib =>
         {
             fib.ToTable("userFriendIds");
-            fib.WithOwner().HasForeignKey("UserId");
-            fib.HasKey("Id");
+            fib.WithOwner().HasForeignKey("ReceiverId");
             fib.Property(fi => fi.Value)
-                .HasColumnName("FriendId")
+                .HasColumnName("RequesterId")
                 .ValueGeneratedNever();
         });
         builder.Metadata.FindNavigation(nameof(User.FriendIds))!
