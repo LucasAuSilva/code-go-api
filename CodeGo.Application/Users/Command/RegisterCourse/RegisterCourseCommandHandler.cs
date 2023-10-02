@@ -30,7 +30,7 @@ public class RegisterCourseCommandHandler : IRequestHandler<RegisterCourseComman
         // Find User
         var user = await _userRepository.FindById(UserId.Create(command.UserId));
         if (user is null)
-            return Errors.User.NotFound;
+            return Errors.Users.NotFound;
         // Register Course In User
         user.RegisterCourse(courseId);
         // Save In Database

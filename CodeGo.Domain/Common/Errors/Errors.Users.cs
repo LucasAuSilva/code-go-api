@@ -5,7 +5,7 @@ namespace CodeGo.Domain.Common.Errors;
 
 public static partial class Errors
 {
-    public static class User
+    public static class Users
     {
         public static Error DuplicateEmail => Error.Validation(
             code: "User.DuplicateEmail",

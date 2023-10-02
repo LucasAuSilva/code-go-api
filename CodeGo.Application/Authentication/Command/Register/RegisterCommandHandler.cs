@@ -30,7 +30,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         // find email for validation
         var result = await _userRepository.FindByEmail(command.Email);
         if (result is not null)
-            return Errors.User.DuplicateEmail;
+            return Errors.Users.DuplicateEmail;
         // encrypt password
         var hashedPassword = _hashGenerator.GenerateHash(command.Password);
         // pass to domain

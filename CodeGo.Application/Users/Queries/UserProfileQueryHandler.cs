@@ -25,17 +25,17 @@ public class UserProfileQueryHandler : IRequestHandler<UserProfileQuery, ErrorOr
         var loggedUserId = UserId.Create(query.LoggedUserId);
         var loggedUser = await _userRepository.FindById(loggedUserId);
         if (loggedUser is null)
-            return Errors.User.NotFound;
+            return Errors.Users.NotFound;
         var userId = UserId.Create(query.UserId);
         if (loggedUser.Id.Equals(userId))
             return loggedUser;
         // Check if userId exists
         var user = await _userRepository.FindById(userId);
         if (user is null)
-            return Errors.User.NotFound;
+            return Errors.Users.NotFound;
         // Check if logged user can see profile
         if (!user.CheckProfileAccess(loggedUser))
-            return Errors.User.CantAccess;
+            return Errors.Users.CantAccess;
         // return profile
         return user;
     }

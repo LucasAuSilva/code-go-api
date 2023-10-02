@@ -126,7 +126,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     {
         var request = _friendshipRequests.FirstOrDefault(fr => fr.Id.Equals(requestId));
         if (request is null)
-            return Errors.User.RequestNotFound;
+            return Errors.Users.RequestNotFound;
         status
             .When(FriendshipRequestStatus.Accepted).Then(() => {
                 request.Accept();
@@ -151,7 +151,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public ErrorOr<Success> EditProfile(string firstName, string lastName, string email, int visibility, string? bio)
     {
         if (!ProfileVisibility.TryFromValue(visibility, out var profileVisibility))
-            return Errors.User.ProfileVisibilityIncorrect;
+            return Errors.Users.ProfileVisibilityIncorrect;
         FirstName = firstName;
         LastName = lastName;
         Email = email;

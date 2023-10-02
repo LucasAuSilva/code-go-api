@@ -28,7 +28,7 @@ public class SendFriendshipRequestCommandHandler
         var requester = await _userRepository.FindById(requesterId)!;
         var receiver = await _userRepository.FindById(UserId.Create(command.ReceiverId));
         if (receiver is null || requester is null)
-            return Errors.User.NotFound;
+            return Errors.Users.NotFound;
         receiver.ReceiveFriendshipRequest(
             requester,
             command.Message);
@@ -37,7 +37,7 @@ public class SendFriendshipRequestCommandHandler
             fr => fr.RequesterId.Equals(requesterId)
         );
         if (request is null)
-            return Errors.User.NotFound;
+            return Errors.Users.NotFound;
         return request;
     }
 }
