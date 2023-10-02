@@ -2,7 +2,7 @@ using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
-using CodeGo.Application.Users.Queries;
+using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.Entities;
