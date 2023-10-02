@@ -1,6 +1,5 @@
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
-using CodeGo.Domain.LevelAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Enums;
 using CodeGo.Domain.UserAggregateRoot.Entities;
@@ -25,7 +24,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string? Bio { get; private set; }
     public Streak DayStreak { get; }
     public ExperiencePoints Experience { get; }
-    public LevelId Level { get; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
@@ -43,7 +41,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
         UserRole role,
         Streak dayStreak,
         ExperiencePoints experience,
-        LevelId level,
         DateTime createdAt,
         DateTime updatedAt,
         string? profilePicture = null,
@@ -57,7 +54,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Role = role;
         DayStreak = dayStreak;
         Experience = experience;
-        Level = level;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         ProfilePicture = profilePicture;
@@ -68,8 +64,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string firstName,
         string lastName,
         string email,
-        string password,
-        LevelId level)
+        string password)
     {
         var streak = Streak.CreateNew();
         var points = ExperiencePoints.CreateNew();
@@ -83,7 +78,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
             role: UserRole.User,
             dayStreak: streak,
             experience: points,
-            level: level,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
