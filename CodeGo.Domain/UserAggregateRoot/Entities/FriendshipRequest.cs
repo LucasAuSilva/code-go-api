@@ -65,4 +65,8 @@ public sealed class FriendshipRequest : Entity<FriendshipRequestId>
     {
         Status = FriendshipRequestStatus.Accepted;
     }
+
+#pragma warning disable CS8618
+    private FriendshipRequest() {}
+#pragma warning restore CS8618
 }
