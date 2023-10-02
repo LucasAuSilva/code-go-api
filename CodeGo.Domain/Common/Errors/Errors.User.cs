@@ -19,6 +19,10 @@ public static partial class Errors
             code: "User.RequesterNotFound",
             description: "Requester with this id doesn't exists");
 
+        public static Error RequestNotFound => Error.NotFound(
+            code: "User.FriendshipRequestNotFound",
+            description: "Request with this id doesn't exists");
+
         public static Error CantAccess => Error.Custom(
             type: CustomErrorTypes.Forbidden,
             code: "User.CantAccess",

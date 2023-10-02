@@ -124,9 +124,9 @@ public sealed class User : AggregateRoot<UserId, Guid>
         FriendshipRequestStatus status
     )
     {
-        var request = _friendshipRequests.First(fr => fr.Id.Equals(requestId));
+        var request = _friendshipRequests.FirstOrDefault(fr => fr.Id.Equals(requestId));
         if (request is null)
-            return Error.Failure();
+            return Errors.User.RequestNotFound;
         status
             .When(FriendshipRequestStatus.Accepted).Then(() => {
                 request.Accept();

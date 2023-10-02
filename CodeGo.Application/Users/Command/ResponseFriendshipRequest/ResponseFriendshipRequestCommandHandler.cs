@@ -31,13 +31,12 @@ public class ResponseFriendshipRequestCommandHandler
         var result = user.RespondFriendRequest(
             FriendshipRequestId.Create(command.RequestId),
             FriendshipRequestStatus.FromValue(command.Response));
-        if (!result.IsError)
-        {
-            var requester = await _userRepository.FindById(result.Value);
-            if (requester is null)
-                return Errors.User.RequesterNotFound;
-            requester.AddFriend(userId);
-        }
+        if (result.IsError)
+            return result.Errors;
+        var requester = await _userRepository.FindById(result.Value);
+        if (requester is null)
+            return Errors.User.RequesterNotFound;
+        requester.AddFriend(userId);
         await _userRepository.Update(user);
         return user;
     }
