@@ -160,6 +160,13 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return Result.Success;
     }
 
+    public List<FriendshipRequest> GetFriendRequests(FriendshipRequestStatus status)
+    {
+        return _friendshipRequests
+            .Where(fr => fr.Status.Equals(status))
+            .ToList();
+    }
+
 #pragma warning disable CS8618
     private User() {}
 #pragma warning restore CS8618

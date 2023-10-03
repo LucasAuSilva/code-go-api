@@ -31,5 +31,9 @@ public static partial class Errors
         public static Error ProfileVisibilityIncorrect => Error.Validation(
             code: "User.ProfileVisibilityIncorrect",
             description: "Profile Visibility value is not valid");
+
+        public static Error FriendRequestStatusIncorrect => Error.Validation(
+            code: "User.FriendRequestStatusIncorrect",
+            description: "Friend Status value is not valid");
     }
 }
