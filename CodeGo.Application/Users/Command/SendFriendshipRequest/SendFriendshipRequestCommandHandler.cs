@@ -23,21 +23,17 @@ public class SendFriendshipRequestCommandHandler
         SendFriendshipRequestCommand command,
         CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
         var requesterId = UserId.Create(command.UserId);
         var requester = await _userRepository.FindById(requesterId)!;
         var receiver = await _userRepository.FindById(UserId.Create(command.ReceiverId));
         if (receiver is null || requester is null)
             return Errors.Users.NotFound;
-        receiver.ReceiveFriendshipRequest(
+        var result = receiver.ReceiveFriendshipRequest(
             requester,
             command.Message);
+        if (result.IsError)
+            return result.Errors;
         await _userRepository.Update(receiver);
-        var request = receiver.FriendshipRequests.FirstOrDefault(
-            fr => fr.RequesterId.Equals(requesterId)
-        );
-        if (request is null)
-            return Errors.Users.NotFound;
-        return request;
+        return result.Value;
     }
 }

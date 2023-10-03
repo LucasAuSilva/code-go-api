@@ -1,4 +1,5 @@
 
+using System.Net.NetworkInformation;
 using ErrorOr;
 
 namespace CodeGo.Domain.Common.Errors;
@@ -35,5 +36,13 @@ public static partial class Errors
         public static Error FriendRequestStatusIncorrect => Error.Validation(
             code: "User.FriendRequestStatusIncorrect",
             description: "Friend Status value is not valid");
+
+        public static Error Blocked => Error.Validation(
+            code: "User.Blocked",
+            description: "This requester was blocked by the user");
+
+        public static Error AlreadyRequested => Error.Validation(
+            code: "User.AlreadyRequested",
+            description: "Already send an friend request to this user");
     }
 }
