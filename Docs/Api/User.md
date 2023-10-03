@@ -5,8 +5,9 @@
   - [User](#user)
     - [Edit Profile](#edit-profile)
     - [Register Course](#register-course)
-    - [Response Friendship](#response-friendship)
-    - [Send Friendship](#send-friendship)
+    - [Response Friend Request](#response-friend-request)
+    - [Send Friend Request](#send-friend-request)
+    - [List Friends Request](#list-friends-requests)
 
 ## User
 
@@ -50,11 +51,11 @@ POST /user/{userId}/register/{courseId}
 
 ---
 
-### Send Friendship
+### Send Friend Request
 
 > This routes is used for send an friendship request to another user.
 
-#### Send Friendship Request
+#### Send 'Friend Request' Request
 
 ```http
 POST /user/{userId}/request/{otherUserId}
@@ -66,7 +67,7 @@ POST /user/{userId}/request/{otherUserId}
 }
 ```
 
-#### Send Friendship Response
+#### Send 'Friend Request' Response
 
 ```http
 200 OK
@@ -83,11 +84,11 @@ POST /user/{userId}/request/{otherUserId}
 
 ---
 
-### Response Friendship
+### Response Friend Request
 
 > This routes is used for respond an friendship request
 
-#### Response Friendship Request
+#### Response 'Friend Request' Request
 
 ```http
 POST /user/{otherUserId}/request/{requestId}/response
@@ -100,7 +101,7 @@ POST /user/{otherUserId}/request/{requestId}/response
 }
 ```
 
-#### 'Response' Friendship Response
+#### 'Response Friend Request' Response
 
 ```http
 200 OK
@@ -167,6 +168,50 @@ POST /user/{userId}/edit
   "friendIds": [],
   "courseIds": []
 }
+```
+
+---
+
+### List Friends Requests
+
+> This routes is used for list all the friends requests from an user
+
+#### 'List Friends Requests' Request
+
+```http
+GET /user/{userId}/requests
+```
+
+> You can use the parameter to filter the requests by their status like so.
+> The default is status=1 == 'pending'
+```http
+GET /user/{userId}/requests?status=2
+```
+
+```json
+{}
+```
+
+#### 'List Friends Requests' Response
+
+```http
+200 OK
+```
+
+```json
+[
+  {
+    "id": "56b7113c-84ee-43c7-b916-261b021d3e4d",
+    "requesterId": "317e3a97-ca6f-4af6-9313-07e125c4b4f7",
+    "requesterEmail": "user@email.com",
+    "requesterPhoto": null, // or image like this https://profile-picture-name.png
+    "message": "Lets be friends!!"
+  }
+]
+```
+
+```json
+[]
 ```
 
 ---
