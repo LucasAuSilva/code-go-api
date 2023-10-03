@@ -1,8 +1,10 @@
+using CodeGo.Application.Common.Results;
 using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
+using CodeGo.Application.Users.Queries.ListUsersByEmail;
 using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using MapsterMapper;
@@ -83,6 +85,17 @@ public class UserController : ApiController
         return result.Match(
             result => Ok(_mapper.Map<UserResponse>(result)),
             Problem);
+    }
+
+    [HttpGet("list")]
+    public async Task<IActionResult> FindUsersByEmail([FromQuery] ListUsersByEmailRequest request)
+    {
+        var query = _mapper.Map<ListUsersByEmailQuery>(request);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<PagedListResult<ListUsersByEmailResponse>>(result)),
+            Problem
+        );
     }
 
     [HttpPost("{userId}/edit")]

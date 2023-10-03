@@ -31,6 +31,15 @@ public class UserRepository : IUserRepository
         return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id); 
     }
 
+    public async Task<List<User>> ListUsersByEmail(string? email)
+    {
+        if (email is null)
+            return await _dbContext.Users.ToListAsync();
+        return await _dbContext.Users
+            .Where(user => user.Email.Contains(email))
+            .ToListAsync();
+    }
+
     public async Task Update(User user)
     {
         _dbContext.Update(user);
