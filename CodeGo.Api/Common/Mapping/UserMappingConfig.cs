@@ -1,8 +1,10 @@
+using CodeGo.Application.Common.Results;
 using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
+using CodeGo.Application.Users.Queries.ListUsersByEmail;
 using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using CodeGo.Domain.UserAggregateRoot;
@@ -22,6 +24,8 @@ public class UserMappingConfig : IRegister
         ResponseFriendshipRequestMapping(config);
         EditProfileRequestMapping(config);
         ListFriendsRequestsMapping(config);
+        ListUsersByEmailRequestMapping(config);
+        ListUsersByEmailResponseMapping(config);
     }
 
     private static void RegisterCourseCommandMapping(TypeAdapterConfig config)
@@ -93,5 +97,22 @@ public class UserMappingConfig : IRegister
             .Map(dest => dest.LoggedUserId, src => src.LoggedUserId)
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest.Status, src => src.Status);
+    }
+
+    private static void ListUsersByEmailRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<ListUsersByEmailRequest, ListUsersByEmailQuery>()
+            .Map(dest => dest.Email, src => src.Email);
+    }
+
+    private static void ListUsersByEmailResponseMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<User, ListUsersByEmailResponse>()
+            .Map(dest => dest.Email, src => src.Email)
+            .Map(dest => dest.ProfilePicture, src => src.ProfilePicture);
+        config.NewConfig<PagedListResult<User>, PagedListResult<ListUsersByEmailResponse>>()
+            .Fork(config => config.Default.PreserveReference(true))
+            .Map(dest => dest.Data, src => src.Data.Adapt<List<ListUsersByEmailResponse>>())
+            .PreserveReference(true);
     }
 }
