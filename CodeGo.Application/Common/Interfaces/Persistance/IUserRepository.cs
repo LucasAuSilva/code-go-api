@@ -1,4 +1,3 @@
-
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
@@ -6,6 +5,7 @@ namespace CodeGo.Application.Common.Interfaces.Persistance;
 
 public interface IUserRepository
 {
+    Task<List<User>> ListUsersByEmail(string? email);
     Task<User?> FindByEmail(string email);
     Task<User?> FindById(UserId id);
     Task Update(User user);
