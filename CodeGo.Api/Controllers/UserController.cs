@@ -2,7 +2,8 @@ using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
-using CodeGo.Application.Users.Queries;
+using CodeGo.Application.Users.Queries.ListFriendsRequests;
+using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using MapsterMapper;
 using MediatR;
@@ -41,6 +42,18 @@ public class UserController : ApiController
         var result = await _sender.Send(query); 
         return result.Match(
             result => Ok(_mapper.Map<UserResponse>(result)),
+            Problem);
+    }
+
+    [HttpGet("{userId}/requests")]
+    public async Task<IActionResult> GetFriendRequests(string userId, int status = 1)
+    {
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null) return Problem();
+        var query = _mapper.Map<ListFriendsRequestsQuery>((loggedUserId, userId, status));
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<List<FriendshipRequestResponse>>(result)),
             Problem);
     }
 

@@ -2,7 +2,7 @@
 using CodeGo.Application.Common.Validators;
 using FluentValidation;
 
-namespace CodeGo.Application.Users.Queries;
+namespace CodeGo.Application.Users.Queries.UserProfile;
 
 public class UserProfileQueryValidator : AbstractValidator<UserProfileQuery>
 {

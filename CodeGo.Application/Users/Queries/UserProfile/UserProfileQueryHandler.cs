@@ -7,7 +7,7 @@ using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace CodeGo.Application.Users.Queries;
+namespace CodeGo.Application.Users.Queries.UserProfile;
 
 public class UserProfileQueryHandler : IRequestHandler<UserProfileQuery, ErrorOr<User>>
 {

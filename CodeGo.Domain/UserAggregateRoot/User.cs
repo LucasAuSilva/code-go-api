@@ -98,25 +98,23 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return false;
     }
 
-    public void ReceiveFriendshipRequest(
+    public ErrorOr<FriendshipRequest> ReceiveFriendshipRequest(
         User user,
-        string? message
-    )
+        string? message)
     {
-        // TODO: Invariant for checking if already has an friendship request with that user
-        // TODO: Understand if has to return something when user is blocked
         var userId = UserId.Create(user.Id.Value);
         if (_blockedUserIds.Contains(userId))
-            return;
+            return Errors.Users.Blocked;
         var request = _friendshipRequests.Find(fr => fr.RequesterId.Equals(userId));
         if (request is not null && request.Status.Equals(FriendshipRequestStatus.Ignored))
-            return;
+            return Errors.Users.AlreadyRequested;
         var friendshipRequest = FriendshipRequest.CreateNew(
             userId,
             user.Email,
             user.ProfilePicture,
             message);
         _friendshipRequests.Add(friendshipRequest);
+        return friendshipRequest;
     }
 
     public ErrorOr<UserId> RespondFriendRequest(
@@ -158,6 +156,13 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Visibility = profileVisibility;
         Bio = bio;
         return Result.Success;
+    }
+
+    public List<FriendshipRequest> GetFriendRequests(FriendshipRequestStatus status)
+    {
+        return _friendshipRequests
+            .Where(fr => fr.Status.Equals(status))
+            .ToList();
     }
 
 #pragma warning disable CS8618
