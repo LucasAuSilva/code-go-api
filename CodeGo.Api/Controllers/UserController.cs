@@ -50,7 +50,7 @@ public class UserController : ApiController
     {
         var loggedUserId = GetUserId();
         if (loggedUserId is null) return Problem();
-        var query = _mapper.Map<ListFriendsRequestsQuery>((userId, status));
+        var query = _mapper.Map<ListFriendsRequestsQuery>((loggedUserId, userId, status));
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<List<FriendshipRequestResponse>>(result)),
