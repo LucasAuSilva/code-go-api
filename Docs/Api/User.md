@@ -8,6 +8,7 @@
     - [Response Friend Request](#response-friend-request)
     - [Send Friend Request](#send-friend-request)
     - [List Friends Request](#list-friends-requests)
+    - [List Users by Email](#list-users-by-email)
 
 ## User
 
@@ -210,6 +211,80 @@ GET /user/{userId}/requests?status=2
 ]
 ```
 
+```json
+[]
+```
+
+---
+
+### List Users by Email
+
+> This routes is used for list all the users by email
+
+#### List Users by Email Request
+
+> `page`: The number of the page of the results 
+> `pagesize`: The number of records that will return on each page
+```http
+GET /user/list?page=1&pagesize=10
+```
+
+> You can use the parameter `email` to filter the records like so
+> **Example**: All the users with email like luc will appear like: lucas@email.com
+```http
+GET /user/{userId}/requests?page=1&pagesize=10&email=luc
+```
+
+```json
+{}
+```
+
+#### List Users by Email Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "page": 1,
+  "pageSize": 10,
+  "totalPages": 1,
+  "totalRecords": 2,
+  "data": [
+    {
+      "email": "guilherme@email.com",
+      "profilePicture": null
+    },
+    {
+      "email": "lucas@email.com",
+      "profilePicture": null
+    }
+  ],
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
+```
+
+> filtered with luc
+```json
+{
+  "page": 1,
+  "pageSize": 10,
+  "totalPages": 1,
+  "totalRecords": 1,
+  "data": [
+    {
+      "email": "lucas@email.com",
+      "profilePicture": null
+    }
+  ],
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
+```
+
+> Empty list
 ```json
 []
 ```
