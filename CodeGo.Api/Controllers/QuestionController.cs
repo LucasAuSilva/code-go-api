@@ -38,7 +38,10 @@ public class QuestionController : ApiController
     [HttpPost("{questionId}/resolve/{alternativeId}")]
     public async Task<IActionResult> ResolveQuestion(string questionId, string alternativeId)
     {
-        var query = _mapper.Map<ResolveQuestionQuery>((questionId, alternativeId));
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null)
+            return Problem();
+        var query = _mapper.Map<ResolveQuestionQuery>((questionId, loggedUserId, alternativeId));
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<ResolveResponse>(result)),
