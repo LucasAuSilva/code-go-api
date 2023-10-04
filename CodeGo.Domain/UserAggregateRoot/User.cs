@@ -23,8 +23,8 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public UserRole Role { get; }
     public string? ProfilePicture { get; }
     public string? Bio { get; private set; }
-    public Streak DayStreak { get; }
-    public ExperiencePoints Experience { get; private set; }
+    public Streak DayStreak { get; private set; }
+    public ExperiencePoints Points { get; private set; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
@@ -54,7 +54,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Visibility = visibility;
         Role = role;
         DayStreak = dayStreak;
-        Experience = experience;
+        Points = experience;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         ProfilePicture = profilePicture;
@@ -90,7 +90,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
 
     public ErrorOr<Success> IncreasePoints(Difficulty difficulty)
     {
-        Experience.CalculatePointsByDifficulty(difficulty);
+        Points.CalculatePointsByDifficulty(difficulty);
         return Result.Success;
     }
 

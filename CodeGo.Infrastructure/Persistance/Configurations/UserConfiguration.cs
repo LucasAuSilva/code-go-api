@@ -102,6 +102,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 id => id.Value,
                 value => UserId.Create(value)
             );
+        builder.OwnsOne(u => u.Points);
+        builder.OwnsOne(u => u.DayStreak);
         builder.Property(u => u.FirstName)
             .HasMaxLength(50);
         builder.Property(u => u.LastName)
@@ -121,7 +123,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.ProfilePicture);
         builder.Property(u => u.Bio)
             .HasMaxLength(500);
-        builder.OwnsOne(u => u.DayStreak);
-        builder.OwnsOne(u => u.Experience);
     }
 }

@@ -40,7 +40,7 @@ public class UserMappingConfig : IRegister
         config.NewConfig<User, UserResponse>()
             .Map(dest => dest.Id, src => src.Id.Value.ToString())
             .Map(dest => dest.StreakCount, src => src.DayStreak.StreakCount)
-            .Map(dest => dest.ExperiencePoints, src => src.Experience.Points)
+            .Map(dest => dest.ExperiencePoints, src => src.Points.Points)
             .Map(
                 dest => dest.CourseIds,
                 src => src.CourseIds.AsEnumerable().Select(id => id.Value.ToString()).ToList())
