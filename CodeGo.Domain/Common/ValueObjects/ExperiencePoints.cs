@@ -1,11 +1,12 @@
 
 using CodeGo.Domain.Common.Models;
+using CodeGo.Domain.Common.ValueObjects;
 
 namespace CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 public sealed class ExperiencePoints : ValueObject
 {
-    public int Points { get; }
+    public int Points { get; private set; }
 
     private ExperiencePoints(int points)
     {
@@ -20,6 +21,16 @@ public sealed class ExperiencePoints : ValueObject
     public static ExperiencePoints Create(int points)
     {
         return new ExperiencePoints(points);
+    }
+
+    public void CalculatePointsByDifficulty(Difficulty difficulty) 
+    {
+        Points += 10 * difficulty.Value;
+    }
+
+    public void Increase(ExperiencePoints points)
+    {
+        Points += points.Points;
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

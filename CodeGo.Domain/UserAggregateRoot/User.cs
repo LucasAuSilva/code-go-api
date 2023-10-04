@@ -5,6 +5,7 @@ using CodeGo.Domain.UserAggregateRoot.Enums;
 using CodeGo.Domain.UserAggregateRoot.Entities;
 using ErrorOr;
 using CodeGo.Domain.Common.Errors;
+using CodeGo.Domain.Common.ValueObjects;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -22,8 +23,8 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public UserRole Role { get; }
     public string? ProfilePicture { get; }
     public string? Bio { get; private set; }
-    public Streak DayStreak { get; }
-    public ExperiencePoints Experience { get; }
+    public Streak DayStreak { get; private set; }
+    public ExperiencePoints Points { get; private set; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
     public IReadOnlyCollection<CourseId> CourseIds => _courseIds;
@@ -53,7 +54,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Visibility = visibility;
         Role = role;
         DayStreak = dayStreak;
-        Experience = experience;
+        Points = experience;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         ProfilePicture = profilePicture;
@@ -85,6 +86,12 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public void RegisterCourse(CourseId courseId)
     {
         _courseIds.Add(courseId);
+    }
+
+    public ErrorOr<Success> IncreasePoints(Difficulty difficulty)
+    {
+        Points.CalculatePointsByDifficulty(difficulty);
+        return Result.Success;
     }
 
     public bool CheckProfileAccess(User accessUser)

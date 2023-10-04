@@ -5,8 +5,8 @@ namespace CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 public sealed class Streak : ValueObject
 {
-    public int StreakCount { get; }
-    public DateTime StreakLastUpdate { get; }
+    public int StreakCount { get; private set; }
+    public DateTime StreakLastUpdate { get; private set; }
 
     private Streak(int streakCount, DateTime streakLastUpdate)
     {

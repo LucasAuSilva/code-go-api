@@ -3,6 +3,7 @@ using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Application.Questions.Common;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 using MediatR;
 
@@ -25,7 +26,9 @@ public class ResolveQuestionQueryHandler : IRequestHandler<ResolveQuestionQuery,
         var question = await _questionRepository.FindById(questionId);
         if (question is null)
             return Errors.Question.NotFound;
-        var isCorrect = question.Resolve(alternativeId);
+        var isCorrect = question.Resolve(
+            alternativeId,
+            UserId.Create(query.UserId));
         if (isCorrect.IsError)
             return isCorrect.Errors;
         var message = isCorrect.Value ? "Resposta Correta" : "Resposta Errada";

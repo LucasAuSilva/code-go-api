@@ -5,7 +5,9 @@ using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
+using CodeGo.Domain.QuestionAggregateRoot.Events;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 
 namespace CodeGo.Domain.QuestionAggregateRoot;
@@ -63,11 +65,15 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
             alternatives: alternatives ?? new());
     }
 
-    public ErrorOr<bool> Resolve(AlternativeId alternativeId)
+    public ErrorOr<bool> Resolve(
+        AlternativeId alternativeId,
+        UserId userId)
     {
         var alternative = _alternatives.Find(a => a.Id == alternativeId);
         if (alternative is null)
             return Errors.Question.AlternativeNotFound;
+        this.AddDomainEvent(
+            new ResolvedQuestion(userId, this, alternative.IsCorrect));
         return alternative.IsCorrect;
     }
 

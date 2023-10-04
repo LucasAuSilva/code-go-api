@@ -21,8 +21,9 @@ public class QuestionMappingConfig : IRegister
         config.NewConfig<Alternative, AlternativeResponse>()
             .Map(dest => dest.AlternativeId, src => src.Id.Value);
 
-        config.NewConfig<(string QuestionId, string AlternativeId), ResolveQuestionQuery>()
+        config.NewConfig<(string QuestionId, string LoggedUserId, string AlternativeId), ResolveQuestionQuery>()
             .Map(dest => dest.QuestionId, src => src.QuestionId)
+            .Map(dest => dest.UserId, src => src.LoggedUserId)
             .Map(dest => dest.AlternativeId, src => src.AlternativeId);
     }
 }
