@@ -1,17 +1,25 @@
 
+using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot;
+using CodeGo.Infrastructure.Persistance.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance;
 
 public class CodeGoDbContext : DbContext
 {
-    public CodeGoDbContext(DbContextOptions<CodeGoDbContext> options)
+    private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
+
+    public CodeGoDbContext(
+        DbContextOptions<CodeGoDbContext> options,
+        PublishDomainEventsInterceptor publishDomainEventsInterceptor)
         : base(options)
-    {}
+    {
+        _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
+    }
 
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Question> Questions { get; set; } = null!;
@@ -21,6 +29,7 @@ public class CodeGoDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
+            .Ignore<List<IDomainEvent>>()
             .ApplyConfigurationsFromAssembly(typeof(CodeGoDbContext).Assembly);
 
         // apply config to all entities
@@ -31,5 +40,11 @@ public class CodeGoDbContext : DbContext
         //     .ForEach(p => p.ValueGenerated = ValueGenerated.Never);
 
         base.OnModelCreating(modelBuilder);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(_publishDomainEventsInterceptor);
+        base.OnConfiguring(optionsBuilder);
     }
 }

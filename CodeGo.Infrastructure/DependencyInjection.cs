@@ -6,6 +6,7 @@ using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Infrastructure.Authentication;
 using CodeGo.Infrastructure.Http.Judge0Api;
 using CodeGo.Infrastructure.Persistance;
+using CodeGo.Infrastructure.Persistance.Interceptors;
 using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +48,7 @@ public static class DependencyInjection
     {
         services.AddDbContext<CodeGoDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("CodeGoDatabase")));
+        services.AddScoped<PublishDomainEventsInterceptor>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();
