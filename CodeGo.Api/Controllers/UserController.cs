@@ -5,10 +5,12 @@ using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
 using CodeGo.Application.Users.Queries.ListUsersByEmail;
+using CodeGo.Application.Users.Queries.ListUsersByName;
 using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeGo.Api.Controllers;
@@ -87,8 +89,20 @@ public class UserController : ApiController
             Problem);
     }
 
-    // TODO: Make this route private for admin and another with user name
     [HttpGet("list")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> FindUsersByName([FromQuery] ListUsersByNameRequest request)
+    {
+        var query = _mapper.Map<ListUsersByNameQuery>(request);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<PagedListResult<ListUsersByNameResponse>>(result)),
+            Problem
+        );
+    }
+
+    [HttpGet("list")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> FindUsersByEmail([FromQuery] ListUsersByEmailRequest request)
     {
         var query = _mapper.Map<ListUsersByEmailQuery>(request);

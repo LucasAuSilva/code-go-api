@@ -115,4 +115,16 @@ public class UserMappingConfig : IRegister
             .Map(dest => dest.Data, src => src.Data.Adapt<List<ListUsersByEmailResponse>>())
             .PreserveReference(true);
     }
+
+    private static void ListUsersByNameResponseMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<User, ListUsersByNameResponse>()
+            .Map(dest => dest.FirstName, src => src.FirstName)
+            .Map(dest => dest.LastName, src => src.LastName)
+            .Map(dest => dest.ProfilePicture, src => src.ProfilePicture);
+        config.NewConfig<PagedListResult<User>, PagedListResult<ListUsersByNameResponse>>()
+            .Fork(config => config.Default.PreserveReference(true))
+            .Map(dest => dest.Data, src => src.Data.Adapt<List<ListUsersByNameResponse>>())
+            .PreserveReference(true);
+    }
 }
