@@ -1,8 +1,8 @@
 
+using CodeGo.Contracts.Users;
+
 namespace CodeGo.Contracts.Authentication;
 
 public record AuthenticationResponse(
-    Guid UserId,
-    string FirstName,
-    string Email,
+    UserResponse User,
     string Token);

@@ -1,4 +1,4 @@
-GET {{baseUrl}}/user/{{otherUserId}}
+GET {{baseUrl}}/user/{{userId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

@@ -87,6 +87,7 @@ public class UserController : ApiController
             Problem);
     }
 
+    // TODO: Make this route private for admin and another with user name
     [HttpGet("list")]
     public async Task<IActionResult> FindUsersByEmail([FromQuery] ListUsersByEmailRequest request)
     {
