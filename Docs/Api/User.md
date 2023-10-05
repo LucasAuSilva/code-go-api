@@ -291,6 +291,80 @@ GET /user/{userId}/requests?page=1&pagesize=10&email=luc
 
 ---
 
+### List Users by Name
+
+> This routes is used for list all the users by name
+
+#### List Users by Name Request
+
+> `page`: The number of the page of the results 
+> `pagesize`: The number of records that will return on each page
+```http
+GET /user/list?page=1&pagesize=10
+```
+
+> You can use the parameter `name` to filter the records like so
+> **Example**: All the users with email like luc will appear like: lucas@email.com
+```http
+GET /user/{userId}/requests?page=1&pagesize=10&name=luc
+```
+
+```json
+{}
+```
+
+#### List Users by Name Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "page": 1,
+  "pageSize": 10,
+  "totalPages": 1,
+  "totalRecords": 2,
+  "data": [
+    {
+      "email": "guilherme@email.com",
+      "profilePicture": null
+    },
+    {
+      "email": "lucas@email.com",
+      "profilePicture": null
+    }
+  ],
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
+```
+
+> filtered with luc
+```json
+{
+  "page": 1,
+  "pageSize": 10,
+  "totalPages": 1,
+  "totalRecords": 1,
+  "data": [
+    {
+      "email": "lucas@email.com",
+      "profilePicture": null
+    }
+  ],
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
+```
+
+> Empty list
+```json
+[]
+```
+
+---
+
 ### General Responses
 
 ```http
