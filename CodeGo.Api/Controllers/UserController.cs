@@ -90,7 +90,6 @@ public class UserController : ApiController
     }
 
     [HttpGet("list")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> FindUsersByName([FromQuery] ListUsersByNameRequest request)
     {
         var query = _mapper.Map<ListUsersByNameQuery>(request);
@@ -101,7 +100,7 @@ public class UserController : ApiController
         );
     }
 
-    [HttpGet("list")]
+    [HttpGet("admin/list")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> FindUsersByEmail([FromQuery] ListUsersByEmailRequest request)
     {
