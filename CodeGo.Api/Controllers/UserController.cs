@@ -3,6 +3,7 @@ using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
+using CodeGo.Application.Users.Command.UpdateUserRole;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
 using CodeGo.Application.Users.Queries.ListUsersByEmail;
 using CodeGo.Application.Users.Queries.ListUsersByName;
@@ -108,6 +109,18 @@ public class UserController : ApiController
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<PagedListResult<ListUsersByEmailResponse>>(result)),
+            Problem
+        );
+    }
+
+    [HttpGet("admin/{userId}/transform/{role}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateUserRole(string userId, int role)
+    {
+        var command = _mapper.Map<UpdateUserRoleCommand>((userId, role));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<UserResponse>(result)),
             Problem
         );
     }

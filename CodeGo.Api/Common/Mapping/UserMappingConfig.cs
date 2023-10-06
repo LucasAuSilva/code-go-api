@@ -3,6 +3,7 @@ using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
+using CodeGo.Application.Users.Command.UpdateUserRole;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
 using CodeGo.Application.Users.Queries.ListUsersByEmail;
 using CodeGo.Application.Users.Queries.UserProfile;
@@ -132,5 +133,12 @@ public class UserMappingConfig : IRegister
             .Fork(config => config.Default.PreserveReference(true))
             .Map(dest => dest.Data, src => src.Data.Adapt<List<ListUsersByNameResponse>>())
             .PreserveReference(true);
+    }
+
+    private static void UpdateUserRoleRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(string UserId, int Role), UpdateUserRoleCommand>()
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest.Role, src => src.Role);
     }
 }
