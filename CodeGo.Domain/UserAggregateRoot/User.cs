@@ -21,7 +21,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string Email { get; private set; }
     public string Password { get; }
     public ProfileVisibility Visibility { get; private set; }
-    public UserRole Role { get; }
+    public UserRole Role { get; private set; }
     public string? ProfilePicture { get; }
     public string? Bio { get; private set; }
     public Streak DayStreak { get; private set; }
@@ -151,6 +151,14 @@ public sealed class User : AggregateRoot<UserId, Guid>
         if (!request.Status.Equals(FriendshipRequestStatus.Accepted))
             return Error.Failure();
         return request.RequesterId;
+    }
+
+    public ErrorOr<Success> ChangeRole(int value)
+    {
+        if (!UserRole.TryFromValue(value, out var role))
+            return Errors.Users.UserRoleIncorrect;
+        Role = role;
+        return Result.Success;
     }
 
     public void AddFriend(UserId id)
