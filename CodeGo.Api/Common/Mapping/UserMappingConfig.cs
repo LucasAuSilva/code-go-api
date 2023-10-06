@@ -28,6 +28,7 @@ public class UserMappingConfig : IRegister
         ListUsersByEmailRequestMapping(config);
         ListUsersByEmailResponseMapping(config);
         ListUsersByNameResponseMapping(config);
+        UpdateUserRoleRequestMapping(config);
     }
 
     private static void RegisterCourseCommandMapping(TypeAdapterConfig config)

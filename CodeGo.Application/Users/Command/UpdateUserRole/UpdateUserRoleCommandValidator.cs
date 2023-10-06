@@ -9,10 +9,10 @@ public class UpdateUserRoleCommandValidator : AbstractValidator<UpdateUserRoleCo
     public UpdateUserRoleCommandValidator()
     {
         RuleFor(x => x.UserId)
-            .Empty()
+            .NotEmpty()
             .IsId();
         RuleFor(x => x.Role)
-            .Empty()
+            .NotEmpty()
             .LessThan(3);
     }
 }

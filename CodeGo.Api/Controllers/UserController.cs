@@ -113,7 +113,7 @@ public class UserController : ApiController
         );
     }
 
-    [HttpGet("admin/{userId}/transform/{role}")]
+    [HttpPut("admin/{userId}/transform/{role}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateUserRole(string userId, int role)
     {
