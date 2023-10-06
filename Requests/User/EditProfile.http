@@ -1,4 +1,4 @@
-POST {{baseUrl}}/user/{{userId}}/edit
+PUT {{baseUrl}}/user/{{userId}}/edit
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

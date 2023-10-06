@@ -125,7 +125,7 @@ public class UserController : ApiController
         );
     }
 
-    [HttpPost("{userId}/edit")]
+    [HttpPut("{userId}/edit")]
     public async Task<IActionResult> EditProfile(
         [FromBody] EditProfileRequest request,
         string userId)

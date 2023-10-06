@@ -134,7 +134,7 @@ POST /user/{otherUserId}/request/{requestId}/response
 #### Edit Profile Request
 
 ```http
-POST /user/{userId}/edit
+PUT /user/{userId}/edit
 ```
 
 ```json
