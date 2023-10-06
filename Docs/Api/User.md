@@ -220,19 +220,20 @@ GET /user/{userId}/requests?status=2
 ### List Users by Email
 
 > This routes is used for list all the users by email
+> **IMPORTANT:** Only `admin` can access this route
 
 #### List Users by Email Request
 
 > `page`: The number of the page of the results 
 > `pagesize`: The number of records that will return on each page
 ```http
-GET /user/list?page=1&pagesize=10
+GET /user/admin/list?page=1&pagesize=10
 ```
 
 > You can use the parameter `email` to filter the records like so
 > **Example**: All the users with email like luc will appear like: lucas@email.com
 ```http
-GET /user/{userId}/requests?page=1&pagesize=10&email=luc
+GET /user/admin/list?page=1&pagesize=10&email=luc
 ```
 
 ```json
@@ -253,12 +254,20 @@ GET /user/{userId}/requests?page=1&pagesize=10&email=luc
   "totalRecords": 2,
   "data": [
     {
+      "id": "9ae46b0c-0a7b-45c1-aa9c-3ba5cc313a57",
+      "firstName": "Guilherme Arthur Leimann",
+      "lastName": "Illescas",
       "email": "guilherme@email.com",
-      "profilePicture": null
+      "profilePicture": null,
+      "role": "User"
     },
     {
+      "id": "e282261e-ccf4-4697-a72e-83a4dab28a80",
+      "firstName": "Lucas Augusto",
+      "lastName": "Silva",
       "email": "lucas@email.com",
-      "profilePicture": null
+      "profilePicture": null,
+      "role": "Admin"
     }
   ],
   "hasNextPage": false,
@@ -275,8 +284,12 @@ GET /user/{userId}/requests?page=1&pagesize=10&email=luc
   "totalRecords": 1,
   "data": [
     {
+      "id": "e282261e-ccf4-4697-a72e-83a4dab28a80",
+      "firstName": "Lucas Augusto",
+      "lastName": "Silva",
       "email": "lucas@email.com",
-      "profilePicture": null
+      "profilePicture": null,
+      "role": "Admin"
     }
   ],
   "hasNextPage": false,
