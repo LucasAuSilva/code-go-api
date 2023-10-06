@@ -1,21 +1,21 @@
 
 using CodeGo.Application.Common.Interfaces.Persistance;
-using CodeGo.Domain.QuestionAggregateRoot.Events;
+using CodeGo.Domain.ExerciseAggregateRoot.Events;
 using MediatR;
 
 namespace CodeGo.Application.Users.Events;
 
-public class ResolvedQuestionEventHandler : INotificationHandler<ResolvedQuestion>
+public class ResolvedExerciseEventHandler : INotificationHandler<ResolvedExercise>
 {
     private readonly IUserRepository _userRepository;
 
-    public ResolvedQuestionEventHandler(IUserRepository userRepository)
+    public ResolvedExerciseEventHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository;
     }
 
     public async Task Handle(
-        ResolvedQuestion notification,
+        ResolvedExercise notification,
         CancellationToken cancellationToken)
     {
         // TODO: probably going to update the CategoryProgress on difficulty here 
@@ -23,7 +23,7 @@ public class ResolvedQuestionEventHandler : INotificationHandler<ResolvedQuestio
             ?? throw new NullReferenceException($"An user with this id {notification.UserId.Value} does't exist");
         user.ResolvePractice(
             notification.IsCorrect,
-            notification.Question.Difficulty);
+            notification.Exercise.Difficulty);
         await _userRepository.Update(user);
     }
 }

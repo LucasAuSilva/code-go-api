@@ -37,7 +37,10 @@ public class ExerciseController : ApiController
     [HttpPost("{exerciseId}/resolve/{testCaseId}")]
     public async Task<IActionResult> ResolveExercise([FromBody] ResolveExerciseRequest request, string exerciseId, string testCaseId)
     {
-        var query = _mapper.Map<ResolveExerciseQuery>((exerciseId, testCaseId, request));
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null)
+            return Problem();
+        var query = _mapper.Map<ResolveExerciseQuery>((loggedUserId, exerciseId, testCaseId, request));
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<ResolveResponse>(result)),

@@ -3,12 +3,15 @@ using CodeGo.Application.Users.Command.EditProfile;
 using CodeGo.Application.Users.Command.RegisterCourse;
 using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
+using CodeGo.Application.Users.Command.UpdateUserRole;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
 using CodeGo.Application.Users.Queries.ListUsersByEmail;
+using CodeGo.Application.Users.Queries.ListUsersByName;
 using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeGo.Api.Controllers;
@@ -88,6 +91,18 @@ public class UserController : ApiController
     }
 
     [HttpGet("list")]
+    public async Task<IActionResult> FindUsersByName([FromQuery] ListUsersByNameRequest request)
+    {
+        var query = _mapper.Map<ListUsersByNameQuery>(request);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<PagedListResult<ListUsersByNameResponse>>(result)),
+            Problem
+        );
+    }
+
+    [HttpGet("admin/list")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> FindUsersByEmail([FromQuery] ListUsersByEmailRequest request)
     {
         var query = _mapper.Map<ListUsersByEmailQuery>(request);
@@ -98,7 +113,19 @@ public class UserController : ApiController
         );
     }
 
-    [HttpPost("{userId}/edit")]
+    [HttpPut("admin/{userId}/transform/{role}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateUserRole(string userId, int role)
+    {
+        var command = _mapper.Map<UpdateUserRoleCommand>((userId, role));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<UserResponse>(result)),
+            Problem
+        );
+    }
+
+    [HttpPut("{userId}/edit")]
     public async Task<IActionResult> EditProfile(
         [FromBody] EditProfileRequest request,
         string userId)

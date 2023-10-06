@@ -33,6 +33,10 @@ public static partial class Errors
             code: "User.ProfileVisibilityIncorrect",
             description: "Profile Visibility value is not valid");
 
+        public static Error UserRoleIncorrect => Error.Validation(
+            code: "User.UserRoleIncorrect",
+            description: "This Role value is not valid");
+
         public static Error FriendRequestStatusIncorrect => Error.Validation(
             code: "User.FriendRequestStatusIncorrect",
             description: "Friend Status value is not valid");

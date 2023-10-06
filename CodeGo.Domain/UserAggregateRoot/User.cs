@@ -17,10 +17,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
     private List<FriendshipRequest> _friendshipRequests = new();
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
+    public string FullName { get; private set; }
     public string Email { get; private set; }
     public string Password { get; }
     public ProfileVisibility Visibility { get; private set; }
-    public UserRole Role { get; }
+    public UserRole Role { get; private set; }
     public string? ProfilePicture { get; }
     public string? Bio { get; private set; }
     public Streak DayStreak { get; private set; }
@@ -49,6 +50,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     {
         FirstName = firstName;
         LastName = lastName;
+        FullName = $"{firstName} {lastName}";
         Email = email;
         Password = password;
         Visibility = visibility;
@@ -88,10 +90,13 @@ public sealed class User : AggregateRoot<UserId, Guid>
         _courseIds.Add(courseId);
     }
 
-    public ErrorOr<Success> IncreasePoints(Difficulty difficulty)
+    public void ResolvePractice(bool IsCorrect, Difficulty difficulty)
     {
-        Points.CalculatePointsByDifficulty(difficulty);
-        return Result.Success;
+        DayStreak.CountStreak();
+        if (IsCorrect)
+        {
+            Points.CalculatePointsByDifficulty(difficulty);
+        }
     }
 
     public bool CheckProfileAccess(User accessUser)
@@ -146,6 +151,14 @@ public sealed class User : AggregateRoot<UserId, Guid>
         if (!request.Status.Equals(FriendshipRequestStatus.Accepted))
             return Error.Failure();
         return request.RequesterId;
+    }
+
+    public ErrorOr<Success> ChangeRole(int value)
+    {
+        if (!UserRole.TryFromValue(value, out var role))
+            return Errors.Users.UserRoleIncorrect;
+        Role = role;
+        return Result.Success;
     }
 
     public void AddFriend(UserId id)

@@ -40,6 +40,15 @@ public class UserRepository : IUserRepository
             .ToListAsync();
     }
 
+    public async Task<List<User>> ListUsersByName(string? name)
+    {
+        if (name is null)
+            return await _dbContext.Users.ToListAsync();
+        return await _dbContext.Users
+            .Where(user => user.FullName.ToLower().Contains(name.ToLower()))
+            .ToListAsync();
+    }
+
     public async Task Update(User user)
     {
         _dbContext.Update(user);

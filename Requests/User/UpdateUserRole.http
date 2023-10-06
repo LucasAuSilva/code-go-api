@@ -1,4 +1,4 @@
-GET {{baseUrl}}/user/{{userId}}
+PUT {{baseUrl}}/user/admin/{{otherUserId}}/transform/2
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

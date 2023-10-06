@@ -36,12 +36,21 @@ POST /auth/register
 ```
 
 ```json
-{
-  "userId": "9ac32075-9c11-49c3-b1d1-0e7c395a2a2e",
-  "firstName": "Lucas Augusto",
-  "email": "lucas@email.com",
-  "token": "eyJhb...mRBqv-_Q"
-}
+ "user": {
+    "id": "e282261e-ccf4-4697-a72e-83a4dab28a80",
+    "firstName": "Lucas Augusto",
+    "lastName": "Silva",
+    "email": "lucas@email.com",
+    "profilePicture": null, // or string with url of the image
+    "bio": null, // or string with the bio
+    "streakCount": 0,
+    "experiencePoints": 0,
+    "visibility": 2,
+    "friendshipRequests": [],
+    "friendIds": [],
+    "courseIds": []
+  },
+  "token": "eyJhb...UI8a0"
 ```
 
 ---
@@ -104,12 +113,21 @@ POST /auth/login
 ```
 
 ```json
-{
-  "userId": "9ac32075-9c11-49c3-b1d1-0e7c395a2a2e",
-  "firstName": "Lucas Augusto",
-  "email": "lucas@email.com",
-  "token": "eyJhb...mRBqv-_Q"
-}
+ "user": {
+    "id": "e282261e-ccf4-4697-a72e-83a4dab28a80",
+    "firstName": "Lucas Augusto",
+    "lastName": "Silva",
+    "email": "lucas@email.com",
+    "profilePicture": null, // or string with url of the image
+    "bio": null, // or string with the bio
+    "streakCount": 0,
+    "experiencePoints": 0,
+    "visibility": 2,
+    "friendshipRequests": [],
+    "friendIds": [],
+    "courseIds": []
+  },
+  "token": "eyJhb...UI8a0"
 ```
 
 ---

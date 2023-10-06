@@ -6,6 +6,7 @@ namespace CodeGo.Application.Common.Interfaces.Persistance;
 public interface IUserRepository
 {
     Task<List<User>> ListUsersByEmail(string? email);
+    Task<List<User>> ListUsersByName(string? name);
     Task<User?> FindByEmail(string email);
     Task<User?> FindById(UserId id);
     Task Update(User user);
