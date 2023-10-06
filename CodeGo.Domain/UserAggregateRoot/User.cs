@@ -90,10 +90,13 @@ public sealed class User : AggregateRoot<UserId, Guid>
         _courseIds.Add(courseId);
     }
 
-    public ErrorOr<Success> IncreasePoints(Difficulty difficulty)
+    public void ResolvePractice(bool IsCorrect, Difficulty difficulty)
     {
-        Points.CalculatePointsByDifficulty(difficulty);
-        return Result.Success;
+        DayStreak.CountStreak();
+        if (IsCorrect)
+        {
+            Points.CalculatePointsByDifficulty(difficulty);
+        }
     }
 
     public bool CheckProfileAccess(User accessUser)

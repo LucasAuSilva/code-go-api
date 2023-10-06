@@ -19,6 +19,21 @@ public sealed class Streak : ValueObject
         return new Streak(0, DateTime.UtcNow);
     }
 
+    public void CountStreak()
+    {
+        var today = DateTime.Now.Date;
+        var lastUpdateDate = StreakLastUpdate.Date;
+        if (today > lastUpdateDate && today.AddDays(-1).Date == lastUpdateDate.Date)
+        {
+            StreakCount++;
+            StreakLastUpdate = DateTime.Now;
+            return;
+        }
+        StreakCount = 1;
+        StreakLastUpdate = DateTime.Now;
+        return;
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return StreakCount;

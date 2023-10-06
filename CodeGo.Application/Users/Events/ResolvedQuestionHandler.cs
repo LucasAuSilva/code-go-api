@@ -21,7 +21,9 @@ public class ResolvedQuestionEventHandler : INotificationHandler<ResolvedQuestio
         // TODO: probably going to update the CategoryProgress on difficulty here 
         var user = await _userRepository.FindById(notification.UserId)
             ?? throw new NullReferenceException($"An user with this id {notification.UserId.Value} does't exist");
-        user.IncreasePoints(notification.Question.Difficulty);
+        user.ResolvePractice(
+            notification.IsCorrect,
+            notification.Question.Difficulty);
         await _userRepository.Update(user);
     }
 }
