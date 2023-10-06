@@ -6,6 +6,7 @@ using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 using CodeGo.Application.Common.Interfaces.Http;
+using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 namespace CodeGo.Application.Exercises.Queries.ResolveExercise;
 
@@ -32,7 +33,10 @@ public class ResolveExerciseQueryHandler : IRequestHandler<ResolveExerciseQuery,
         var runCode = exercise.MakeRunCode(query.SolutionCode);
         // Make validation when the code return an exception from compiler
         var result = await _compilerApi.SendCodeToCompile(runCode);
-        var isCorrect = exercise.Resolve(testCaseId, result);
+        var isCorrect = exercise.Resolve(
+            UserId.Create(query.UserId),
+            testCaseId,
+            result);
         if (isCorrect.IsError)
             return isCorrect.Errors;
         var message = isCorrect.Value ? "Sucesso no Teste" : "Falha no Teste";
