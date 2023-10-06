@@ -124,6 +124,7 @@ public class UserMappingConfig : IRegister
     private static void ListUsersByNameResponseMapping(TypeAdapterConfig config)
     {
         config.NewConfig<User, ListUsersByNameResponse>()
+            .Map(dest => dest.Id, src => src.Id.Value.ToString())
             .Map(dest => dest.FirstName, src => src.FirstName)
             .Map(dest => dest.LastName, src => src.LastName)
             .Map(dest => dest.ProfilePicture, src => src.ProfilePicture);
