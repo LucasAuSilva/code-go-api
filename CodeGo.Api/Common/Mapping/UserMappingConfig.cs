@@ -26,6 +26,7 @@ public class UserMappingConfig : IRegister
         ListFriendsRequestsMapping(config);
         ListUsersByEmailRequestMapping(config);
         ListUsersByEmailResponseMapping(config);
+        ListUsersByNameResponseMapping(config);
     }
 
     private static void RegisterCourseCommandMapping(TypeAdapterConfig config)
@@ -108,8 +109,12 @@ public class UserMappingConfig : IRegister
     private static void ListUsersByEmailResponseMapping(TypeAdapterConfig config)
     {
         config.NewConfig<User, ListUsersByEmailResponse>()
+            .Map(dest => dest.Id, src => src.Id.Value.ToString())
+            .Map(dest => dest.FirstName, src => src.FirstName)
+            .Map(dest => dest.LastName, src => src.LastName)
             .Map(dest => dest.Email, src => src.Email)
-            .Map(dest => dest.ProfilePicture, src => src.ProfilePicture);
+            .Map(dest => dest.ProfilePicture, src => src.ProfilePicture)
+            .Map(dest => dest.Role, src => src.Role.Name);
         config.NewConfig<PagedListResult<User>, PagedListResult<ListUsersByEmailResponse>>()
             .Fork(config => config.Default.PreserveReference(true))
             .Map(dest => dest.Data, src => src.Data.Adapt<List<ListUsersByEmailResponse>>())

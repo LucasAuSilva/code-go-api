@@ -1,4 +1,4 @@
-GET {{baseUrl}}/user/list?page=1&pagesize=10
+GET {{baseUrl}}/user/admin/list?page=1&pagesize=10
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

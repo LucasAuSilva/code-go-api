@@ -1,8 +1,10 @@
 
-using System.Net;
-
 namespace CodeGo.Contracts.Users;
 
 public record ListUsersByEmailResponse(
+    string Id,
+    string FirstName,
+    string LastName,
     string Email,
-    string ProfilePicture);
+    string ProfilePicture,
+    string Role);
