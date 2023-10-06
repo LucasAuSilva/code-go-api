@@ -104,6 +104,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             );
         builder.OwnsOne(u => u.Points);
         builder.OwnsOne(u => u.DayStreak);
+        builder.OwnsOne(u => u.Life);
         builder.Property(u => u.FirstName)
             .HasMaxLength(50);
         builder.Property(u => u.LastName)
