@@ -116,6 +116,16 @@ dotnet run --project CodeGo.Api
 # base connection string for the docker no need to change
 ConnectionStrings__CodeGoDatabase="Host=localhost; Database=codegodev; Username=user; Password=teste@123"
 
+# Broker connection settings, no need to change
+BrokerSettings__Username=guest
+BrokerSettings__Password=guest
+BrokerSettings__Host=rabbit
+BrokerSettings__Port=5672
+
+# Queue for recover life settings, no need to change
+LifeQueueSettings__QueueName=life.in
+LifeQueueSettings__DelayInMinutes=2
+
 # You don't need to setup this key, but the api to run exercise will not work ;)
 Judge0Settings__ApiKey=YourApiKeyHere
 Judge0Settings__Host=YourJudge0HostHere
