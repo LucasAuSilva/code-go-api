@@ -45,7 +45,7 @@ public class ConsumeIntegrationEventsBackgroundService : IHostedService
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(
             queue: _lifeQueueSettings.QueueName,
-            durable: false,
+            durable: true,
             exclusive: false,
             autoDelete: false);
         var consumer = new EventingBasicConsumer(_channel);
