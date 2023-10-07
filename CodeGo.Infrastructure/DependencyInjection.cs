@@ -4,9 +4,11 @@ using CodeGo.Application.Common.Interfaces.Authentication;
 using CodeGo.Application.Common.Interfaces.Http;
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Infrastructure.Authentication;
+using CodeGo.Infrastructure.Broker.Settings;
 using CodeGo.Infrastructure.Http.Judge0Api;
+using CodeGo.Infrastructure.IntegrationEvents.BackgroundServices;
+using CodeGo.Infrastructure.IntegrationEvents.IntegrationEventsPublisher;
 using CodeGo.Infrastructure.Persistance;
-using CodeGo.Infrastructure.Persistance.Interceptors;
 using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +29,8 @@ public static class DependencyInjection
         services
             .AddAuthentication(configuration)
             .AddPersistance(configuration)
+            .AddMediatR()
+            .AddBroker(configuration)
             .AddHttp(configuration);
         return services;
     }
@@ -42,13 +46,34 @@ public static class DependencyInjection
         return services;
     }
 
+    private static IServiceCollection AddMediatR(this IServiceCollection services)
+    {
+        services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining(typeof(DependencyInjection)));
+
+        return services;
+    }
+
+    private static IServiceCollection AddBroker(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var brokerSettings = new BrokerSettings();
+        var lifeQueueSettings = new LifeQueueSettings();
+        configuration.Bind(BrokerSettings.SectionName, brokerSettings);
+        configuration.Bind(LifeQueueSettings.SectionName, lifeQueueSettings);
+        services.AddSingleton(Options.Create(brokerSettings));
+        services.AddSingleton(Options.Create(lifeQueueSettings));
+        services.AddSingleton<IIntegrationEventsPublisher, IntegrationEventsPublisher>();
+        services.AddHostedService<ConsumeIntegrationEventsBackgroundService>();
+        return services;
+    }
+
     private static IServiceCollection AddPersistance(
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
         services.AddDbContext<CodeGoDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("CodeGoDatabase")));
-        services.AddScoped<PublishDomainEventsInterceptor>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();
