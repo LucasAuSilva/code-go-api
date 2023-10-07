@@ -26,6 +26,11 @@ public sealed class Life : ValueObject
         LifeCount = 5;
     }
 
+    public void Lose()
+    {
+        LifeCount -= 1;
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return LifeCount;

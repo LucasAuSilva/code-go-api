@@ -6,6 +6,7 @@ using CodeGo.Domain.UserAggregateRoot.Entities;
 using ErrorOr;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot.Events;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -98,10 +99,12 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public void ResolvePractice(bool IsCorrect, Difficulty difficulty)
     {
         DayStreak.CountStreak();
-        if (IsCorrect)
+        if (!IsCorrect)
         {
-            Points.CalculatePointsByDifficulty(difficulty);
+            AddDomainEvent(new ResetLifeEvent(UserId.Create(Id.Value)));
+            Life.Lose();
         }
+        Points.CalculatePointsByDifficulty(difficulty);
     }
 
     public void ResetLives()
