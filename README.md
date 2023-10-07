@@ -97,6 +97,7 @@ dotnet restore
 dotnet build
 ```
 
+> **Before Run:** You need to setup an rabbit-mq broker for the application, you can follow [here](./Docs/configuration/rabbitmq.md) 
 > **Before Run:** You need to execute the migrations on your database with [this](#database) steps.  
 > And don't forget to change the your appsettings for you configuration.
 
