@@ -1,24 +1,26 @@
 
+using System.Reflection;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot;
-using CodeGo.Infrastructure.Persistance.Interceptors;
+using CodeGo.Infrastructure.Middleware;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance;
 
 public class CodeGoDbContext : DbContext
 {
-    private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public CodeGoDbContext(
         DbContextOptions<CodeGoDbContext> options,
-        PublishDomainEventsInterceptor publishDomainEventsInterceptor)
+        IHttpContextAccessor httpContextAccessor)
         : base(options)
     {
-        _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public DbSet<User> Users { get; set; } = null!;
@@ -28,23 +30,32 @@ public class CodeGoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .Ignore<List<IDomainEvent>>()
-            .ApplyConfigurationsFromAssembly(typeof(CodeGoDbContext).Assembly);
-
-        // apply config to all entities
-        // modelBuilder.Model.GetEntityTypes()
-        //     .SelectMany(e => e.GetProperties())
-        //     .Where(p => p.IsPrimaryKey())
-        //     .ToList()
-        //     .ForEach(p => p.ValueGenerated = ValueGenerated.Never);
-
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        optionsBuilder.AddInterceptors(_publishDomainEventsInterceptor);
-        base.OnConfiguring(optionsBuilder);
+        if (_httpContextAccessor.HttpContext is null)
+        {
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        var domainEvents = ChangeTracker.Entries<IHasDomainEvents>()
+           .Select(entry => entry.Entity.PopDomainEvents())
+           .SelectMany(x => x)
+           .ToList();
+
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        Queue<IDomainEvent> domainEventsQueue = _httpContextAccessor.HttpContext!.Items.TryGetValue(EventualConsistencyMiddleware.DomainEventsKey, out var value) &&
+            value is Queue<IDomainEvent> existingDomainEvents
+            ? existingDomainEvents
+            : new();
+
+        domainEvents.ForEach(domainEventsQueue.Enqueue);
+        _httpContextAccessor.HttpContext.Items[EventualConsistencyMiddleware.DomainEventsKey] = domainEventsQueue;
+
+        return result;
     }
 }
