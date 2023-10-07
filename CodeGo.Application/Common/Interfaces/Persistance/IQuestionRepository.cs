@@ -10,4 +10,5 @@ public interface IQuestionRepository
     Task<Question?> FindById(QuestionId questionId);
     Task<List<Question>> FindByCourseId(CourseId courseId);
     Task Add(Question question);
+    Task SaveChangesAsync();
 }

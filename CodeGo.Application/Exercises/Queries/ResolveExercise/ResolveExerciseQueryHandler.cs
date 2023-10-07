@@ -40,6 +40,7 @@ public class ResolveExerciseQueryHandler : IRequestHandler<ResolveExerciseQuery,
         if (isCorrect.IsError)
             return isCorrect.Errors;
         var message = isCorrect.Value ? "Sucesso no Teste" : "Falha no Teste";
+        await _exerciseRepository.SaveChangesAsync();
         return new ResolveExerciseResult(
             message,
             isCorrect.Value);

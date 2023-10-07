@@ -34,4 +34,9 @@ public class QuestionRepository : IQuestionRepository
         return await _dbContext.Questions
             .FirstOrDefaultAsync(question => question.Id == questionId);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 }

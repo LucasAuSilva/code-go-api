@@ -10,4 +10,5 @@ public interface IExerciseRepository
     Task<List<Exercise>> FindByCourseId(CourseId courseId);
     Task Add(Exercise exercise);
     Task<Exercise?> FindById(ExerciseId exerciseId);
+    Task SaveChangesAsync();
 }
