@@ -84,7 +84,7 @@ public class ConsumeIntegrationEventsBackgroundService : IHostedService
             var publisher = scope.ServiceProvider.GetRequiredService<IPublisher>();
             await publisher.Publish(integrationEvent);
 
-            _logger.LogInformation("Integration event published in Gym Management service successfully. Sending ack to message broker.");
+            _logger.LogInformation("Integration event published in CodeGo.Application service successfully. Sending ack to message broker.");
 
             _channel.BasicAck(eventArgs.DeliveryTag, multiple: false);
         }
