@@ -27,6 +27,6 @@ public class CreateAlternativeCommandValidator : AbstractValidator<CreateAlterna
     public CreateAlternativeCommandValidator()
     {
         RuleFor(x => x.Description).NotEmpty();
-        RuleFor(x => x.IsCorrect).NotEmpty();
+        RuleFor(x => x.IsCorrect);
     }
 }
