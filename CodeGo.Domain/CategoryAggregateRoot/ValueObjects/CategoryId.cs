@@ -31,4 +31,8 @@ public sealed class CategoryId : AggregateRootId<Guid>
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618
+    private CategoryId() {}
+#pragma warning restore CS8618
 }

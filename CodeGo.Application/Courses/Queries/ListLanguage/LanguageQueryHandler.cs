@@ -1,6 +1,6 @@
 
 using CodeGo.Application.Courses.Common;
-using CodeGo.Domain.CourseAggregateRoot.Enums;
+using CodeGo.Domain.Common.Enums;
 using ErrorOr;
 using MediatR;
 
