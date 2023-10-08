@@ -1,6 +1,8 @@
 
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.CategoryAggregateRoot;
+using CodeGo.Domain.Common.Enums;
+using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
@@ -19,7 +21,9 @@ public class ListAllCategoriesQueryHandler : IRequestHandler<ListAllCategoriesQu
         ListAllCategoriesQuery query,
         CancellationToken cancellationToken)
     {
-        var categories = await _categoryRepository.ListAsync();
+        if (!Language.TryFromValue(query.Language, out var language))
+            return Errors.Categories.NotFound;
+        var categories = await _categoryRepository.ListByLanguageAsync(language);
         return categories;
     }
 }

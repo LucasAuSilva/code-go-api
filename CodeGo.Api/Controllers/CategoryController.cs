@@ -25,9 +25,9 @@ public class CategoryController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllCategories()
+    public async Task<IActionResult> GetAllCategories(int language)
     {
-        var query = new ListAllCategoriesQuery();
+        var query = new ListAllCategoriesQuery(language);
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<List<CategoryResponse>>(result)),

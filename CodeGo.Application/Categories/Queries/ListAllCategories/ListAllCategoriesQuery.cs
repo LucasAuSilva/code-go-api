@@ -6,4 +6,5 @@ using MediatR;
 
 namespace CodeGo.Application.Categories.Queries.ListAllCategories;
 
-public record ListAllCategoriesQuery() : IRequest<ErrorOr<List<Category>>>;
+public record ListAllCategoriesQuery(
+    int Language) : IRequest<ErrorOr<List<Category>>>;

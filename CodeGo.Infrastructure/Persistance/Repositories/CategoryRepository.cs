@@ -1,8 +1,8 @@
 
-
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.CategoryAggregateRoot;
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
+using CodeGo.Domain.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;
@@ -31,6 +31,13 @@ public class CategoryRepository : ICategoryRepository
     public async Task<List<Category>> ListAsync()
     {
         return await _dbContext.Categories.ToListAsync();
+    }
+
+    public async Task<List<Category>> ListByLanguageAsync(Language language)
+    {
+        return await _dbContext.Categories
+            .Where(category => category.Language.Equals(language))
+            .ToListAsync();
     }
 
     public async Task Update(Category category)
