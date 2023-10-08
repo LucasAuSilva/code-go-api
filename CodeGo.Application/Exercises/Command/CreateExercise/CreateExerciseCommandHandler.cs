@@ -16,23 +16,30 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
 {
     private readonly ICourseRepository _courseRepository;
     private readonly IExerciseRepository _exerciseRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
     public CreateExerciseCommandHandler(
         IExerciseRepository exerciseRepository,
-        ICourseRepository courseRepository)
+        ICourseRepository courseRepository,
+        ICategoryRepository categoryRepository)
     {
         _exerciseRepository = exerciseRepository;
         _courseRepository = courseRepository;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<ErrorOr<Exercise>> Handle(CreateExerciseCommand command, CancellationToken cancellationToken)
     {
-        // TODO: Make validations for empty strings before command
         var courseId = CourseId.Create(command.CourseId);
         var categoryId = CategoryId.Create(command.CategoryId);
-        if (!await _courseRepository.Exists(courseId))
+        var course = await _courseRepository.FindById(courseId);
+        if (course is null)
             return Errors.Course.CourseNotFound;
-        // TODO: when map the category create validation for check CategoryId
+        var category = await _categoryRepository.FindById(categoryId);
+        if (category is null)
+            return Errors.Categories.NotFound;
+        if (!category.Language.Equals(course.Language))
+            return Errors.Categories.NotEqualToCourse;
         var type = ExerciseType.FromValue(command.TypeValue);
         var difficulty = Difficulty.CreateNew(command.DifficultyValue);
         var exercise = Exercise.CreateNew(
