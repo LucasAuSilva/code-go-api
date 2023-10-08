@@ -1,5 +1,6 @@
 POST {{baseUrl}}/course/{{courseId}}/module
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "sectionId": "{{sectionId}}",
