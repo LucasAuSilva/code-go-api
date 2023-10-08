@@ -1,7 +1,6 @@
 
-using CodeGo.Api.Controllers;
+using CodeGo.Application.Categories.Command.CreateCategory;
 using CodeGo.Application.Categories.Queries.ListAllCategories;
-using CodeGo.Application.Common.Results;
 using CodeGo.Contracts.Categories;
 using MapsterMapper;
 using MediatR;
@@ -32,6 +31,16 @@ public class CategoryController : ApiController
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<List<CategoryResponse>>(result)),
+            Problem);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest request)
+    {
+        var command = _mapper.Map<CreateCategoryCommand>(request);
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<CategoryResponse>(result)),
             Problem);
     }
 }
