@@ -1,1 +1,5 @@
-GET /category
+GET {{baseUrl}}/category
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{}
