@@ -121,6 +121,7 @@ BrokerSettings__Username=guest
 BrokerSettings__Password=guest
 BrokerSettings__Host=rabbit
 BrokerSettings__Port=5672
+BrokerSettings__Ssl=false
 
 # Queue for recover life settings, no need to change
 LifeQueueSettings__QueueName=life.in

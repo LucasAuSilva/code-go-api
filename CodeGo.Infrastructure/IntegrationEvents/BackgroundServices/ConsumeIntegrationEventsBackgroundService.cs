@@ -39,7 +39,12 @@ public class ConsumeIntegrationEventsBackgroundService : IHostedService
             HostName = _brokerSettings.Host,
             Port = _brokerSettings.Port,
             UserName = _brokerSettings.Username,
-            Password = _brokerSettings.Password
+            Password = _brokerSettings.Password,
+            Ssl = new SslOption
+            {
+                ServerName = _brokerSettings.Host,
+                Enabled = _brokerSettings.Ssl
+            }
         };
         _connection = connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
