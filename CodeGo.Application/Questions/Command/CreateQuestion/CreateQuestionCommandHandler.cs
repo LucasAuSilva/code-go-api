@@ -40,7 +40,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         if (!category.Language.Equals(course.Language))
             return Errors.Categories.NotEqualToCourse;
         var difficulty = Difficulty.CreateNew(command.DifficultyValue);
-        var question = Question.CreateNew(
+        var result = Question.CreateNew(
             command.Title,
             command.Description,
             difficulty,
@@ -49,7 +49,9 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
             alternatives: command.Alternatives.ConvertAll(alternative => Alternative.CreateNew(
                 alternative.Description,
                 alternative.IsCorrect)));
-        await _questionRepository.Add(question);
-        return question;
+        if (result.IsError)
+            return result.Errors;
+        await _questionRepository.Add(result.Value);
+        return result.Value;
     }
 }
