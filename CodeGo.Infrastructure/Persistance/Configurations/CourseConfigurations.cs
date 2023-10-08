@@ -1,4 +1,5 @@
 
+using CodeGo.Domain.Common.Enums;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.CourseAggregateRoot.Enums;
