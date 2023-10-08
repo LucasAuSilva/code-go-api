@@ -1,10 +1,10 @@
 
 using CodeGo.Application.Common.Interfaces.Persistance;
-using CodeGo.Domain.CourseAggregateRoot.Enums;
 using CodeGo.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 using CodeGo.Domain.CourseAggregateRoot;
+using CodeGo.Domain.Common.Enums;
 
 namespace CodeGo.Application.Courses.Command.CreateCourse;
 

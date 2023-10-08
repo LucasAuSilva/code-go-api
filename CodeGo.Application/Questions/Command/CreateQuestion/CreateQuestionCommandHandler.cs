@@ -15,24 +15,32 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
 {
     private readonly IQuestionRepository _questionRepository;
     private readonly ICourseRepository _courseRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
     public CreateQuestionCommandHandler(
         IQuestionRepository questionRepository,
-        ICourseRepository courseRepository)
+        ICourseRepository courseRepository,
+        ICategoryRepository categoryRepository)
     {
         _questionRepository = questionRepository;
         _courseRepository = courseRepository;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<ErrorOr<Question>> Handle(CreateQuestionCommand command, CancellationToken cancellationToken)
     {
         var courseId = CourseId.Create(command.CourseId);
         var categoryId = CategoryId.Create(command.CategoryId);
-        if (!await _courseRepository.Exists(courseId))
+        var course = await _courseRepository.FindById(courseId);
+        if (course is null)
             return Errors.Course.CourseNotFound;
-        // TODO: After create category table, check if exists on database
+        var category = await _categoryRepository.FindById(categoryId);
+        if (category is null)
+            return Errors.Categories.NotFound;
+        if (!category.Language.Equals(course.Language))
+            return Errors.Categories.NotEqualToCourse;
         var difficulty = Difficulty.CreateNew(command.DifficultyValue);
-        var question = Question.CreateNew(
+        var result = Question.CreateNew(
             command.Title,
             command.Description,
             difficulty,
@@ -41,7 +49,9 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
             alternatives: command.Alternatives.ConvertAll(alternative => Alternative.CreateNew(
                 alternative.Description,
                 alternative.IsCorrect)));
-        await _questionRepository.Add(question);
-        return question;
+        if (result.IsError)
+            return result.Errors;
+        await _questionRepository.Add(result.Value);
+        return result.Value;
     }
 }

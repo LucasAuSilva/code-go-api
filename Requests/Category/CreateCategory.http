@@ -1,0 +1,9 @@
+POST {{baseUrl}}/category
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Declaring Variables",
+    "description": "This category is for user learn how to setting variables on the language",
+    "languageValue": 1
+}

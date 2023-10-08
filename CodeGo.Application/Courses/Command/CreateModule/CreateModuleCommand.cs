@@ -10,6 +10,7 @@ public record CreateModuleCommand(
     string CourseId,
     string SectionId,
     string Name,
+    string CategoryId,
     int TotalLessons,
     int ModuleTypeValue,
     int Difficulty) : IRequest<ErrorOr<Course>>;

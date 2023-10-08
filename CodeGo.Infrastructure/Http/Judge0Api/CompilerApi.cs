@@ -1,5 +1,6 @@
 
 using CodeGo.Application.Common.Interfaces.Http;
+using CodeGo.Domain.Common.Enums;
 using CodeGo.Infrastructure.Http.Judge0Api.Models;
 using Microsoft.Extensions.Options;
 using RestSharp;
@@ -26,17 +27,37 @@ public class CompilerApi : ICompilerApi
         _httpClient.AddDefaultHeader("X-RapidAPI-Key", _judge0Settings.ApiKey);
     }
 
-    public async Task<string> SendCodeToCompile(string code)
+    public async Task<string> SendCodeToCompile(string code, Language language)
     {
+        var languageId = GetJudgeLanguageId(language);
         var codeInBytes = System.Text.Encoding.UTF8.GetBytes(code);
         var codeInBase64 = Convert.ToBase64String(codeInBytes);
 
-        var body = new SubmissionModel(93, codeInBase64);
+        var body = new SubmissionModel(languageId, codeInBase64);
         var createSubmissionResponse = await CreateSubmission(body);
         var getSubmissionResponse = await GetSubmission(createSubmissionResponse.Token);
 
         var resultBase64InBytes = Convert.FromBase64String(getSubmissionResponse.Stdout);
         return System.Text.Encoding.UTF8.GetString(resultBase64InBytes);
+    }
+
+    private static int GetJudgeLanguageId(Language language)
+    {
+        var languageId = 0;
+        language
+            .When(Language.Javascript).Then(() =>
+            {
+                languageId = 93;
+            })
+            .When(Language.Python).Then(() =>
+            {
+                languageId = 71;
+            })
+            .When(Language.Csharp).Then(() => 
+            {
+                languageId = 51;
+            });
+        return languageId;
     }
 
     private async Task<GetSubmissionResponse> GetSubmission(string token)

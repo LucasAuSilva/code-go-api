@@ -1,0 +1,5 @@
+GET {{baseUrl}}/category?language=1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{}

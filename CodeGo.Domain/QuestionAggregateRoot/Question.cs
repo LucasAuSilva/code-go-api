@@ -45,7 +45,7 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         _alternatives = alternatives;
     }
 
-    public static Question CreateNew(
+    public static ErrorOr<Question> CreateNew(
         string title,
         string description,
         Difficulty difficulty,
@@ -53,6 +53,8 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         CourseId courseId,
         List<Alternative>? alternatives = null)
     {
+        if (alternatives is not null && alternatives.Any(alternative => alternative.IsCorrect))
+            return Errors.Question.MissingCorrectAlternative;
         return new Question(
             id: QuestionId.CreateNew(),
             title: title,

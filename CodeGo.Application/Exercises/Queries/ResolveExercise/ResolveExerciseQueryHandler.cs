@@ -13,14 +13,17 @@ namespace CodeGo.Application.Exercises.Queries.ResolveExercise;
 public class ResolveExerciseQueryHandler : IRequestHandler<ResolveExerciseQuery, ErrorOr<ResolveExerciseResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;
+    private readonly ICourseRepository _courseRepository;
     private readonly ICompilerApi _compilerApi;
 
     public ResolveExerciseQueryHandler(
         IExerciseRepository exerciseRepository,
-        ICompilerApi compilerApi)
+        ICompilerApi compilerApi,
+        ICourseRepository courseRepository)
     {
         _exerciseRepository = exerciseRepository;
         _compilerApi = compilerApi;
+        _courseRepository = courseRepository;
     }
 
     public async Task<ErrorOr<ResolveExerciseResult>> Handle(ResolveExerciseQuery query, CancellationToken cancellationToken)
@@ -31,8 +34,11 @@ public class ResolveExerciseQueryHandler : IRequestHandler<ResolveExerciseQuery,
             return Errors.Exercise.NotFound;
         var testCaseId = TestCaseId.Create(query.TestCaseId);
         var runCode = exercise.MakeRunCode(query.SolutionCode);
+        var course = await _courseRepository.FindById(exercise.CourseId);
+        if (course is null)
+            return Errors.Course.CourseNotFound;
         // Make validation when the code return an exception from compiler
-        var result = await _compilerApi.SendCodeToCompile(runCode);
+        var result = await _compilerApi.SendCodeToCompile(runCode, course.Language);
         var isCorrect = exercise.Resolve(
             UserId.Create(query.UserId),
             testCaseId,

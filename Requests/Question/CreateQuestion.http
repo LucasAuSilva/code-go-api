@@ -26,3 +26,67 @@ Content-Type: application/json
         }
     ]
 }
+
+###
+
+POST {{baseUrl}}/question
+Content-Type: application/json
+
+{
+    "courseId": "{{courseId}}",
+    "title": "Variáveis Javascript",
+    "description": "Qual a diferença entre \"let\" e \"const\" na declaração de variavéis?",
+    "categoryId": "{{categoryId}}",
+    "difficultyValue": 1,
+    "alternatives": [
+        {
+            "description": "A principal diferença é que \"let\" permite uma mudança em seu valor, enquanto \"const\" quando assinada a um valor pela primeira vez se torna **read-only**.",
+            "isCorrect": true
+        },
+        {
+            "description": "Nenhuma diferença, ambos declaram uma variável em JavaScript.",
+            "isCorrect": false
+        },
+        {
+            "description": "A diferença é que \"let\" é apenas read-only quando assinada pela primeira vez, já \"const\" pode ser assinada variás vezes.",
+            "isCorrect": false
+        },
+        {
+            "description": "As keywords \"let\" e \"const\" não são usadas para declarar variavéis.",
+            "isCorrect": false
+        }
+    ]
+}
+
+
+###
+
+POST {{baseUrl}}/question
+Content-Type: application/json
+
+{
+    "courseId": "{{courseId}}",
+    "title": "Variáveis Javascript",
+    "description": "Porque não devemos usar \"var\" para declarar variavéis em Javascript?",
+    "categoryId": "{{categoryId}}",
+    "difficultyValue": 4,
+    "alternatives": [
+        {
+            "description": "Apenas porque é uma maneira antiga, não tendo nenhum impacto no código.",
+            "isCorrect": false
+        },
+        {
+            "description": "Porque \"var\" não é permitido usar depois do ES6.",
+            "isCorrect": false
+        },
+        {
+            "description": "Não devemos usar o \"var\" porque ela usa escopo da função para declaração, o que pode criar vários bugs se não usado corretamente.",
+            "isCorrect": true
+        },
+        {
+            "description": "Porque \"var\" usa o escopo de bloco, o que se não usado corretamente, causa varios bugs na aplicação.",
+            "isCorrect": false
+        }
+    ]
+}
+
