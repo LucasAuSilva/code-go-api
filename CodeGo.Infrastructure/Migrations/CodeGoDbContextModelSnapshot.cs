@@ -178,7 +178,57 @@ namespace CodeGo.Infrastructure.Migrations
 
             modelBuilder.Entity("CodeGo.Domain.CourseAggregateRoot.Course", b =>
                 {
-                    b.OwnsMany("CodeGo.Domain.CourseAggregateRoot.Entities.Section", "Sections", b1 =>
+                    b.OwnsMany("CodeGo.Domain.CourseAggregateRoot.Course.ExerciseIds#CodeGo.Domain.ExerciseAggregateRoot.ValueObjects.ExerciseId", "ExerciseIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("CourseId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("ExerciseId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CourseId");
+
+                            b1.ToTable("courseExerciseIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("CourseId");
+                        });
+
+                    b.OwnsMany("CodeGo.Domain.CourseAggregateRoot.Course.QuestionIds#CodeGo.Domain.QuestionAggregateRoot.ValueObjects.QuestionId", "QuestionIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("CourseId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("QuestionId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CourseId");
+
+                            b1.ToTable("courseQuestionIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("CourseId");
+                        });
+
+                    b.OwnsMany("CodeGo.Domain.CourseAggregateRoot.Course.Sections#CodeGo.Domain.CourseAggregateRoot.Entities.Section", "Sections", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid")
@@ -206,7 +256,7 @@ namespace CodeGo.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("CourseId");
 
-                            b1.OwnsMany("CodeGo.Domain.CourseAggregateRoot.Entities.Module", "Modules", b2 =>
+                            b1.OwnsMany("CodeGo.Domain.CourseAggregateRoot.Course.Sections#CodeGo.Domain.CourseAggregateRoot.Entities.Section.Modules#CodeGo.Domain.CourseAggregateRoot.Entities.Module", "Modules", b2 =>
                                 {
                                     b2.Property<Guid>("Id")
                                         .HasColumnType("uuid")
@@ -238,7 +288,7 @@ namespace CodeGo.Infrastructure.Migrations
                                     b2.WithOwner()
                                         .HasForeignKey("SectionId", "CourseId");
 
-                                    b2.OwnsOne("CodeGo.Domain.Common.ValueObjects.Difficulty", "Difficulty", b3 =>
+                                    b2.OwnsOne("CodeGo.Domain.CourseAggregateRoot.Course.Sections#CodeGo.Domain.CourseAggregateRoot.Entities.Section.Modules#CodeGo.Domain.CourseAggregateRoot.Entities.Module.Difficulty#CodeGo.Domain.Common.ValueObjects.Difficulty", "Difficulty", b3 =>
                                         {
                                             b3.Property<Guid>("ModuleId")
                                                 .HasColumnType("uuid");
@@ -254,7 +304,7 @@ namespace CodeGo.Infrastructure.Migrations
 
                                             b3.HasKey("ModuleId", "ModuleSectionId", "ModuleCourseId");
 
-                                            b3.ToTable("modules");
+                                            b3.ToTable("modules", (string)null);
 
                                             b3.WithOwner()
                                                 .HasForeignKey("ModuleId", "ModuleSectionId", "ModuleCourseId");
@@ -267,56 +317,6 @@ namespace CodeGo.Infrastructure.Migrations
                             b1.Navigation("Modules");
                         });
 
-                    b.OwnsMany("CodeGo.Domain.ExerciseAggregateRoot.ValueObjects.ExerciseId", "ExerciseIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("CourseId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("ExerciseId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("CourseId");
-
-                            b1.ToTable("courseExerciseIds", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("CourseId");
-                        });
-
-                    b.OwnsMany("CodeGo.Domain.QuestionAggregateRoot.ValueObjects.QuestionId", "QuestionIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("CourseId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("QuestionId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("CourseId");
-
-                            b1.ToTable("courseQuestionIds", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("CourseId");
-                        });
-
                     b.Navigation("ExerciseIds");
 
                     b.Navigation("QuestionIds");
@@ -326,7 +326,23 @@ namespace CodeGo.Infrastructure.Migrations
 
             modelBuilder.Entity("CodeGo.Domain.ExerciseAggregateRoot.Exercise", b =>
                 {
-                    b.OwnsMany("CodeGo.Domain.ExerciseAggregateRoot.Entities.TestCase", "TestCases", b1 =>
+                    b.OwnsOne("CodeGo.Domain.ExerciseAggregateRoot.Exercise.Difficulty#CodeGo.Domain.Common.ValueObjects.Difficulty", "Difficulty", b1 =>
+                        {
+                            b1.Property<Guid>("ExerciseId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ExerciseId");
+
+                            b1.ToTable("exercises", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("ExerciseId");
+                        });
+
+                    b.OwnsMany("CodeGo.Domain.ExerciseAggregateRoot.Exercise.TestCases#CodeGo.Domain.ExerciseAggregateRoot.Entities.TestCase", "TestCases", b1 =>
                         {
                             b1.Property<Guid>("ExerciseId")
                                 .HasColumnType("uuid");
@@ -352,22 +368,6 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasForeignKey("ExerciseId");
                         });
 
-                    b.OwnsOne("CodeGo.Domain.Common.ValueObjects.Difficulty", "Difficulty", b1 =>
-                        {
-                            b1.Property<Guid>("ExerciseId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Value")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("ExerciseId");
-
-                            b1.ToTable("exercises");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ExerciseId");
-                        });
-
                     b.Navigation("Difficulty")
                         .IsRequired();
 
@@ -376,7 +376,7 @@ namespace CodeGo.Infrastructure.Migrations
 
             modelBuilder.Entity("CodeGo.Domain.QuestionAggregateRoot.Question", b =>
                 {
-                    b.OwnsMany("CodeGo.Domain.QuestionAggregateRoot.Entity.Alternative", "Alternatives", b1 =>
+                    b.OwnsMany("CodeGo.Domain.QuestionAggregateRoot.Question.Alternatives#CodeGo.Domain.QuestionAggregateRoot.Entity.Alternative", "Alternatives", b1 =>
                         {
                             b1.Property<Guid>("QuestionId")
                                 .HasColumnType("uuid");
@@ -400,7 +400,7 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasForeignKey("QuestionId");
                         });
 
-                    b.OwnsOne("CodeGo.Domain.Common.ValueObjects.Difficulty", "Difficulty", b1 =>
+                    b.OwnsOne("CodeGo.Domain.QuestionAggregateRoot.Question.Difficulty#CodeGo.Domain.Common.ValueObjects.Difficulty", "Difficulty", b1 =>
                         {
                             b1.Property<Guid>("QuestionId")
                                 .HasColumnType("uuid");
@@ -410,7 +410,7 @@ namespace CodeGo.Infrastructure.Migrations
 
                             b1.HasKey("QuestionId");
 
-                            b1.ToTable("questions");
+                            b1.ToTable("questions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("QuestionId");
@@ -424,7 +424,7 @@ namespace CodeGo.Infrastructure.Migrations
 
             modelBuilder.Entity("CodeGo.Domain.UserAggregateRoot.User", b =>
                 {
-                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.ValueObjects.UserId", "FriendIds", b1 =>
+                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.User.FriendIds#CodeGo.Domain.UserAggregateRoot.ValueObjects.UserId", "FriendIds", b1 =>
                         {
                             b1.Property<Guid>("ReceiverId")
                                 .HasColumnType("uuid");
@@ -447,7 +447,32 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasForeignKey("ReceiverId");
                         });
 
-                    b.OwnsMany("CodeGo.Domain.CourseAggregateRoot.ValueObjects.CourseId", "CourseIds", b1 =>
+                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.User.BlockedUserIds#CodeGo.Domain.UserAggregateRoot.ValueObjects.UserId", "BlockedUserIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("BlockedId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("UserId");
+
+                            b1.ToTable("userBlockedIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.User.CourseIds#CodeGo.Domain.CourseAggregateRoot.ValueObjects.CourseId", "CourseIds", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -472,7 +497,26 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.Entities.FriendshipRequest", "FriendshipRequests", b1 =>
+                    b.OwnsOne("CodeGo.Domain.UserAggregateRoot.User.DayStreak#CodeGo.Domain.UserAggregateRoot.ValueObjects.Streak", "DayStreak", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("StreakCount")
+                                .HasColumnType("integer");
+
+                            b1.Property<DateTime>("StreakLastUpdate")
+                                .HasColumnType("timestamp with time zone");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("users", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.User.FriendshipRequests#CodeGo.Domain.UserAggregateRoot.Entities.FriendshipRequest", "FriendshipRequests", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid")
@@ -510,32 +554,7 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("CodeGo.Domain.UserAggregateRoot.ValueObjects.UserId", "BlockedUserIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("BlockedId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("UserId");
-
-                            b1.ToTable("userBlockedIds", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsOne("CodeGo.Domain.UserAggregateRoot.ValueObjects.ExperiencePoints", "Points", b1 =>
+                    b.OwnsOne("CodeGo.Domain.UserAggregateRoot.User.Points#CodeGo.Domain.UserAggregateRoot.ValueObjects.ExperiencePoints", "Points", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
@@ -545,48 +564,7 @@ namespace CodeGo.Infrastructure.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsOne("CodeGo.Domain.UserAggregateRoot.ValueObjects.Life", "Life", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<DateTime>("LastLose")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<DateTime>("LastRecharged")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<int>("LifeCount")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsOne("CodeGo.Domain.UserAggregateRoot.ValueObjects.Streak", "DayStreak", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("StreakCount")
-                                .HasColumnType("integer");
-
-                            b1.Property<DateTime>("StreakLastUpdate")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("users");
+                            b1.ToTable("users", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
@@ -602,9 +580,6 @@ namespace CodeGo.Infrastructure.Migrations
                     b.Navigation("FriendIds");
 
                     b.Navigation("FriendshipRequests");
-
-                    b.Navigation("Life")
-                        .IsRequired();
 
                     b.Navigation("Points")
                         .IsRequired();

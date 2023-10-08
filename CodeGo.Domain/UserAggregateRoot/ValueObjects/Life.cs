@@ -5,13 +5,15 @@ namespace CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 public sealed class Life : ValueObject
 {
-    public int LifeCount { get; private set; }
+    public int Count { get; private set; }
+    public int Total { get; private set; }
     public DateTime LastRecharged { get; private set; }
     public DateTime LastLose { get; private set; }
 
-    private Life(int lifeCount)
+    private Life(int total)
     {
-        LifeCount = lifeCount;
+        Count = total;
+        Total = total;
         LastRecharged = DateTime.UtcNow;
         LastLose = DateTime.UtcNow;
     }
@@ -23,17 +25,20 @@ public sealed class Life : ValueObject
 
     public void Recover()
     {
-        LifeCount = 5;
+        Count = Total;
+        LastRecharged = DateTime.UtcNow;
     }
 
     public void Lose()
     {
-        LifeCount -= 1;
+        Count -= 1;
+        LastLose = DateTime.UtcNow;
     }
 
     public override IEnumerable<object?> GetEqualityComponents()
     {
-        yield return LifeCount;
+        yield return Count;
+        yield return Total;
         yield return LastRecharged;
         yield return LastLose;
     }

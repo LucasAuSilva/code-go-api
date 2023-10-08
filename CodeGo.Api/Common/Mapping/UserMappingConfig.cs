@@ -42,6 +42,8 @@ public class UserMappingConfig : IRegister
     {
         config.NewConfig<User, UserResponse>()
             .Map(dest => dest.Id, src => src.Id.Value.ToString())
+            .Map(dest => dest.LifeCount, src => src.Life.Count)
+            .Map(dest => dest.LifeTotal, src => src.Life.Total)
             .Map(dest => dest.StreakCount, src => src.DayStreak.StreakCount)
             .Map(dest => dest.ExperiencePoints, src => src.Points.Points)
             .Map(
