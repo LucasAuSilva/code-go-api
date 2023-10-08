@@ -26,13 +26,12 @@ public class CategoryController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllCategories(
-        [FromQuery] ListAllCategoriesRequest request)
+    public async Task<IActionResult> GetAllCategories()
     {
-        var query = _mapper.Map<ListAllCategoriesQuery>(request);
+        var query = new ListAllCategoriesQuery();
         var result = await _sender.Send(query);
         return result.Match(
-            result => Ok(_mapper.Map<PagedListResult<CategoryResponse>>(result)),
+            result => Ok(_mapper.Map<List<CategoryResponse>>(result)),
             Problem);
     }
 }
