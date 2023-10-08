@@ -7,6 +7,7 @@ public sealed class Life : ValueObject
 {
     public int Count { get; private set; }
     public int Total { get; private set; }
+    public bool GoingToRecover { get; private set; }
     public DateTime LastRecharged { get; private set; }
     public DateTime LastLose { get; private set; }
 
@@ -14,6 +15,7 @@ public sealed class Life : ValueObject
     {
         Count = total;
         Total = total;
+        GoingToRecover = false;
         LastRecharged = DateTime.UtcNow;
         LastLose = DateTime.UtcNow;
     }
@@ -26,12 +28,14 @@ public sealed class Life : ValueObject
     public void Recover()
     {
         Count = Total;
+        GoingToRecover = false;
         LastRecharged = DateTime.UtcNow;
     }
 
     public void Lose()
     {
         Count -= 1;
+        GoingToRecover = true;
         LastLose = DateTime.UtcNow;
     }
 
@@ -39,6 +43,7 @@ public sealed class Life : ValueObject
     {
         yield return Count;
         yield return Total;
+        yield return GoingToRecover;
         yield return LastRecharged;
         yield return LastLose;
     }
