@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeGo.Infrastructure.Migrations
 {
     [DbContext(typeof(CodeGoDbContext))]
-    [Migration("20231008171042_UserLife")]
+    [Migration("20231008174647_UserLife")]
     partial class UserLife
     {
         /// <inheritdoc />
@@ -561,6 +561,9 @@ namespace CodeGo.Infrastructure.Migrations
 
                             b1.Property<int>("Count")
                                 .HasColumnType("integer");
+
+                            b1.Property<bool>("GoingToRecover")
+                                .HasColumnType("boolean");
 
                             b1.Property<DateTime>("LastLose")
                                 .HasColumnType("timestamp with time zone");

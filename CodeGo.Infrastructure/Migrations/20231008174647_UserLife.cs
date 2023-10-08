@@ -18,6 +18,13 @@ namespace CodeGo.Infrastructure.Migrations
                 nullable: false,
                 defaultValue: 0);
 
+            migrationBuilder.AddColumn<bool>(
+                name: "Life_GoingToRecover",
+                table: "users",
+                type: "boolean",
+                nullable: false,
+                defaultValue: false);
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "Life_LastLose",
                 table: "users",
@@ -45,6 +52,10 @@ namespace CodeGo.Infrastructure.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Life_Count",
+                table: "users");
+
+            migrationBuilder.DropColumn(
+                name: "Life_GoingToRecover",
                 table: "users");
 
             migrationBuilder.DropColumn(
