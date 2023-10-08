@@ -1,4 +1,5 @@
 
+using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.Enums;
@@ -12,32 +13,37 @@ public sealed class Module : Entity<ModuleId>
     public int TotalLessons { get; private set; }
     public ModuleType Type { get; private set; }
     public Difficulty Difficulty { get; private set; }
+    public CategoryId CategoryId { get; private set; }
 
     private Module(
         ModuleId id,
         string name,
         int totalLessons,
         ModuleType type,
-        Difficulty difficulty) : base(id)
+        Difficulty difficulty,
+        CategoryId categoryId) : base(id)
     {
         Name = name;
         TotalLessons = totalLessons;
         Type = type;
         Difficulty = difficulty;
+        CategoryId = categoryId;
     }
 
     public static Module CreateNew(
         string name,
         int totalLesson,
         ModuleType type,
-        Difficulty difficulty)
+        Difficulty difficulty,
+        CategoryId categoryId)
     {
         return new Module(
             id: ModuleId.CreateNew(),
             name: name,
             totalLessons: totalLesson,
             type: type,
-            difficulty: difficulty);
+            difficulty: difficulty,
+            categoryId: categoryId);
     }
 
 #pragma warning disable CS8618
