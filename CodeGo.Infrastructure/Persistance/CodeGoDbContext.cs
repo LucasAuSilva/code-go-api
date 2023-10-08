@@ -1,5 +1,6 @@
 
 using System.Reflection;
+using CodeGo.Domain.CategoryAggregateRoot;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot;
@@ -27,6 +28,7 @@ public class CodeGoDbContext : DbContext
     public DbSet<Question> Questions { get; set; } = null!;
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<Course> Courses { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

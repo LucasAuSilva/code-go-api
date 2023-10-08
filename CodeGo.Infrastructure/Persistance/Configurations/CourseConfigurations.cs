@@ -1,4 +1,5 @@
 
+using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Enums;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
@@ -77,6 +78,10 @@ public class CourseConfigurations : IEntityTypeConfiguration<Course>
                     .HasConversion(
                         id => id.Value,
                         value => ModuleId.Create(value));
+                mb.Property(m => m.CategoryId)
+                    .HasConversion(
+                        categoryId => categoryId.Value,
+                        value => CategoryId.Create(value));
                 mb.Property(m => m.Name)
                     .HasMaxLength(100);
                 mb.Property(m => m.Type)
