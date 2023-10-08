@@ -9,6 +9,8 @@ public record UserResponse(
     string? ProfilePicture,
     string? Bio,
     int StreakCount,
+    int LifeCount,
+    int LifeTotal,
     int ExperiencePoints,
     string Level,
     int Visibility,

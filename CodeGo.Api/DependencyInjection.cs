@@ -15,6 +15,7 @@ public static class DependencyInjection
         config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);
         services.AddControllers();
+        services.AddHttpContextAccessor();
         services.AddSingleton<ProblemDetailsFactory, CodeGoProblemDetailsFactory>();
         services.AddScoped<IMapper, ServiceMapper>();
         services.AddCors(options => options

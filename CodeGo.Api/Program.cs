@@ -13,11 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseExceptionHandler("/error");
+    app.AddInfrastructureMiddleware();
     if (app.Environment.IsDocker() || app.Environment.IsProduction())
     {
         app.MigrationInitialization();
     }
-    app.UseExceptionHandler("/error");
     app.MapControllers();
     app.UseCors();
     app.Run();

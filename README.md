@@ -97,6 +97,7 @@ dotnet restore
 dotnet build
 ```
 
+> **Before Run:** You need to setup an rabbit-mq broker for the application, you can follow [here](./Docs/configuration/rabbitmq.md) 
 > **Before Run:** You need to execute the migrations on your database with [this](#database) steps.  
 > And don't forget to change the your appsettings for you configuration.
 
@@ -114,6 +115,17 @@ dotnet run --project CodeGo.Api
 # For docker you need to set an .env file with this variables, in the root of the project
 # base connection string for the docker no need to change
 ConnectionStrings__CodeGoDatabase="Host=localhost; Database=codegodev; Username=user; Password=teste@123"
+
+# Broker connection settings, no need to change
+BrokerSettings__Username=guest
+BrokerSettings__Password=guest
+BrokerSettings__Host=rabbit
+BrokerSettings__Port=5672
+BrokerSettings__Ssl=false
+
+# Queue for recover life settings, no need to change
+LifeQueueSettings__QueueName=life.in
+LifeQueueSettings__DelayInMinutes=2
 
 # You don't need to setup this key, but the api to run exercise will not work ;)
 Judge0Settings__ApiKey=YourApiKeyHere

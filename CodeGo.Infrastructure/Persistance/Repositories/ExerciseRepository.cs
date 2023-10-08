@@ -34,4 +34,9 @@ public class ExerciseRepository : IExerciseRepository
         return await _dbContext.Exercises
             .FirstOrDefaultAsync(exercise => exercise.Id == exerciseId);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 }

@@ -1,5 +1,17 @@
 
 services:
+    rabbitmq:
+        container_name: rabbit
+        image: rabbitmq:3-management
+        hostname: rabbit
+        volumes:
+            - ./Configs/RabbitMQ/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+            - ./Configs/RabbitMQ/definitions.json:/etc/rabbitmq/definitions.json:ro
+        ports:
+            - "3939:15672"
+            - "5672:5672"
+        networks:
+            - codegodev-network
     db:
         container_name: db
         image: postgres:latest
@@ -32,6 +44,7 @@ services:
             - codegodev-network
         depends_on:
             - db
+            - rabbitmq
 networks:
     codegodev-network:
         driver: bridge

@@ -4,5 +4,5 @@ namespace CodeGo.Domain.Common.Models;
 public interface IHasDomainEvents
 {
     public IReadOnlyList<IDomainEvent> DomainEvents { get; }
-    public void ClearDomainEvents();
+    public List<IDomainEvent> PopDomainEvents();
 }

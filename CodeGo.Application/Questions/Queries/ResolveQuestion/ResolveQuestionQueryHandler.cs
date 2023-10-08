@@ -32,6 +32,7 @@ public class ResolveQuestionQueryHandler : IRequestHandler<ResolveQuestionQuery,
         if (isCorrect.IsError)
             return isCorrect.Errors;
         var message = isCorrect.Value ? "Resposta Correta" : "Resposta Errada";
+        await _questionRepository.SaveChangesAsync();
         return new ResolveQuestionResult(
             message,
             isCorrect.Value);

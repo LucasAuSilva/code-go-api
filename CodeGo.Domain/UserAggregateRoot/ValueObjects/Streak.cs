@@ -21,16 +21,16 @@ public sealed class Streak : ValueObject
 
     public void CountStreak()
     {
-        var today = DateTime.Now.Date;
+        var today = DateTime.UtcNow.Date;
         var lastUpdateDate = StreakLastUpdate.Date;
         if (today > lastUpdateDate && today.AddDays(-1).Date == lastUpdateDate.Date)
         {
             StreakCount++;
-            StreakLastUpdate = DateTime.Now;
+            StreakLastUpdate = DateTime.UtcNow;
             return;
         }
         StreakCount = 1;
-        StreakLastUpdate = DateTime.Now;
+        StreakLastUpdate = DateTime.UtcNow;
         return;
     }
 

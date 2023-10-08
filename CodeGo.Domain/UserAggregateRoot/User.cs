@@ -6,6 +6,7 @@ using CodeGo.Domain.UserAggregateRoot.Entities;
 using ErrorOr;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot.Events;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -20,6 +21,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string FullName { get; private set; }
     public string Email { get; private set; }
     public string Password { get; }
+    public Life Life { get; }
     public ProfileVisibility Visibility { get; private set; }
     public UserRole Role { get; private set; }
     public string? ProfilePicture { get; }
@@ -39,6 +41,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string lastName,
         string email,
         string password,
+        Life life,
         ProfileVisibility visibility,
         UserRole role,
         Streak dayStreak,
@@ -53,6 +56,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         FullName = $"{firstName} {lastName}";
         Email = email;
         Password = password;
+        Life = life;
         Visibility = visibility;
         Role = role;
         DayStreak = dayStreak;
@@ -71,12 +75,14 @@ public sealed class User : AggregateRoot<UserId, Guid>
     {
         var streak = Streak.CreateNew();
         var points = ExperiencePoints.CreateNew();
+        var life = Life.CreateNew();
         return new User(
             id: UserId.CreateNew(),
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: password,
+            life: life,
             visibility: ProfileVisibility.Private,
             role: UserRole.User,
             dayStreak: streak,
@@ -93,10 +99,17 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public void ResolvePractice(bool IsCorrect, Difficulty difficulty)
     {
         DayStreak.CountStreak();
-        if (IsCorrect)
+        if (!IsCorrect)
         {
-            Points.CalculatePointsByDifficulty(difficulty);
+            AddDomainEvent(new ResetLifeEvent(UserId.Create(Id.Value)));
+            Life.Lose();
         }
+        Points.CalculatePointsByDifficulty(difficulty);
+    }
+
+    public void ResetLives()
+    {
+        Life.Recover();
     }
 
     public bool CheckProfileAccess(User accessUser)

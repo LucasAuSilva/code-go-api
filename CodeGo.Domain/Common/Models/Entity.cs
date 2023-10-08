@@ -43,9 +43,12 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>, IHasDomainEvents
         _domainEvents.Add(domainEvent);
     }
 
-    public void ClearDomainEvents()
+    public List<IDomainEvent> PopDomainEvents()
     {
+        var copy = _domainEvents.ToList();
         _domainEvents.Clear();
+
+        return copy;
     }
 
 #pragma warning disable CS8618
