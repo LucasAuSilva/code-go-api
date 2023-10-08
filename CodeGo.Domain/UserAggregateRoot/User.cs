@@ -101,8 +101,10 @@ public sealed class User : AggregateRoot<UserId, Guid>
         DayStreak.CountStreak();
         if (!IsCorrect)
         {
-            AddDomainEvent(new ResetLifeEvent(UserId.Create(Id.Value)));
+            if (!Life.GoingToRecover)
+                AddDomainEvent(new ResetLifeEvent(UserId.Create(Id.Value)));
             Life.Lose();
+            return;
         }
         Points.CalculatePointsByDifficulty(difficulty);
     }

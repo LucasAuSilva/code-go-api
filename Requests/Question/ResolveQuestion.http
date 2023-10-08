@@ -1,4 +1,5 @@
-POST {{baseUrl}}/question/{{questionId}}/resolve/{{alternativeId}}
+POST {{baseUrl}}/question/{{questionId}}/resolve/{{alternativeIdIncorrect}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {}
