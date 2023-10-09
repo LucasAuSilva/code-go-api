@@ -58,4 +58,8 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
     }
+
+#pragma warning disable CS8618
+    private LessonTracking() {}
+#pragma warning restore CS8618
 }

@@ -33,4 +33,8 @@ public sealed class Practice : Entity<PracticeId>
             isCorrect,
             type);
     }
+
+#pragma warning disable CS8618
+    private Practice() {}
+#pragma warning restore CS8618
 }
