@@ -30,6 +30,13 @@ public sealed class Section : Entity<SectionId>
             description);
     }
 
+    public ModuleId FirstModule()
+    {
+        return Modules
+            .Select(module => module.Id)
+            .First();
+    }
+
     public void AddModule(Module module)
     {
         _modules.Add(module);
