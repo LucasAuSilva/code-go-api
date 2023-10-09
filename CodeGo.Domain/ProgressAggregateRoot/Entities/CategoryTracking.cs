@@ -29,4 +29,8 @@ public sealed class CategoryTracking : Entity<CategoryTrackingId>
             categoryId,
             difficulty);
     }
+
+#pragma warning disable CS8618
+    private CategoryTracking() {}
+#pragma warning restore CS8618
 }

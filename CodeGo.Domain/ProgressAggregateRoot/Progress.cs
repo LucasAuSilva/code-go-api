@@ -12,7 +12,7 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
 {
     private List<ModuleId> _completedModuleIds = new();
     private List<SectionId> _completedSectionIds = new();
-    private List<CategoryTracking> _categoriesTracking = new();
+    private List<CategoryTracking> _categoryTrackings = new();
     private List<LessonTrackingId> _lessonTrackingIds = new();
     public UserId UserId { get; private set; }
     public CourseId CourseId { get; private set; }
@@ -20,7 +20,7 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
     public SectionId CurrentSection { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-    public IReadOnlyCollection<CategoryTracking> CategoriesTracking => _categoriesTracking;
+    public IReadOnlyCollection<CategoryTracking> CategoryTrackings => _categoryTrackings;
     public IReadOnlyCollection<ModuleId> CompletedModuleIds => _completedModuleIds;
     public IReadOnlyCollection<SectionId> CompletedSectionIds => _completedSectionIds;
     public IReadOnlyCollection<LessonTrackingId> LessonTrackingIds => _lessonTrackingIds;
