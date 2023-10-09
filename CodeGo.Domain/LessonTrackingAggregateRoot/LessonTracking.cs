@@ -1,4 +1,5 @@
 
+using System.Runtime.CompilerServices;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
@@ -16,6 +17,8 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
     public DateTime StartDateTime { get; private set; }
     public DateTime? EndDateTime { get; private set; }
     public LessonStatus Status { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
     public IReadOnlyCollection<Practice> Practices => _practices;
 
     private LessonTracking(
@@ -25,8 +28,9 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         DateTime startDateTime,
         DateTime? endDateTime,
         LessonStatus status,
-        List<Practice> practices
-    ) : base(id)
+        List<Practice> practices,
+        DateTime createdAt,
+        DateTime updatedAt) : base(id)
     {
         UserId = userId;
         CourseId = courseId;
@@ -34,6 +38,8 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         EndDateTime = endDateTime;
         Status = status;
         _practices = practices;
+        CreatedAt = createdAt;
+        UpdatedAt = updatedAt;
     }
 
     public static LessonTracking CreateNew(
@@ -48,6 +54,8 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
             startDateTime: DateTime.UtcNow,
             endDateTime: null,
             status: LessonStatus.InProgress,
-            practices: practices);
+            practices: practices,
+            createdAt: DateTime.UtcNow,
+            updatedAt: DateTime.UtcNow);
     }
 }

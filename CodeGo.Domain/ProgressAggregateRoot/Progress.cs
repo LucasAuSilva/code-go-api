@@ -18,6 +18,8 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
     public CourseId CourseId { get; private set; }
     public ModuleId CurrentModule { get; private set; }
     public SectionId CurrentSection { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
     public IReadOnlyCollection<CategoryTracking> CategoriesTracking => _categoriesTracking;
     public IReadOnlyCollection<ModuleId> CompletedModuleIds => _completedModuleIds;
     public IReadOnlyCollection<SectionId> CompletedSectionIds => _completedSectionIds;
@@ -28,12 +30,16 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
         UserId userId,
         CourseId courseId,
         ModuleId currentModule,
-        SectionId currentSection) : base(id)
+        SectionId currentSection,
+        DateTime createdAt,
+        DateTime updatedAt) : base(id)
     {
         UserId = userId;
         CourseId = courseId;
         CurrentModule = currentModule;
         CurrentSection = currentSection;
+        CreatedAt = createdAt;
+        UpdatedAt = updatedAt;
     }
 
     public static Progress CreateNew(
@@ -47,7 +53,9 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
             userId,
             courseId,
             currentModule,
-            currentSection);
+            currentSection,
+            DateTime.UtcNow,
+            DateTime.UtcNow);
     }
 
 #pragma warning disable CS8618
