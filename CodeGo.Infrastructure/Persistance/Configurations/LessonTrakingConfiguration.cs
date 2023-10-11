@@ -30,6 +30,8 @@ public class LessonTrackingConfiguration : IEntityTypeConfiguration<LessonTracki
                 .HasConversion(
                     id => id.Value,
                     value => PracticeId.Create(value));
+            pb.Property(p => p.ActivityId)
+                .HasMaxLength(38);
             pb.Property(p => p.AnswerId)
                 .HasMaxLength(38);
             pb.Property(p => p.Type)

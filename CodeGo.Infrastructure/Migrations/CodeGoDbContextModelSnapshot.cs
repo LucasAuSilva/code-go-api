@@ -476,6 +476,11 @@ namespace CodeGo.Infrastructure.Migrations
                             b1.Property<Guid>("LessonTrackingId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<string>("ActivityId")
+                                .IsRequired()
+                                .HasMaxLength(38)
+                                .HasColumnType("character varying(38)");
+
                             b1.Property<string>("AnswerId")
                                 .IsRequired()
                                 .HasMaxLength(38)
