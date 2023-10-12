@@ -6,7 +6,6 @@ using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot.Entities;
 using CodeGo.Domain.ExerciseAggregateRoot.Enums;
-using CodeGo.Domain.ExerciseAggregateRoot.Events;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
@@ -92,8 +91,6 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         if (testCase is null)
             return Errors.Exercise.TestCaseNotFound;
         var isCorrect = testCase.Result == result;
-        this.AddDomainEvent(
-            new ResolvedExercise(userId, this, isCorrect));
         return testCase.Result == result;
     }
 

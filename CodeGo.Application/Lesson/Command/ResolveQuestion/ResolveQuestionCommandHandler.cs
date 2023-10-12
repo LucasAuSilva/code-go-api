@@ -52,6 +52,7 @@ public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionComm
             activityId: question.Id.Value.ToString(),
             answerId: command.AlternativeId,
             isCorrect: questionResult.Value,
+            difficulty: question.Difficulty,
             userId: userId
         );
         if (lessonResult.IsError)

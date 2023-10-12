@@ -65,6 +65,7 @@ public class ResolveExerciseCommandHandler : IRequestHandler<ResolveExerciseComm
             activityId: exercise.Id.Value.ToString(),
             answerId: command.TestCaseId,
             isCorrect: exerciseResult.Value,
+            difficulty: exercise.Difficulty,
             userId: userId
         );
         if (lessonResult.IsError)

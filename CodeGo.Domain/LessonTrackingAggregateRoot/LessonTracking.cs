@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
+using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
@@ -65,12 +66,17 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         return lessonTracking;
     }
 
-    // TODO: Change Events from ResolvedQuestion and ResolvedExercise to ResolvedPractice
-    public ErrorOr<Success> ResolvePractice(string activityId, string answerId, bool isCorrect, UserId userId)
+    public ErrorOr<Success> ResolvePractice(
+        string activityId,
+        string answerId,
+        bool isCorrect,
+        Difficulty difficulty,
+        UserId userId)
     {
         var practice = _practices.FirstOrDefault(practice => practice.ActivityId.Equals(activityId));
         if (practice is null)
             return Errors.LessonTrackings.PracticeNotFoundByActivity;
+        AddDomainEvent(new ResolvedPracticeEvent(practice, difficulty, userId));
         return practice.Resolve(answerId, isCorrect);
     }
 
