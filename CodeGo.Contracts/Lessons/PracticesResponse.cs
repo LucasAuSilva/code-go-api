@@ -2,6 +2,7 @@
 namespace CodeGo.Contracts.Lessons;
 
 public record PracticesResponse(
+    string LessonId,
     List<QuestionResponse> Questions,
     List<ExerciseResponse> Exercises);
 

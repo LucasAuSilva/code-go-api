@@ -74,6 +74,7 @@ public class StartLessonCommandHandler : IRequestHandler<StartLessonCommand, Err
         await _lessonTrackingRepository.AddAsync(lessonTracking);
 
         return new PracticesResult(
+            lessonTracking.IdToValueObject(),
             moduleQuestions,
             moduleExercises);
     }

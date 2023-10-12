@@ -6,6 +6,7 @@ using CodeGo.Domain.ExerciseAggregateRoot.Entities;
 using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using CodeGo.Contracts.Lessons;
+using CodeGo.Application.Lesson.Common;
 
 namespace CodeGo.Api.Common.Mapping;
 
@@ -24,6 +25,9 @@ public class LessonMappingConfig : IRegister
             .Map(dest => dest.CourseId, src => src.CourseId)
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest.ModuleId, src => src.ModuleId);
+
+    config.NewConfig<PracticesResult, PracticesResponse>()
+            .Map(dest => dest.LessonId, src => src.LessonId.Value.ToString());
 
         config.NewConfig<Question, QuestionResponse>()
             .Map(dest => dest.Id, src => src.Id.Value.ToString());
