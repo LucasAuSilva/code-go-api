@@ -84,6 +84,19 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         return module != null;
     }
 
+    // TODO: Implementar ordem para sections e modules
+    public SectionId FirstSection()
+    {
+        return Sections.Select(section => section.Id).First();
+    }
+
+    public ModuleId FirstModule()
+    {
+        return Sections
+            .First()
+            .FirstModule();
+    }
+
     public List<Question> SelectModuleQuestions(
         List<Question> questions,
         ModuleId moduleId)

@@ -4,6 +4,8 @@ using CodeGo.Domain.CategoryAggregateRoot;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot;
+using CodeGo.Domain.LessonTrackingAggregateRoot;
+using CodeGo.Domain.ProgressAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Infrastructure.Middleware;
@@ -29,6 +31,8 @@ public class CodeGoDbContext : DbContext
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<Course> Courses { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Progress> Progresses { get; set; } = null!;
+    public DbSet<LessonTracking> LessonTrackings { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

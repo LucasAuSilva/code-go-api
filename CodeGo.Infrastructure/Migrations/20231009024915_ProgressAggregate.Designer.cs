@@ -3,6 +3,7 @@ using System;
 using CodeGo.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeGo.Infrastructure.Migrations
 {
     [DbContext(typeof(CodeGoDbContext))]
-    partial class CodeGoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231009024915_ProgressAggregate")]
+    partial class ProgressAggregate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,37 +127,6 @@ namespace CodeGo.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("exercises", (string)null);
-                });
-
-            modelBuilder.Entity("CodeGo.Domain.LessonTrackingAggregateRoot.LessonTracking", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("EndDateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lessonTrackings", (string)null);
                 });
 
             modelBuilder.Entity("CodeGo.Domain.ProgressAggregateRoot.Progress", b =>
@@ -463,46 +435,6 @@ namespace CodeGo.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("TestCases");
-                });
-
-            modelBuilder.Entity("CodeGo.Domain.LessonTrackingAggregateRoot.LessonTracking", b =>
-                {
-                    b.OwnsMany("CodeGo.Domain.LessonTrackingAggregateRoot.Entities.Practice", "Practices", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid")
-                                .HasColumnName("PracticeId");
-
-                            b1.Property<Guid>("LessonTrackingId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("ActivityId")
-                                .IsRequired()
-                                .HasMaxLength(38)
-                                .HasColumnType("character varying(38)");
-
-                            b1.Property<string>("AnswerId")
-                                .IsRequired()
-                                .HasMaxLength(38)
-                                .HasColumnType("character varying(38)");
-
-                            b1.Property<bool>("IsCorrect")
-                                .HasColumnType("boolean");
-
-                            b1.Property<int>("Type")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("Id", "LessonTrackingId");
-
-                            b1.HasIndex("LessonTrackingId");
-
-                            b1.ToTable("practices", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("LessonTrackingId");
-                        });
-
-                    b.Navigation("Practices");
                 });
 
             modelBuilder.Entity("CodeGo.Domain.ProgressAggregateRoot.Progress", b =>

@@ -7,6 +7,7 @@ using ErrorOr;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.Events;
+using CodeGo.Domain.CourseAggregateRoot;
 
 namespace CodeGo.Domain.UserAggregateRoot;
 
@@ -91,9 +92,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
             updatedAt: DateTime.UtcNow);
     }
 
-    public void RegisterCourse(CourseId courseId)
+    public void RegisterCourse(Course course)
     {
-        _courseIds.Add(courseId);
+        AddDomainEvent(
+            new RegisteredNewCourseEvent(UserId.Create(Id.Value), course));
+        _courseIds.Add(CourseId.Create(course.Id.Value));
     }
 
     public void ResolvePractice(bool IsCorrect, Difficulty difficulty)
