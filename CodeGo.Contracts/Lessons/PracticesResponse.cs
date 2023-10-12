@@ -1,5 +1,5 @@
 
-namespace CodeGo.Contracts.Courses;
+namespace CodeGo.Contracts.Lessons;
 
 public record PracticesResponse(
     List<QuestionResponse> Questions,

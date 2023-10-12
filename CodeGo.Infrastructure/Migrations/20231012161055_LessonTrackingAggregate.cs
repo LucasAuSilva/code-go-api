@@ -36,7 +36,7 @@ namespace CodeGo.Infrastructure.Migrations
                     PracticeId = table.Column<Guid>(type: "uuid", nullable: false),
                     LessonTrackingId = table.Column<Guid>(type: "uuid", nullable: false),
                     ActivityId = table.Column<string>(type: "character varying(38)", maxLength: 38, nullable: false),
-                    AnswerId = table.Column<string>(type: "character varying(38)", maxLength: 38, nullable: false),
+                    AnswerId = table.Column<string>(type: "character varying(38)", maxLength: 38, nullable: true),
                     IsCorrect = table.Column<bool>(type: "boolean", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false)
                 },

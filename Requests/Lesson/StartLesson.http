@@ -1,0 +1,5 @@
+POST {{baseUrl}}/lesson/{{courseId}}/module/{{moduleId}}/start
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{}

@@ -81,6 +81,7 @@ public static class DependencyInjection
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProgressRepository, ProgressRepository>();
+        services.AddScoped<ILessonTrackingRepository, LessonTrackingRepository>();
         return services;
     }
 

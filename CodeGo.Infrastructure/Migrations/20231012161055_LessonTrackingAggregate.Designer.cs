@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeGo.Infrastructure.Migrations
 {
     [DbContext(typeof(CodeGoDbContext))]
-    [Migration("20231011171951_LessonTrackingAggregate")]
+    [Migration("20231012161055_LessonTrackingAggregate")]
     partial class LessonTrackingAggregate
     {
         /// <inheritdoc />
@@ -485,7 +485,6 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasColumnType("character varying(38)");
 
                             b1.Property<string>("AnswerId")
-                                .IsRequired()
                                 .HasMaxLength(38)
                                 .HasColumnType("character varying(38)");
 
