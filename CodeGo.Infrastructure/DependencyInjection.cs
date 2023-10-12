@@ -1,4 +1,5 @@
 
+using System.Net.Http.Headers;
 using System.Text;
 using CodeGo.Application.Common.Interfaces.Authentication;
 using CodeGo.Application.Common.Interfaces.Http;
@@ -44,6 +45,14 @@ public static class DependencyInjection
         configuration.Bind(Judge0Settings.SectionName, judge0Settings);
         services.AddSingleton(Options.Create(judge0Settings));
         services.AddSingleton<ICompilerApi, CompilerApi>();
+        services.AddHttpClient<ICompilerApi, CompilerApi>()
+            .ConfigureHttpClient((_, httpClient) =>
+            {
+                httpClient.BaseAddress = new Uri(judge0Settings.Host);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Key", judge0Settings.ApiKey);
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(3));
         return services;
     }
 

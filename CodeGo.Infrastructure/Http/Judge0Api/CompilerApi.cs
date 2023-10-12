@@ -1,30 +1,19 @@
 
+using System.Net.Http.Headers;
+using System.Text.Json;
 using CodeGo.Application.Common.Interfaces.Http;
 using CodeGo.Domain.Common.Enums;
 using CodeGo.Infrastructure.Http.Judge0Api.Models;
-using Microsoft.Extensions.Options;
-using RestSharp;
 
 namespace CodeGo.Infrastructure.Http.Judge0Api;
 
 public class CompilerApi : ICompilerApi
 {
-    private readonly RestClient _httpClient;
-    private readonly Judge0Settings _judge0Settings;
+    private readonly HttpClient _httpClient;
 
-    public CompilerApi(IOptions<Judge0Settings> judge0Settings)
+    public CompilerApi(HttpClient httpClient)
     {
-        _judge0Settings = judge0Settings.Value;
-        var options = new RestClientOptions(_judge0Settings.Host);
-        _httpClient = new RestClient(options);
-        SetupHttpClient();
-    }
-
-    private void SetupHttpClient()
-    {
-        _httpClient.AddDefaultHeader("content-type", "application/json");
-        _httpClient.AddDefaultHeader("Content-Type", "application/json");
-        _httpClient.AddDefaultHeader("X-RapidAPI-Key", _judge0Settings.ApiKey);
+        _httpClient = httpClient;
     }
 
     public async Task<string> SendCodeToCompile(string code, Language language)
@@ -37,7 +26,7 @@ public class CompilerApi : ICompilerApi
         var createSubmissionResponse = await CreateSubmission(body);
         var getSubmissionResponse = await GetSubmission(createSubmissionResponse.Token);
 
-        var resultBase64InBytes = Convert.FromBase64String(getSubmissionResponse.Stdout);
+        var resultBase64InBytes = Convert.FromBase64String(getSubmissionResponse.Stdout ?? "");
         return System.Text.Encoding.UTF8.GetString(resultBase64InBytes);
     }
 
@@ -63,22 +52,21 @@ public class CompilerApi : ICompilerApi
     private async Task<GetSubmissionResponse> GetSubmission(string token)
     {
         //TODO: validation for error on request
-        var request = new RestRequest("/submissions/{token}", Method.Get)
-            .AddUrlSegment("token", token);
-        request.AddQueryParameter("base64_encoded", "true");
-        request.AddQueryParameter("fields", "*");
-        var response = await _httpClient.GetAsync<GetSubmissionResponse>(request);
-        return response!;
+        var response = await _httpClient.GetAsync($"submissions/{token}");
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var submission = JsonSerializer.Deserialize<GetSubmissionResponse>(jsonResponse);
+        return submission!;
     }
 
     private async Task<CreateSubmissionResponse> CreateSubmission(SubmissionModel body)
     {
         //TODO: validation for error on request
-        var request = new RestRequest("/submissions", Method.Post);
-        request.AddQueryParameter("base64_encoded", "true");
-        request.AddQueryParameter("fields", "*");
-        request.AddJsonBody(body);
-        var response = await _httpClient.PostAsync<CreateSubmissionResponse>(request);
-        return response!;
+        var content = new StringContent(JsonSerializer.Serialize(body), new MediaTypeHeaderValue("application/json"));
+        var response = await _httpClient.PostAsync($"/submissions?base64_encoded=true&fields=*", content);
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var createSubmissionResponse = JsonSerializer.Deserialize<CreateSubmissionResponse>(jsonResponse);
+        return createSubmissionResponse!;
     }
 }
