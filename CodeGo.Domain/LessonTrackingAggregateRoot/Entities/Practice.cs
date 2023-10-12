@@ -1,7 +1,9 @@
 
+using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
 using CodeGo.Domain.LessonTrackingAggregateRoot.ValueObjects;
+using ErrorOr;
 
 namespace CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
 
@@ -35,6 +37,15 @@ public sealed class Practice : Entity<PracticeId>
             null,
             false,
             type);
+    }
+
+    public ErrorOr<Success> Resolve(string answerId, bool isCorrect)
+    {
+        if (AnswerId is not null)
+            return Errors.LessonTrackings.PracticeAlreadyAnswered;
+        AnswerId = answerId;
+        IsCorrect = isCorrect;
+        return Result.Success;
     }
 
 #pragma warning disable CS8618

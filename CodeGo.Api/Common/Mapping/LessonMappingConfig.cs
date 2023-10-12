@@ -7,6 +7,7 @@ using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using CodeGo.Contracts.Lessons;
 using CodeGo.Application.Lesson.Common;
+using CodeGo.Application.Lesson.Command.ResolveQuestion;
 
 namespace CodeGo.Api.Common.Mapping;
 
@@ -15,6 +16,16 @@ public class LessonMappingConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         StartLessonRequestMapping(config);
+        ResolveQuestionRequestMapping(config);
+    }
+
+    private void ResolveQuestionRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(ResolveQuestionRequest request, string LessonId, string LoggedUserId), ResolveQuestionCommand>()
+            .Map(dest => dest.LessonTrackingId, src => src.LessonId)
+            .Map(dest => dest.QuestionId, src => src.request.QuestionId)
+            .Map(dest => dest.UserId, src => src.LoggedUserId)
+            .Map(dest => dest.AlternativeId, src => src.request.AlternativeId);
     }
 
     private static void StartLessonRequestMapping(TypeAdapterConfig config)
