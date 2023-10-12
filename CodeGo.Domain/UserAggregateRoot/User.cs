@@ -203,6 +203,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
             .ToList();
     }
 
+    public override UserId IdToValueObject()
+    {
+        return UserId.Create(Id.Value);
+    }
+
 #pragma warning disable CS8618
     private User() {}
 #pragma warning restore CS8618

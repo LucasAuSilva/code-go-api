@@ -131,6 +131,11 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         return selectedExercises;
     }
 
+    public override CourseId IdToValueObject()
+    {
+        return CourseId.Create(Id.Value);
+    }
+
 #pragma warning disable CS8618
     private Course() {}
 #pragma warning restore CS8618

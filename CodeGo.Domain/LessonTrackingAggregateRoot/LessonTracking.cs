@@ -4,6 +4,7 @@ using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
+using CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 using CodeGo.Domain.LessonTrackingAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
@@ -47,8 +48,9 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         CourseId courseId,
         List<Practice> practices)
     {
-        return new LessonTracking(
-            id: LessonTrackingId.CreateNew(),
+        var id = LessonTrackingId.CreateNew(); 
+        var lessonTracking = new LessonTracking(
+            id: id,
             userId: userId,
             courseId: courseId,
             startDateTime: DateTime.UtcNow,
@@ -57,6 +59,23 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
             practices: practices,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
+        lessonTracking.AddDomainEvent(new CancelPreviousLessonsEvent(id));
+        return lessonTracking;
+    }
+
+    // TODO: Maybe make user lost ranking points for cancel lessons
+    public void CancelLesson()
+    {
+        if (Status == LessonStatus.InProgress)
+        {
+            Status = LessonStatus.Cancelled;
+            EndDateTime = DateTime.UtcNow;
+        }
+    }
+
+    public override LessonTrackingId IdToValueObject()
+    {
+        return LessonTrackingId.Create(Id.Value);
     }
 
 #pragma warning disable CS8618

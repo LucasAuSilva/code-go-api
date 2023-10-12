@@ -58,6 +58,11 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
             DateTime.UtcNow);
     }
 
+    public override ProgressId IdToValueObject()
+    {
+        return ProgressId.Create(Id.Value);
+    }
+
 #pragma warning disable CS8618
     private Progress() {}
 #pragma warning restore CS8618

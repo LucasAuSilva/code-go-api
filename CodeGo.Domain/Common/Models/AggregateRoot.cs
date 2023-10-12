@@ -11,6 +11,8 @@ public abstract class AggregateRoot<TId, TIdType> : Entity<TId>
         Id = id;
     }
 
+    public abstract TId IdToValueObject();
+
 #pragma warning disable CS8618
     protected AggregateRoot() {}
 #pragma warning restore CS8618

@@ -79,6 +79,11 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         return alternative.IsCorrect;
     }
 
+    public override QuestionId IdToValueObject()
+    {
+        return QuestionId.Create(Id.Value);
+    }
+
 #pragma warning disable CS8618
     private Question() {}
 #pragma warning restore CS8618

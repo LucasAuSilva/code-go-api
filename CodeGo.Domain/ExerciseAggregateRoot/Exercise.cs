@@ -97,6 +97,11 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         return testCase.Result == result;
     }
 
+    public override ExerciseId IdToValueObject()
+    {
+        return ExerciseId.Create(Id.Value);
+    }
+
 #pragma warning disable CS8618
     private Exercise() {}
 #pragma warning restore CS8618

@@ -42,6 +42,11 @@ public sealed class Category : AggregateRoot<CategoryId, Guid>
             updatedAt: DateTime.UtcNow);
     }
 
+    public override CategoryId IdToValueObject()
+    {
+        return CategoryId.Create(Id.Value);
+    }
+
 #pragma warning disable CS8618
     private Category() {}
 #pragma warning restore CS8618
