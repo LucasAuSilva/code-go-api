@@ -8,6 +8,7 @@ using CodeGo.Domain.QuestionAggregateRoot.Entity;
 using CodeGo.Contracts.Lessons;
 using CodeGo.Application.Lesson.Common;
 using CodeGo.Application.Lesson.Command.ResolveQuestion;
+using CodeGo.Application.Lesson.Command.ResolveExercise;
 
 namespace CodeGo.Api.Common.Mapping;
 
@@ -17,9 +18,18 @@ public class LessonMappingConfig : IRegister
     {
         StartLessonRequestMapping(config);
         ResolveQuestionRequestMapping(config);
+        ResolveExerciseRequestMapping(config);
     }
 
-    private void ResolveQuestionRequestMapping(TypeAdapterConfig config)
+    private static void ResolveExerciseRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(ResolveExerciseRequest request, string LessonId, string LoggedUserId), ResolveExerciseCommand>()
+            .Map(dest => dest.LessonTrackingId, src => src.LessonId)
+            .Map(dest => dest.UserId, src => src.LoggedUserId)
+            .Map(dest => dest, src => src.request);
+    }
+
+    private static void ResolveQuestionRequestMapping(TypeAdapterConfig config)
     {
         config.NewConfig<(ResolveQuestionRequest request, string LessonId, string LoggedUserId), ResolveQuestionCommand>()
             .Map(dest => dest.LessonTrackingId, src => src.LessonId)

@@ -1,7 +1,9 @@
 
+using CodeGo.Application.Lesson.Command.ResolveExercise;
 using CodeGo.Application.Lesson.Command.ResolveQuestion;
 using CodeGo.Application.Lesson.Command.StartLesson;
 using CodeGo.Contracts.Common;
+using CodeGo.Contracts.Exercises;
 using CodeGo.Contracts.Lessons;
 using MapsterMapper;
 using MediatR;
@@ -46,6 +48,23 @@ public class LessonController : ApiController
         if (loggedUserId is null)
             return Problem();
         var command = _mapper.Map<ResolveQuestionCommand>((request, lessonId, loggedUserId));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(
+                _mapper.Map<ResolveResponse>(result)),
+                Problem);
+    }
+
+    [HttpPost("{lessonId}/resolve/exercise")]
+    public async Task<IActionResult> ResolveExercise(
+        [FromBody] ResolveExerciseRequest request,
+        string lessonId
+    )
+    {
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null)
+            return Problem();
+        var command = _mapper.Map<ResolveExerciseCommand>((request, lessonId, loggedUserId));
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(
