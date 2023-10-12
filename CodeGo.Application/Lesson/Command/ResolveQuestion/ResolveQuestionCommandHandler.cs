@@ -12,7 +12,7 @@ using MediatR;
 
 namespace CodeGo.Application.Lesson.Command.ResolveQuestion;
 
-public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionCommand, ErrorOr<ResolveQuestionResult>>
+public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionCommand, ErrorOr<ResolvePracticeResult>>
 {
     private readonly ILessonTrackingRepository _lessonTrackingRepository;
     private readonly IUserRepository _userRepository;
@@ -29,7 +29,7 @@ public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionComm
     }
 
 
-    public async Task<ErrorOr<ResolveQuestionResult>> Handle(
+    public async Task<ErrorOr<ResolvePracticeResult>> Handle(
         ResolveQuestionCommand command,
         CancellationToken cancellationToken)
     {
@@ -58,7 +58,7 @@ public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionComm
             return lessonResult.Errors;
         await _lessonTrackingRepository.UpdateAsync(lessonTracking);
         var message = questionResult.Value ? "Resposta Correta" : "Resposta Errada";
-        return new ResolveQuestionResult(
+        return new ResolvePracticeResult(
             message,
             questionResult.Value);
     }

@@ -10,4 +10,4 @@ public record ResolveQuestionCommand(
     string LessonTrackingId,
     string QuestionId,
     string AlternativeId
-): IRequest<ErrorOr<ResolveQuestionResult>>;
+): IRequest<ErrorOr<ResolvePracticeResult>>;
