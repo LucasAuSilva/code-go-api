@@ -131,7 +131,8 @@ public class UserMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id.Value.ToString())
             .Map(dest => dest.FirstName, src => src.FirstName)
             .Map(dest => dest.LastName, src => src.LastName)
-            .Map(dest => dest.ProfilePicture, src => src.ProfilePicture);
+            .Map(dest => dest.ProfilePicture, src => src.ProfilePicture)
+            .Map(dest => dest.Visibility, src => src.Visibility.Value);
         config.NewConfig<PagedListResult<User>, PagedListResult<ListUsersByNameResponse>>()
             .Fork(config => config.Default.PreserveReference(true))
             .Map(dest => dest.Data, src => src.Data.Adapt<List<ListUsersByNameResponse>>())
