@@ -9,3 +9,33 @@ Authorization: Bearer {{token}}
     "moduleTypeValue": 1,
     "difficulty": 1
 }
+
+###
+
+POST {{baseUrl}}/course/{{courseId}}/module
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "sectionId": "{{sectionId}}",
+    "name": "Declaração de Variavéis - Mudanças pelo tempo",
+    "categoryId": "{{categoryId}}",
+    "totalLessons": 3,
+    "moduleTypeValue": 1,
+    "difficulty": 4
+}
+
+###
+
+POST {{baseUrl}}/course/{{courseId}}/module
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "sectionId": "e6f01f43-4a9b-4658-9880-131a6d8bbd69",
+    "name": "Funções, o que fazem e onde vivem?",
+    "categoryId": "2228fabe-b196-4eee-aab2-4fbf0b0dc63d",
+    "totalLessons": 5,
+    "moduleTypeValue": 1,
+    "difficulty": 2
+}

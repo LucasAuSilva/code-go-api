@@ -1,3 +1,5 @@
+@lessonId = f17fdf71-859e-455b-9a18-ab3c7b2ad896
+
 PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/exercise
 Content-Type: application/json
 Authorization: Bearer {{token}}

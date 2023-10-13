@@ -28,4 +28,10 @@ public class ProgressRepository : IProgressRepository
         return await _dbContext.Progresses
             .FirstOrDefaultAsync(progress => progress.UserId == userId && progress.CourseId == courseId);
     }
+
+    public async Task UpdateAsync(Progress progress)
+    {
+        _dbContext.Update(progress);
+        await _dbContext.SaveChangesAsync();
+    }
 }

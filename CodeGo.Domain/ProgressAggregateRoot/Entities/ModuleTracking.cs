@@ -33,6 +33,13 @@ public sealed class ModuleTracking : Entity<ModuleTrackingId>
             ModuleStatus.Current);
     }
 
+    public void IncreaseLessonsCompleted(int totalLessons)
+    {
+        LessonsCompleted++;
+        var hasFinished = LessonsCompleted < totalLessons;
+        Status = hasFinished ? Status : ModuleStatus.Completed;
+    }
+
 #pragma warning disable CS8618
     private ModuleTracking() {}
 #pragma warning restore CS8618

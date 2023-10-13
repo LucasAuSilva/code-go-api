@@ -6,6 +6,7 @@ using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
+using CodeGo.Domain.ProgressAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 using ErrorOr;
@@ -83,6 +84,32 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         if (lastModule is not null)
             return lastModule.Position + 1;
         return 1;
+    }
+
+    public ModuleId UpdateProgress(Progress progress, ModuleId currentModuleId)
+    {
+        var currentSection = _sections.Find(section => section.Id == progress.CurrentSection)!;
+        var currentModule = currentSection.GetModule(currentModuleId)!;
+        var currentSectionModulesOrdered = currentSection.Modules.OrderBy(module => module.Position);
+        if (currentSectionModulesOrdered.Last().Id == currentModule.Id)
+        {
+            var sectionsOrdered = _sections.OrderBy(section => section.Position);
+            var nextSection = sectionsOrdered.First(section => section.Position == currentSection.Position+1);
+            progress.CompleteCurrentSection(nextSection.Id);
+            return nextSection.Modules.OrderBy(module => module.Position).First().Id;
+        }
+        return currentSectionModulesOrdered
+            .First(module => module.Position == currentModule.Position+1).Id;
+    }
+
+    public ErrorOr<Module> GetModuleFromId(ModuleId moduleId)
+    {
+        var module = Sections
+            .FirstOrDefault(section => section.HasModule(moduleId))
+            ?.GetModule(moduleId);
+        if (module is null)
+            return Errors.Course.ModuleNotFound;
+        return module;
     }
 
     public ErrorOr<Success> AddModuleToSection(Module module, SectionId sectionId)
