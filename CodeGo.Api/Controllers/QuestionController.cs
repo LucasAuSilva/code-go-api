@@ -1,5 +1,6 @@
 
 using CodeGo.Application.Questions.Command.CreateQuestion;
+using CodeGo.Application.Questions.Command.DeleteQuestion;
 using CodeGo.Application.Questions.Command.EditQuestion;
 using CodeGo.Contracts.Common;
 using CodeGo.Contracts.Questions;
@@ -30,7 +31,7 @@ public class QuestionController : ApiController
         var command = _mapper.Map<CreateQuestionCommand>(request);
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<QuestionResponse>(result)),
+            result => Created(_mapper.Map<QuestionResponse>(result)),
             Problem);
     }
 
@@ -42,6 +43,17 @@ public class QuestionController : ApiController
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<QuestionResponse>(result)),
+            Problem);
+    }
+
+    [HttpDelete("{questionId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteQuestion(string questionId)
+    {
+        var command = new DeleteQuestionCommand(questionId);
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => NoContent(),
             Problem);
     }
 }

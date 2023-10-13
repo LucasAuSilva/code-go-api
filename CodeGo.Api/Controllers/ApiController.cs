@@ -64,4 +64,9 @@ public class ApiController : ControllerBase
         var value = this.User.Claims.First(c => c.Type ==  ClaimTypes.NameIdentifier)?.Value;
         return value;
     }
+
+    protected IActionResult Created(object? value)
+    {
+        return StatusCode(201, value);
+    }
 }

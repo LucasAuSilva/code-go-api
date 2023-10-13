@@ -45,4 +45,10 @@ public class QuestionRepository : IQuestionRepository
         _dbContext.Update(question);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteAsync(Question question)
+    {
+        _dbContext.Questions.Remove(question);
+        await _dbContext.SaveChangesAsync();
+    }
 }

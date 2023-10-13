@@ -11,5 +11,6 @@ public interface IQuestionRepository
     Task<List<Question>> FindByCourseId(CourseId courseId);
     Task Add(Question question);
     Task UpdateAsync(Question question);
+    Task DeleteAsync(Question question);
     Task SaveChangesAsync();
 }
