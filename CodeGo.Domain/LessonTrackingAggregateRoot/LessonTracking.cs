@@ -85,13 +85,9 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
     {
         var HasPassed = CalculationForFinishLesson();
         EndDateTime = DateTime.UtcNow;
-        if (HasPassed)
-        {
-            Status = LessonStatus.Finished;
-            return true;
-        }
-        Status = LessonStatus.Failed;
-        return false;
+        Status = HasPassed ? LessonStatus.Finished : LessonStatus.Failed;
+        AddDomainEvent(new FinishedLessonEvent(this));
+        return HasPassed;
     }
 
     private Boolean CalculationForFinishLesson()
