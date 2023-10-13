@@ -1,5 +1,6 @@
 
 using CodeGo.Application.Questions.Command.CreateQuestion;
+using CodeGo.Application.Questions.Command.EditQuestion;
 using CodeGo.Contracts.Common;
 using CodeGo.Contracts.Questions;
 using MapsterMapper;
@@ -27,6 +28,17 @@ public class QuestionController : ApiController
     public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionRequest request)
     {
         var command = _mapper.Map<CreateQuestionCommand>(request);
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(_mapper.Map<QuestionResponse>(result)),
+            Problem);
+    }
+
+    [HttpPut("{questionId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EditQuestion([FromBody] EditQuestionRequest request, string questionId)
+    {
+        var command = _mapper.Map<EditQuestionCommand>((request, questionId));
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<QuestionResponse>(result)),

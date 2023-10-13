@@ -195,12 +195,12 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
 
     public void AddQuestionId(QuestionId questionId)
     {
-        _questionIds.Add(questionId)
+        _questionIds.Add(questionId);
     }
 
     public void AddExerciseId(ExerciseId exerciseId)
     {
-        _exerciseIds.Add(exerciseId)
+        _exerciseIds.Add(exerciseId);
     }
 
 #pragma warning disable CS8618

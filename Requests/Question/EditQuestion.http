@@ -1,0 +1,32 @@
+PUT {{baseUrl}}/question/{{questionId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "Variáveis Javascript",
+    "description": "Como declarar **variáveis** em javascript ?",
+    "categoryId": "{{categoryId}}",
+    "difficultyValue": 1,
+    "alternatives": [
+        {
+            "id": "2c4a6f77-b1df-4e0a-93c9-1934f5fc8082",
+            "description": "`myVariable = \"I'm an variable\"`",
+            "isCorrect": false
+        },
+        {
+            "id": "446d057e-fb5a-4adc-9576-7aceb2ebf94f",
+            "description": "`const myVariable = \"I'm an variable\"`",
+            "isCorrect": true
+        },
+        {
+            "id": "53c39212-5833-40bc-b3ac-4671b0a0c09d",
+            "description": "`const myVariable: string = \"I'm an variable\"`",
+            "isCorrect": false
+        },
+        {
+            "id": "6e0f987b-977c-4050-ab66-db2656bf21cd",
+            "description": "`string myVariable = \"I'm an variable\"`",
+            "isCorrect": false
+        }
+    ]
+}

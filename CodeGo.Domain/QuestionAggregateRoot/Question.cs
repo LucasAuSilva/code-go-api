@@ -44,6 +44,13 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         _alternatives = alternatives;
     }
 
+    private static bool CheckForCorrectAlternative(List<Alternative> alternatives)
+    {
+        return alternatives
+            .Select(alternative => alternative.IsCorrect)
+            .Contains(true);
+    }
+
     public static ErrorOr<Question> CreateNew(
         string title,
         string description,
@@ -52,9 +59,7 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         CourseId courseId,
         List<Alternative> alternatives)
     {
-        var hasCorrectAnswer = alternatives
-            .Select(alternative => alternative.IsCorrect)
-            .Contains(true);
+        var hasCorrectAnswer = CheckForCorrectAlternative(alternatives);
         if (!hasCorrectAnswer)
             return Errors.Question.MissingCorrectAlternative;
         return new Question(
@@ -68,7 +73,6 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
             updatedAt: DateTime.UtcNow,
             alternatives: alternatives ?? new());
     }
-
     public ErrorOr<bool> Resolve(
         AlternativeId alternativeId,
         UserId userId)
@@ -82,6 +86,24 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
     public override QuestionId IdToValueObject()
     {
         return QuestionId.Create(Id.Value);
+    }
+
+    public ErrorOr<Updated> EditInfo(
+        string title,
+        string description,
+        Difficulty difficulty,
+        CategoryId categoryId,
+        List<Alternative> alternatives)
+    {
+        var hasCorrectAnswer = CheckForCorrectAlternative(alternatives);
+        if (!hasCorrectAnswer)
+            return Errors.Question.MissingCorrectAlternative;
+        Title = title;
+        Description = description;
+        Difficulty = difficulty;
+        CategoryId = categoryId;
+        _alternatives = alternatives;
+        return Result.Updated;
     }
 
 #pragma warning disable CS8618
