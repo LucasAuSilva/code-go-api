@@ -92,6 +92,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
             updatedAt: DateTime.UtcNow);
     }
 
+    // TODO: Check if user is already registered in the course
     public void RegisterCourse(Course course)
     {
         AddDomainEvent(

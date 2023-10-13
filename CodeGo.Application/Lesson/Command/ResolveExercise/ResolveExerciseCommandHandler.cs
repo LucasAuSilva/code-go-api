@@ -36,9 +36,6 @@ public class ResolveExerciseCommandHandler : IRequestHandler<ResolveExerciseComm
     public async Task<ErrorOr<ResolvePracticeResult>> Handle(ResolveExerciseCommand command, CancellationToken cancellationToken)
     {
         var userId = UserId.Create(command.UserId);
-        var user = await _userRepository.FindById(userId);
-        if (user is null)
-            return Errors.Users.NotFound;
         var lessonTracking = await _lessonTrackingRepository.FindByIdAndUserId(
             LessonTrackingId.Create(command.LessonTrackingId),
             userId);

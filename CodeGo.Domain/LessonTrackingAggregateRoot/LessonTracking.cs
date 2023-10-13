@@ -80,6 +80,29 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         return practice.Resolve(answerId, isCorrect);
     }
 
+    // TODO: Maybe gain more points to finish lesson with success (or bonus points depending on higher percentage)
+    public ErrorOr<bool> Finish()
+    {
+        var HasPassed = CalculationForFinishLesson();
+        EndDateTime = DateTime.UtcNow;
+        if (HasPassed)
+        {
+            Status = LessonStatus.Finished;
+            return true;
+        }
+        Status = LessonStatus.Failed;
+        return false;
+    }
+
+    private Boolean CalculationForFinishLesson()
+    {
+        var practicesResults = _practices.Where(practice => practice.IsCorrect == true).Count();
+        var practicesTotal = _practices.Count;
+        if (practicesTotal < 7)
+            return practicesResults >= (int)Math.Round((double)(practicesTotal + 1) / 2) ;
+        return (int)Math.Round((double)(100 * practicesResults) / _practices.Count) >= 70;
+    }
+
     // TODO: Maybe make user lost ranking points for cancel lessons
     public void CancelLesson()
     {

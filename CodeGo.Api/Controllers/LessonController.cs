@@ -1,4 +1,5 @@
 
+using CodeGo.Application.Lesson.Command.FinishLesson;
 using CodeGo.Application.Lesson.Command.ResolveExercise;
 using CodeGo.Application.Lesson.Command.ResolveQuestion;
 using CodeGo.Application.Lesson.Command.StartLesson;
@@ -69,6 +70,20 @@ public class LessonController : ApiController
         return result.Match(
             result => Ok(
                 _mapper.Map<ResolveResponse>(result)),
+                Problem);
+    }
+
+    [HttpPost("{lessonId}/finish")]
+    public async Task<IActionResult> FinishLesson(string lessonId)
+    {
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null)
+            return Problem();
+        var command = _mapper.Map<FinishLessonCommand>((lessonId, loggedUserId));
+        var result = await _sender.Send(command);
+        return result.Match(
+            result => Ok(
+                _mapper.Map<FinishLessonResponse>(result)),
                 Problem);
     }
 }

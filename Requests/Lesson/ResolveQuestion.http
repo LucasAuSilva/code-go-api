@@ -4,5 +4,16 @@ Authorization: Bearer {{token}}
 
 {
     "questionId": "eb939990-0d6a-45e0-bb70-b4bd1f841326",
-    "alternativeId": "2c4a6f77-b1df-4e0a-93c9-1934f5fc8082"
+    "alternativeId": "6e0f987b-977c-4050-ab66-db2656bf21cd"
+}
+
+###
+
+POST {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "questionId": "54ab17cf-2cc9-42fe-b59c-5cf04158e547",
+    "alternativeId": "548aae48-0c26-4cef-a9ca-1431b43c41b5"
 }

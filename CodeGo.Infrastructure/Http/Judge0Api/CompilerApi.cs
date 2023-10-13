@@ -52,7 +52,8 @@ public class CompilerApi : ICompilerApi
     private async Task<GetSubmissionResponse> GetSubmission(string token)
     {
         //TODO: validation for error on request
-        var response = await _httpClient.GetAsync($"submissions/{token}");
+        await Task.Delay(TimeSpan.FromSeconds(3));
+        var response = await _httpClient.GetAsync($"submissions/{token}?base64_encoded=true&fields=*");
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var submission = JsonSerializer.Deserialize<GetSubmissionResponse>(jsonResponse);

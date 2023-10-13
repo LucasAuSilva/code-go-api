@@ -90,6 +90,7 @@ public class UserController : ApiController
             Problem);
     }
 
+    // TODO: make ignore the logged user in the return of the users
     [HttpGet("list")]
     public async Task<IActionResult> FindUsersByName([FromQuery] ListUsersByNameRequest request)
     {

@@ -9,6 +9,7 @@ using CodeGo.Contracts.Lessons;
 using CodeGo.Application.Lesson.Common;
 using CodeGo.Application.Lesson.Command.ResolveQuestion;
 using CodeGo.Application.Lesson.Command.ResolveExercise;
+using CodeGo.Application.Lesson.Command.FinishLesson;
 
 namespace CodeGo.Api.Common.Mapping;
 
@@ -19,6 +20,14 @@ public class LessonMappingConfig : IRegister
         StartLessonRequestMapping(config);
         ResolveQuestionRequestMapping(config);
         ResolveExerciseRequestMapping(config);
+        FinishLessonRequestMapping(config);
+    }
+
+    private static void FinishLessonRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(string LessonId, string UserId), FinishLessonCommand>()
+            .Map(dest => dest.LessonTrackingId, src => src.LessonId)
+            .Map(dest => dest.UserId, src => src.UserId);
     }
 
     private static void ResolveExerciseRequestMapping(TypeAdapterConfig config)
