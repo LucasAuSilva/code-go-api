@@ -65,6 +65,7 @@ public class ApiController : ControllerBase
         return value;
     }
 
+    // HACK: Make personalized status code and return the correct ones
     protected IActionResult Created(object? value)
     {
         return StatusCode(201, value);
