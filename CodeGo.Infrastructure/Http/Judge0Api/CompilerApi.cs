@@ -27,7 +27,7 @@ public class CompilerApi : ICompilerApi
         var getSubmissionResponse = await GetSubmission(createSubmissionResponse.Token);
 
         var resultBase64InBytes = Convert.FromBase64String(getSubmissionResponse.Stdout ?? "");
-        return System.Text.Encoding.UTF8.GetString(resultBase64InBytes);
+        return System.Text.Encoding.UTF8.GetString(resultBase64InBytes).Replace("\n", "");
     }
 
     private static int GetJudgeLanguageId(Language language)
