@@ -17,7 +17,6 @@ public class ProgressConfiguration : IEntityTypeConfiguration<Progress>
         ConfigureProgressTable(builder);
         ConfigureCompletedModuleIdsTable(builder);
         ConfigureCompletedSectionIdsTable(builder);
-        ConfigureCategoryTrackingTable(builder);
         ConfigureLessonTrackingIdsTable(builder);
         ConfigureModuleTrackingTable(builder);
     }
@@ -46,29 +45,6 @@ public class ProgressConfiguration : IEntityTypeConfiguration<Progress>
                     value => ModuleStatus.FromValue(value));
         });
         builder.Metadata.FindNavigation(nameof(Progress.ModuleTrackings))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
-    }
-
-    private static void ConfigureCategoryTrackingTable(EntityTypeBuilder<Progress> builder)
-    {
-        builder.OwnsMany(p => p.CategoryTrackings, ctb =>
-        {
-            ctb.ToTable("categoryTrackings");
-            ctb.WithOwner().HasForeignKey("ProgressId");
-            ctb.HasKey("Id", "ProgressId");
-            ctb.Property(ct => ct.Id)
-                .HasColumnName("CategoryTrackingId")
-                .ValueGeneratedNever()
-                .HasConversion(
-                    id => id.Value,
-                    value => CategoryTrackingId.Create(value));
-            ctb.OwnsOne(ct => ct.DifficultyLevel);
-            ctb.Property(ct => ct.CategoryId)
-                .HasConversion(
-                    categoryId => categoryId.Value,
-                    value => CategoryId.Create(value));
-        });
-        builder.Metadata.FindNavigation(nameof(Progress.CategoryTrackings))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 

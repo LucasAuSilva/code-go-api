@@ -1,0 +1,50 @@
+POST {{baseUrl}}/lesson/{{courseId}}/module/{{moduleId}}/start
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{}
+
+@lessonId = 0d4e174a-49ac-4755-a4ca-bc8e3de4a6b3
+
+### Question
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "questionId": "eb939990-0d6a-45e0-bb70-b4bd1f841326",
+    "alternativeId": "6e0f987b-977c-4050-ab66-db2656bf21cd"
+}
+
+###
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "questionId": "54ab17cf-2cc9-42fe-b59c-5cf04158e547",
+    "alternativeId": "6268b9bf-4f5c-42dd-a4f7-d8aca2860f2c"
+}
+
+### Exercise
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/exercise
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "ExerciseId": "f15cc351-5af5-49d5-b01b-a52c0ae2278f",
+    "TestCaseId": "3a1553b4-9d2f-454c-aae1-74f6fe3d88cc",
+    "SolutionCode": "var myVariable = \"I'm an variable\""
+}
+
+### Finish Lesson
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/finish
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{}
+
