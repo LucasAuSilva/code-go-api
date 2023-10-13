@@ -44,15 +44,23 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         _alternatives = alternatives;
     }
 
+    private static bool CheckForCorrectAlternative(List<Alternative> alternatives)
+    {
+        return alternatives
+            .Select(alternative => alternative.IsCorrect)
+            .Contains(true);
+    }
+
     public static ErrorOr<Question> CreateNew(
         string title,
         string description,
         Difficulty difficulty,
         CategoryId categoryId,
         CourseId courseId,
-        List<Alternative>? alternatives = null)
+        List<Alternative> alternatives)
     {
-        if (alternatives is not null && alternatives.Any(alternative => alternative.IsCorrect))
+        var hasCorrectAnswer = CheckForCorrectAlternative(alternatives);
+        if (!hasCorrectAnswer)
             return Errors.Question.MissingCorrectAlternative;
         return new Question(
             id: QuestionId.CreateNew(),
@@ -65,7 +73,6 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
             updatedAt: DateTime.UtcNow,
             alternatives: alternatives ?? new());
     }
-
     public ErrorOr<bool> Resolve(
         AlternativeId alternativeId,
         UserId userId)
@@ -79,6 +86,24 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
     public override QuestionId IdToValueObject()
     {
         return QuestionId.Create(Id.Value);
+    }
+
+    public ErrorOr<Updated> EditInfo(
+        string title,
+        string description,
+        Difficulty difficulty,
+        CategoryId categoryId,
+        List<Alternative> alternatives)
+    {
+        var hasCorrectAnswer = CheckForCorrectAlternative(alternatives);
+        if (!hasCorrectAnswer)
+            return Errors.Question.MissingCorrectAlternative;
+        Title = title;
+        Description = description;
+        Difficulty = difficulty;
+        CategoryId = categoryId;
+        _alternatives = alternatives;
+        return Result.Updated;
     }
 
 #pragma warning disable CS8618

@@ -53,6 +53,7 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
             testCases: command.TestCases.ConvertAll(testCase => TestCase.CreateNew(
                 testCase.Title,
                 testCase.Result)));
+        course.AddExerciseId(exercise.IdToValueObject());
         await _exerciseRepository.Add(exercise);
         return exercise;
     }

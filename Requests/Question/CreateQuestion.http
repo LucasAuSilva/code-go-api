@@ -1,5 +1,6 @@
 POST {{baseUrl}}/question
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "courseId": "{{courseId}}",

@@ -64,4 +64,10 @@ public class ApiController : ControllerBase
         var value = this.User.Claims.First(c => c.Type ==  ClaimTypes.NameIdentifier)?.Value;
         return value;
     }
+
+    // HACK: Make personalized status code and return the correct ones
+    protected IActionResult Created(object? value)
+    {
+        return StatusCode(201, value);
+    }
 }

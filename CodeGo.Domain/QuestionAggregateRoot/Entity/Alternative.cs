@@ -28,6 +28,17 @@ public sealed class Alternative : Entity<AlternativeId>
             isCorrect);
     }
 
+    public static Alternative Create(
+        AlternativeId id,
+        string description,
+        bool isCorrect)
+    {
+        return new Alternative(
+            id,
+            description,
+            isCorrect);
+    }
+
 #pragma warning disable CS8618
     private Alternative() {}
 #pragma warning restore CS8618

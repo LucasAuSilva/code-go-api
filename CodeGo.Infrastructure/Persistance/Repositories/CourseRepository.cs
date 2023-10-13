@@ -2,6 +2,7 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.CourseAggregateRoot;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
+using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;

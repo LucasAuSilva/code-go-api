@@ -5,7 +5,7 @@ Content-Type: application/json
     "courseId": "{{courseId}}",
     "title": "Declaração de MyVariable",
     "description": "Usando o editor abaixo declare a variavel 'MyVariable', e com seu valor(em string) de: I'm an variable",
-    "categoryId": "{{$guid}}",
+    "categoryId": "{{categoryId}}",
     "difficultyValue": 1,
     "typeValue": 1,
     "testCases": [
