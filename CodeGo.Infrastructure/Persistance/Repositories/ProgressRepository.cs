@@ -1,7 +1,10 @@
 
 
 using CodeGo.Application.Common.Interfaces.Persistance;
+using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ProgressAggregateRoot;
+using CodeGo.Domain.UserAggregateRoot.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;
 
@@ -18,5 +21,11 @@ public class ProgressRepository : IProgressRepository
     {
         await _dbContext.Progresses.AddAsync(progress);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Progress?> FindByUserIdAndCourseId(UserId userId, CourseId courseId)
+    {
+        return await _dbContext.Progresses
+            .FirstOrDefaultAsync(progress => progress.UserId == userId && progress.CourseId == courseId);
     }
 }

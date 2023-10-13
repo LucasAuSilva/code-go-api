@@ -63,6 +63,11 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
         return ProgressId.Create(Id.Value);
     }
 
+    public void AddLessonTrackingId(LessonTrackingId lessonTrackingId)
+    {
+        _lessonTrackingIds.Add(lessonTrackingId);
+    }
+
 #pragma warning disable CS8618
     private Progress() {}
 #pragma warning restore CS8618
