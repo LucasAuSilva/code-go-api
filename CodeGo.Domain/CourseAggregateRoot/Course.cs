@@ -193,6 +193,16 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         return CourseId.Create(Id.Value);
     }
 
+    public void AddQuestionId(QuestionId questionId)
+    {
+        _questionIds.Add(questionId)
+    }
+
+    public void AddExerciseId(ExerciseId exerciseId)
+    {
+        _exerciseIds.Add(exerciseId)
+    }
+
 #pragma warning disable CS8618
     private Course() {}
 #pragma warning restore CS8618

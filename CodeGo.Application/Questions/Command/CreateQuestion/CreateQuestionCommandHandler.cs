@@ -51,6 +51,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
                 alternative.IsCorrect)));
         if (result.IsError)
             return result.Errors;
+        course.AddQuestionId(result.Value.IdToValueObject());
         await _questionRepository.Add(result.Value);
         return result.Value;
     }
