@@ -40,7 +40,7 @@ public class LessonController : ApiController
                 Problem);
     }
 
-    [HttpPost("{lessonId}/resolve/question")]
+    [HttpPut("{lessonId}/resolve/question")]
     public async Task<IActionResult> ResolveQuestion(
         [FromBody] ResolveQuestionRequest request,
         string lessonId)
@@ -56,7 +56,7 @@ public class LessonController : ApiController
                 Problem);
     }
 
-    [HttpPost("{lessonId}/resolve/exercise")]
+    [HttpPut("{lessonId}/resolve/exercise")]
     public async Task<IActionResult> ResolveExercise(
         [FromBody] ResolveExerciseRequest request,
         string lessonId
@@ -73,7 +73,7 @@ public class LessonController : ApiController
                 Problem);
     }
 
-    [HttpPost("{lessonId}/finish")]
+    [HttpPut("{lessonId}/finish")]
     public async Task<IActionResult> FinishLesson(string lessonId)
     {
         var loggedUserId = GetUserId();

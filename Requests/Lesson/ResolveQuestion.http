@@ -1,4 +1,4 @@
-POST {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -9,7 +9,7 @@ Authorization: Bearer {{token}}
 
 ###
 
-POST {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

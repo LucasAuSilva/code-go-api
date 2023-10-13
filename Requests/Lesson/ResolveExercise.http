@@ -1,4 +1,4 @@
-POST {{baseUrl}}/lesson/{{lessonId}}/resolve/exercise
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/exercise
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
