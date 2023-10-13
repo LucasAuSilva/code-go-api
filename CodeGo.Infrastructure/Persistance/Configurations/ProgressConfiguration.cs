@@ -2,6 +2,7 @@
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ProgressAggregateRoot;
+using CodeGo.Domain.ProgressAggregateRoot.Enums;
 using CodeGo.Domain.ProgressAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,34 @@ public class ProgressConfiguration : IEntityTypeConfiguration<Progress>
         ConfigureCompletedSectionIdsTable(builder);
         ConfigureCategoryTrackingTable(builder);
         ConfigureLessonTrackingIdsTable(builder);
+        ConfigureModuleTrackingTable(builder);
+    }
+
+    private static void ConfigureModuleTrackingTable(EntityTypeBuilder<Progress> builder)
+    {
+        builder.OwnsMany(p => p.ModuleTrackings, mtb => 
+        {
+            mtb.ToTable("moduleTrackings");
+            mtb.WithOwner().HasForeignKey("ProgressId");
+            mtb.HasKey("Id", "ProgressId");
+            mtb.Property(mt => mt.Id)
+                .HasColumnName("ModuleTrackingId")
+                .ValueGeneratedNever()
+                .HasConversion(
+                    moduleId => moduleId.Value,
+                    value => ModuleTrackingId.Create(value));
+            mtb.Property(mt => mt.ModuleId)
+                .HasConversion(
+                    moduleId => moduleId.Value,
+                    value => ModuleId.Create(value));
+            mtb.Property(mt => mt.LessonsCompleted);
+            mtb.Property(mt => mt.Status)
+                .HasConversion(
+                    status => status.Value,
+                    value => ModuleStatus.FromValue(value));
+        });
+        builder.Metadata.FindNavigation(nameof(Progress.ModuleTrackings))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
     private static void ConfigureCategoryTrackingTable(EntityTypeBuilder<Progress> builder)
@@ -107,11 +136,6 @@ public class ProgressConfiguration : IEntityTypeConfiguration<Progress>
             .HasConversion(
                 courseId => courseId.Value,
                 value => CourseId.Create(value));
-        builder.Property(p => p.CurrentModule)
-            .ValueGeneratedNever()
-            .HasConversion(
-                currentModule => currentModule.Value,
-                value => ModuleId.Create(value));
         builder.Property(p => p.CurrentSection)
             .ValueGeneratedNever()
             .HasConversion(

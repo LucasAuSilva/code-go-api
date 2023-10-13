@@ -14,13 +14,14 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
     private List<SectionId> _completedSectionIds = new();
     private List<CategoryTracking> _categoryTrackings = new();
     private List<LessonTrackingId> _lessonTrackingIds = new();
+    private List<ModuleTracking> _moduleTrackings = new();
     public UserId UserId { get; private set; }
     public CourseId CourseId { get; private set; }
-    public ModuleId CurrentModule { get; private set; }
     public SectionId CurrentSection { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     public IReadOnlyCollection<CategoryTracking> CategoryTrackings => _categoryTrackings;
+    public IReadOnlyCollection<ModuleTracking> ModuleTrackings => _moduleTrackings;
     public IReadOnlyCollection<ModuleId> CompletedModuleIds => _completedModuleIds;
     public IReadOnlyCollection<SectionId> CompletedSectionIds => _completedSectionIds;
     public IReadOnlyCollection<LessonTrackingId> LessonTrackingIds => _lessonTrackingIds;
@@ -29,14 +30,12 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
         ProgressId id,
         UserId userId,
         CourseId courseId,
-        ModuleId currentModule,
         SectionId currentSection,
         DateTime createdAt,
         DateTime updatedAt) : base(id)
     {
         UserId = userId;
         CourseId = courseId;
-        CurrentModule = currentModule;
         CurrentSection = currentSection;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -48,19 +47,27 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
         ModuleId currentModule,
         SectionId currentSection)
     {
-        return new Progress(
+
+        var progress = new Progress(
             ProgressId.CreateNew(),
             userId,
             courseId,
-            currentModule,
             currentSection,
             DateTime.UtcNow,
             DateTime.UtcNow);
+        var moduleTracking = ModuleTracking.CreateNew(currentModule);
+        progress.AddModuleTracking(moduleTracking);
+        return progress;
     }
 
     public override ProgressId IdToValueObject()
     {
         return ProgressId.Create(Id.Value);
+    }
+
+    public void AddModuleTracking(ModuleTracking moduleTracking)
+    {
+        _moduleTrackings.Add(moduleTracking);
     }
 
     public void AddLessonTrackingId(LessonTrackingId lessonTrackingId)
