@@ -23,8 +23,7 @@ public class QuestionController : ApiController
     }
 
     [HttpPost]
-    // [Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionRequest request)
     {
         var command = _mapper.Map<CreateQuestionCommand>(request);
