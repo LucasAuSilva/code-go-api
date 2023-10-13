@@ -4,7 +4,7 @@ Authorization: Bearer {{token}}
 
 {}
 
-@lessonId = 0d4e174a-49ac-4755-a4ca-bc8e3de4a6b3
+@lessonId = 'Insert lesson id here'
 
 ### Question
 

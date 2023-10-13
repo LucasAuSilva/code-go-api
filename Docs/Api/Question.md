@@ -3,9 +3,10 @@
 
 - [Code&Go API](../../README.md)
   - [Questions](#questions)
-    - [Create](#create)
-    - [Resolve Question](#resolve-question)
+    - [Create](#create)*
   - [General Responses](#general-responses)
+
+`*` Requested that are only allowed for system **`admins`**
 
 ## Questions
 
@@ -109,58 +110,9 @@ POST /question
 }
 ```
 <!-- TODO: It will have response for not authorized if its not an admin  -->
----
-
-### Resolve Question
-
-> This routes is used for resolve the question with an alternative
-
-#### Resolve Question Request
-
-```http
-POST /question/{questionId}/resolve/{alternativeId}
-```
-
-```json
-{}
-```
-
-#### Resolve Question Responses
-
-```http
-200 OK
-```
-
-```json
-{
-  "message": "Resposta Correta",
-  "firstName": true
-}
-```
 
 ---
 
-```http
-200 OK
-```
-
-```json
-{
-  "message": "Resposta Incorreta",
-  "firstName": false
-}
-```
-
----
-
-<!-- TODO: make application return json for not found -->
-```http
-404 Not Found
-```
-
-```json
-{}
-```
 
 ### General Responses
 

@@ -12,7 +12,7 @@
 > Routes related to the categories, like create new categories, find categories and list as well.
 > **IMPORTANT** Only `admin` can access this kind of routes
 
-## List Categories
+### List Categories
 
 > This routes is for list categories of the application
 

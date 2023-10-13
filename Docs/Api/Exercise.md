@@ -3,9 +3,10 @@
 
 - [Code&Go API](../../README.md)
   - [Exercises](#exercises)
-    - [Create](#create)
-    - [Resolve Exercises](#resolve-exercise)
+    - [Create](#create)*
   - [General Responses](#general-responses)
+
+`*` Requested that are only allowed for system **`admins`**
 
 ## Exercises
 
@@ -87,59 +88,6 @@ POST /exercise
 ```
 <!-- TODO: It will have response for not authorized if its not an admin  -->
 ---
-
-### Resolve Exercise
-
-> This routes is used for send an solution for exercise
-
-#### Resolve Exercise Request
-
-```http
-POST /exercise/{exerciseId}/resolve/{testCaseId}
-```
-
-```json
-{
-    "solutionCode": "var myVariable = \"I'm an variable\""
-}
-```
-
-#### Resolve Exercise Responses
-
-```http
-200 OK
-```
-
-```json
-{
-  "message": "Sucesso no Teste",
-  "firstName": true
-}
-```
-
----
-
-```http
-200 OK
-```
-
-```json
-{
-  "message": "Falha no Teste",
-  "firstName": false
-}
-```
-
----
-
-<!-- TODO: make application return json for not found -->
-```http
-404 Not Found
-```
-
-```json
-{}
-```
 
 ### General Responses
 
