@@ -9,30 +9,36 @@ public sealed class Section : Entity<SectionId>
     private List<Module> _modules = new();
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public int Position { get; private set; }
     public IReadOnlyCollection<Module> Modules => _modules;
 
     private Section(
         SectionId id,
         string name,
-        string description) : base(id)
+        string description,
+        int position) : base(id)
     {
         Name = name;
         Description = description;
+        Position = position;
     }
 
     public static Section CreateNew(
         string name,
-        string description)
+        string description,
+        int position)
     {
         return new Section(
             SectionId.CreateNew(),
             name,
-            description);
+            description,
+            position);
     }
 
     public ModuleId FirstModule()
     {
         return Modules
+            .Where(module => module.Position == 1)
             .Select(module => module.Id)
             .First();
     }

@@ -6,5 +6,6 @@ public record CreateModuleRequest(
     string Name,
     string CategoryId,
     int TotalLessons,
+    int Position,
     int ModuleTypeValue,
     int Difficulty);

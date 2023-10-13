@@ -34,13 +34,18 @@ public class CreateModuleCommandHandler : IRequestHandler<CreateModuleCommand, E
         var category = await _categoryRepository.FindById(categoryId);
         if (category is null)
             return Errors.Categories.NotFound;
+        var sectionId = SectionId.Create(command.SectionId);
+        var modulePosition = course.GetModulePosition(sectionId);
         var module = Module.CreateNew(
             command.Name,
             command.TotalLessons,
+            modulePosition,
             ModuleType.FromValue(command.ModuleTypeValue),
             Difficulty.CreateNew(command.Difficulty),
             categoryId);
-        course.AddModuleToSection(module, SectionId.Create(command.SectionId));
+        var result = course.AddModuleToSection(module, sectionId);
+        if (result.IsError)
+            return result.Errors;
         await _courseRepository.Update(course);
         return course;
     }

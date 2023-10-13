@@ -26,8 +26,14 @@ public class CreateSectionCommandHandler : IRequestHandler<CreateSectionCommand,
         var course = await _courseRepository.FindById(CourseId.Create(command.CourseId));
         if (course is null)
             return Errors.Course.CourseNotFound;
-        var section = Section.CreateNew(command.Name, command.Description);
-        course.AddSection(section);
+        var sectionPosition = course.GetSectionPosition();
+        var section = Section.CreateNew(
+            command.Name,
+            command.Description,
+            sectionPosition);
+        var result = course.AddSection(section);
+        if (result.IsError)
+            return result.Errors;
         await _courseRepository.Update(course);
         return course;
     }

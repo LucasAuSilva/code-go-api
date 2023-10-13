@@ -67,6 +67,7 @@ public class CourseConfigurations : IEntityTypeConfiguration<Course>
                 .HasMaxLength(100);
             sb.Property(s => s.Description)
                 .HasMaxLength(150);
+            sb.Property(s => s.Position);
             sb.OwnsMany(s => s.Modules, mb =>
             {
                 mb.ToTable("modules");
@@ -88,6 +89,7 @@ public class CourseConfigurations : IEntityTypeConfiguration<Course>
                     .HasConversion(
                         type => type.Value,
                         value => ModuleType.FromValue(value));
+                mb.Property(m => m.Position);
                 mb.OwnsOne(m => m.Difficulty);
             });
             sb.Navigation(s => s.Modules).Metadata.SetField("_modules");

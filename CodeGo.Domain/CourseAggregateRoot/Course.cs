@@ -1,5 +1,6 @@
 
 using CodeGo.Domain.Common.Enums;
+using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.CourseAggregateRoot.Entities;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
@@ -7,6 +8,7 @@ using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.ExerciseAggregateRoot.ValueObjects;
 using CodeGo.Domain.QuestionAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot.ValueObjects;
+using ErrorOr;
 
 namespace CodeGo.Domain.CourseAggregateRoot;
 
@@ -22,7 +24,6 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
     public Language Language { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-    // TODO: Section tem ordem de resolução colocar alguma lógica que defina isso
     public IReadOnlyCollection<Section> Sections => _sections;
     public IReadOnlyCollection<ExerciseId> ExerciseIds => _exerciseIds;
     public IReadOnlyCollection<QuestionId> QuestionIds => _questionIds;
@@ -62,16 +63,43 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
             updatedAt: DateTime.UtcNow);
     }
 
-    // TODO: Implementar invariantes nos métodos das classes
-    public void AddModuleToSection(Module module, SectionId sectionId)
+    public int GetSectionPosition()
     {
-        var section = _sections.Find(section => section.Id == sectionId)!;
-        section.AddModule(module);
+        var lastSection = Sections
+            .OrderBy(section => section.Position)
+            .LastOrDefault();
+        if (lastSection is not null)
+            return lastSection.Position + 1;
+        return 1;
     }
 
-    public void AddSection(Section section)
+    public int GetModulePosition(SectionId sectionId)
     {
+        var lastModule = Sections
+            .FirstOrDefault(section => section.Id == sectionId)
+            ?.Modules
+                .OrderBy(module => module.Position)
+                .LastOrDefault();
+        if (lastModule is not null)
+            return lastModule.Position + 1;
+        return 1;
+    }
+
+    public ErrorOr<Success> AddModuleToSection(Module module, SectionId sectionId)
+    {
+        var section = _sections.Find(section => section.Id == sectionId)!;
+        if (section.Modules.Any(m => m.Position.Equals(module.Position)))
+            return Errors.Course.ModuleWithPositionAlreadyExists;
+        section.AddModule(module);
+        return Result.Success;
+    }
+
+    public ErrorOr<Success> AddSection(Section section)
+    {
+        if (Sections.Any(s => s.Position.Equals(section.Position)))
+            return Errors.Course.SectionWithPositionAlreadyExists;
         _sections.Add(section);
+        return Result.Success;
     }
 
     public bool HasModule(ModuleId moduleId)
@@ -79,20 +107,22 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         var module = _sections
             .SelectMany(section => section.Modules)
             .Select(module => module)
-            .ToList()
-            .Find(module => module.Id == moduleId);
-        return module != null;
+            .Any(module => module.Id == moduleId);
+        return module;
     }
 
-    // TODO: Implementar ordem para sections e modules
     public SectionId FirstSection()
     {
-        return Sections.Select(section => section.Id).First();
+        return Sections
+            .Where(section => section.Position == 1)
+            .Select(section => section.Id)
+            .First();
     }
 
     public ModuleId FirstModule()
     {
         return Sections
+            .OrderBy(section => section.Position)
             .First()
             .FirstModule();
     }
