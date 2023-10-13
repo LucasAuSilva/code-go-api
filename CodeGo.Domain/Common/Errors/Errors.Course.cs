@@ -18,5 +18,13 @@ public static partial class Errors
         public static Error ModuleNotFound => Error.NotFound(
             code: "Course.ModuleNotFound",
             description: "Module with this id doesn't exists");
+
+        public static Error ModuleWithPositionAlreadyExists => Error.NotFound(
+            code: "Course.Module.PositionAlreadyExists",
+            description: "Module with this Position already exists");
+
+        public static Error SectionWithPositionAlreadyExists => Error.NotFound(
+            code: "Course.Section.PositionAlreadyExists",
+            description: "Section with this Position already exists");
     }
 }

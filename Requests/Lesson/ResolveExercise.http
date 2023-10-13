@@ -1,0 +1,11 @@
+@lessonId = f17fdf71-859e-455b-9a18-ab3c7b2ad896
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/exercise
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "ExerciseId": "f15cc351-5af5-49d5-b01b-a52c0ae2278f",
+    "TestCaseId": "3a1553b4-9d2f-454c-aae1-74f6fe3d88cc",
+    "SolutionCode": "var myVariable = \"I'm an variable\""
+}

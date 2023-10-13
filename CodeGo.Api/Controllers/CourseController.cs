@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CodeGo.Application.Courses.Command.CreateCourse;
 using CodeGo.Application.Courses.Queries.ListLanguages;
-using CodeGo.Application.Courses.Queries.ListPractices;
 using CodeGo.Application.Courses.Queries.ListCourses;
+using CodeGo.Application.Courses.Queries.FindCourse;
 
 namespace CodeGo.Api.Controllers;
 
@@ -35,6 +35,16 @@ public class CourseController : ApiController
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<List<LanguageResponse>>(result)),
+            Problem);
+    }
+
+    [HttpGet("{courseId}")]
+    public async Task<IActionResult> FindCourse(string courseId)
+    {
+        var query = new FindCourseQuery(courseId);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<CourseResponse>(result)),
             Problem);
     }
 
@@ -79,20 +89,5 @@ public class CourseController : ApiController
         return result.Match(
             result => Ok(_mapper.Map<CourseResponse>(result)),
             Problem);
-    }
-
-    [HttpGet("{courseId}/module/{moduleId}/start")]
-    public async Task<IActionResult> GetModulePractices(
-        string courseId,
-        string moduleId)
-    {
-        var query = new PracticesQuery(
-            courseId,
-            moduleId);
-        var result = await _sender.Send(query);
-        return result.Match(
-            result => Ok(
-                _mapper.Map<PracticesResponse>(result)),
-                Problem);
     }
 }

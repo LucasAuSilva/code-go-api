@@ -1,0 +1,21 @@
+@lessonId = f17fdf71-859e-455b-9a18-ab3c7b2ad896
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "questionId": "eb939990-0d6a-45e0-bb70-b4bd1f841326",
+    "alternativeId": "6e0f987b-977c-4050-ab66-db2656bf21cd"
+}
+
+###
+
+PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "questionId": "54ab17cf-2cc9-42fe-b59c-5cf04158e547",
+    "alternativeId": "6268b9bf-4f5c-42dd-a4f7-d8aca2860f2c"
+}

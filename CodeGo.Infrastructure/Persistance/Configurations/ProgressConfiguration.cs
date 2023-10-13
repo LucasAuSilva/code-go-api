@@ -2,6 +2,7 @@
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.ProgressAggregateRoot;
+using CodeGo.Domain.ProgressAggregateRoot.Enums;
 using CodeGo.Domain.ProgressAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -16,30 +17,34 @@ public class ProgressConfiguration : IEntityTypeConfiguration<Progress>
         ConfigureProgressTable(builder);
         ConfigureCompletedModuleIdsTable(builder);
         ConfigureCompletedSectionIdsTable(builder);
-        ConfigureCategoryTrackingTable(builder);
         ConfigureLessonTrackingIdsTable(builder);
+        ConfigureModuleTrackingTable(builder);
     }
 
-    private static void ConfigureCategoryTrackingTable(EntityTypeBuilder<Progress> builder)
+    private static void ConfigureModuleTrackingTable(EntityTypeBuilder<Progress> builder)
     {
-        builder.OwnsMany(p => p.CategoryTrackings, ctb =>
+        builder.OwnsMany(p => p.ModuleTrackings, mtb => 
         {
-            ctb.ToTable("categoryTrackings");
-            ctb.WithOwner().HasForeignKey("ProgressId");
-            ctb.HasKey("Id", "ProgressId");
-            ctb.Property(ct => ct.Id)
-                .HasColumnName("CategoryTrackingId")
+            mtb.ToTable("moduleTrackings");
+            mtb.WithOwner().HasForeignKey("ProgressId");
+            mtb.HasKey("Id", "ProgressId");
+            mtb.Property(mt => mt.Id)
+                .HasColumnName("ModuleTrackingId")
                 .ValueGeneratedNever()
                 .HasConversion(
-                    id => id.Value,
-                    value => CategoryTrackingId.Create(value));
-            ctb.OwnsOne(ct => ct.DifficultyLevel);
-            ctb.Property(ct => ct.CategoryId)
+                    moduleId => moduleId.Value,
+                    value => ModuleTrackingId.Create(value));
+            mtb.Property(mt => mt.ModuleId)
                 .HasConversion(
-                    categoryId => categoryId.Value,
-                    value => CategoryId.Create(value));
+                    moduleId => moduleId.Value,
+                    value => ModuleId.Create(value));
+            mtb.Property(mt => mt.LessonsCompleted);
+            mtb.Property(mt => mt.Status)
+                .HasConversion(
+                    status => status.Value,
+                    value => ModuleStatus.FromValue(value));
         });
-        builder.Metadata.FindNavigation(nameof(Progress.CategoryTrackings))!
+        builder.Metadata.FindNavigation(nameof(Progress.ModuleTrackings))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
@@ -107,11 +112,6 @@ public class ProgressConfiguration : IEntityTypeConfiguration<Progress>
             .HasConversion(
                 courseId => courseId.Value,
                 value => CourseId.Create(value));
-        builder.Property(p => p.CurrentModule)
-            .ValueGeneratedNever()
-            .HasConversion(
-                currentModule => currentModule.Value,
-                value => ModuleId.Create(value));
         builder.Property(p => p.CurrentSection)
             .ValueGeneratedNever()
             .HasConversion(

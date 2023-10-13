@@ -92,6 +92,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
             updatedAt: DateTime.UtcNow);
     }
 
+    // TODO: Check if user is already registered in the course
     public void RegisterCourse(Course course)
     {
         AddDomainEvent(
@@ -135,8 +136,9 @@ public sealed class User : AggregateRoot<UserId, Guid>
         var userId = UserId.Create(user.Id.Value);
         if (_blockedUserIds.Contains(userId))
             return Errors.Users.Blocked;
-        var request = _friendshipRequests.Find(fr => fr.RequesterId.Equals(userId));
-        if (request is not null && request.Status.Equals(FriendshipRequestStatus.Ignored))
+        var request = _friendshipRequests.Find(fr =>
+            fr.RequesterId.Equals(userId) && !fr.Status.Equals(FriendshipRequestStatus.Refused));
+        if (request is not null)
             return Errors.Users.AlreadyRequested;
         var friendshipRequest = FriendshipRequest.CreateNew(
             userId,
@@ -201,6 +203,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return _friendshipRequests
             .Where(fr => fr.Status.Equals(status))
             .ToList();
+    }
+
+    public override UserId IdToValueObject()
+    {
+        return UserId.Create(Id.Value);
     }
 
 #pragma warning disable CS8618

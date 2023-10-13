@@ -168,9 +168,6 @@ namespace CodeGo.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("CurrentModule")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("CurrentSection")
                         .HasColumnType("uuid");
 
@@ -285,6 +282,9 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)");
 
+                            b1.Property<int>("Position")
+                                .HasColumnType("integer");
+
                             b1.HasKey("Id", "CourseId");
 
                             b1.HasIndex("CourseId");
@@ -313,6 +313,9 @@ namespace CodeGo.Infrastructure.Migrations
                                         .IsRequired()
                                         .HasMaxLength(100)
                                         .HasColumnType("character varying(100)");
+
+                                    b2.Property<int>("Position")
+                                        .HasColumnType("integer");
 
                                     b2.Property<int>("TotalLessons")
                                         .HasColumnType("integer");
@@ -482,7 +485,6 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasColumnType("character varying(38)");
 
                             b1.Property<string>("AnswerId")
-                                .IsRequired()
                                 .HasMaxLength(38)
                                 .HasColumnType("character varying(38)");
 
@@ -582,57 +584,41 @@ namespace CodeGo.Infrastructure.Migrations
                                 .HasForeignKey("ProgressId");
                         });
 
-                    b.OwnsMany("CodeGo.Domain.ProgressAggregateRoot.Entities.CategoryTracking", "CategoryTrackings", b1 =>
+                    b.OwnsMany("CodeGo.Domain.ProgressAggregateRoot.Entities.ModuleTracking", "ModuleTrackings", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid")
-                                .HasColumnName("CategoryTrackingId");
+                                .HasColumnName("ModuleTrackingId");
 
                             b1.Property<Guid>("ProgressId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("CategoryId")
+                            b1.Property<int>("LessonsCompleted")
+                                .HasColumnType("integer");
+
+                            b1.Property<Guid>("ModuleId")
                                 .HasColumnType("uuid");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer");
 
                             b1.HasKey("Id", "ProgressId");
 
                             b1.HasIndex("ProgressId");
 
-                            b1.ToTable("categoryTrackings", (string)null);
+                            b1.ToTable("moduleTrackings", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ProgressId");
-
-                            b1.OwnsOne("CodeGo.Domain.Common.ValueObjects.Difficulty", "DifficultyLevel", b2 =>
-                                {
-                                    b2.Property<Guid>("CategoryTrackingId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<Guid>("CategoryTrackingProgressId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Value")
-                                        .HasColumnType("integer");
-
-                                    b2.HasKey("CategoryTrackingId", "CategoryTrackingProgressId");
-
-                                    b2.ToTable("categoryTrackings");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("CategoryTrackingId", "CategoryTrackingProgressId");
-                                });
-
-                            b1.Navigation("DifficultyLevel")
-                                .IsRequired();
                         });
-
-                    b.Navigation("CategoryTrackings");
 
                     b.Navigation("CompletedModuleIds");
 
                     b.Navigation("CompletedSectionIds");
 
                     b.Navigation("LessonTrackingIds");
+
+                    b.Navigation("ModuleTrackings");
                 });
 
             modelBuilder.Entity("CodeGo.Domain.QuestionAggregateRoot.Question", b =>

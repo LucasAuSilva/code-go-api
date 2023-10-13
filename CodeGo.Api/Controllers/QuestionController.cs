@@ -1,6 +1,5 @@
 
 using CodeGo.Application.Questions.Command.CreateQuestion;
-using CodeGo.Application.Questions.Queries.ResolveQuestion;
 using CodeGo.Contracts.Common;
 using CodeGo.Contracts.Questions;
 using MapsterMapper;
@@ -32,19 +31,6 @@ public class QuestionController : ApiController
         var result = await _sender.Send(command);
         return result.Match(
             result => Ok(_mapper.Map<QuestionResponse>(result)),
-            Problem);
-    }
-
-    [HttpPost("{questionId}/resolve/{alternativeId}")]
-    public async Task<IActionResult> ResolveQuestion(string questionId, string alternativeId)
-    {
-        var loggedUserId = GetUserId();
-        if (loggedUserId is null)
-            return Problem();
-        var query = _mapper.Map<ResolveQuestionQuery>((questionId, loggedUserId, alternativeId));
-        var result = await _sender.Send(query);
-        return result.Match(
-            result => Ok(_mapper.Map<ResolveResponse>(result)),
             Problem);
     }
 }

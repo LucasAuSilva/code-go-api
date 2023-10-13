@@ -1,11 +1,15 @@
 
 using System.Runtime.CompilerServices;
+using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
+using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
+using CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 using CodeGo.Domain.LessonTrackingAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
+using ErrorOr;
 
 namespace CodeGo.Domain.LessonTrackingAggregateRoot;
 
@@ -47,8 +51,9 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         CourseId courseId,
         List<Practice> practices)
     {
-        return new LessonTracking(
-            id: LessonTrackingId.CreateNew(),
+        var id = LessonTrackingId.CreateNew(); 
+        var lessonTracking = new LessonTracking(
+            id: id,
             userId: userId,
             courseId: courseId,
             startDateTime: DateTime.UtcNow,
@@ -57,6 +62,56 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
             practices: practices,
             createdAt: DateTime.UtcNow,
             updatedAt: DateTime.UtcNow);
+        lessonTracking.AddDomainEvent(new CancelPreviousLessonsEvent(id));
+        return lessonTracking;
+    }
+
+    public ErrorOr<Success> ResolvePractice(
+        string activityId,
+        string answerId,
+        bool isCorrect,
+        Difficulty difficulty,
+        UserId userId)
+    {
+        var practice = _practices.FirstOrDefault(practice => practice.ActivityId.Equals(activityId));
+        if (practice is null)
+            return Errors.LessonTrackings.PracticeNotFoundByActivity;
+        AddDomainEvent(new ResolvedPracticeEvent(practice, difficulty, userId));
+        return practice.Resolve(answerId, isCorrect);
+    }
+
+    // TODO: Maybe gain more points to finish lesson with success (or bonus points depending on higher percentage)
+    public ErrorOr<bool> Finish()
+    {
+        var HasPassed = CalculationForFinishLesson();
+        EndDateTime = DateTime.UtcNow;
+        Status = HasPassed ? LessonStatus.Finished : LessonStatus.Failed;
+        AddDomainEvent(new FinishedLessonEvent(this));
+        return HasPassed;
+    }
+
+    private Boolean CalculationForFinishLesson()
+    {
+        var practicesResults = _practices.Where(practice => practice.IsCorrect == true).Count();
+        var practicesTotal = _practices.Count;
+        if (practicesTotal < 7)
+            return practicesResults >= (int)Math.Round((double)(practicesTotal + 1) / 2) ;
+        return (int)Math.Round((double)(100 * practicesResults) / _practices.Count) >= 70;
+    }
+
+    // TODO: Maybe make user lost ranking points for cancel lessons
+    public void CancelLesson()
+    {
+        if (Status == LessonStatus.InProgress)
+        {
+            Status = LessonStatus.Cancelled;
+            EndDateTime = DateTime.UtcNow;
+        }
+    }
+
+    public override LessonTrackingId IdToValueObject()
+    {
+        return LessonTrackingId.Create(Id.Value);
     }
 
 #pragma warning disable CS8618

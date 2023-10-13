@@ -3,17 +3,85 @@
 
 - [Code&Go API](../../README.md)
   - [Course](#course)
+    - [Find Course](#find-course)
     - [List Courses](#list-courses)
-    - [Languages](#languages)
-    - [Create Course](#create-course)
-    - [Create Section](#create-section)
-    - [Create Module](#create-module)
-    - [Start Module](#start-module)
+    - [Languages](#languages)*
+    - [Create Course](#create-course)*
+    - [Create Section](#create-section)*
+    - [Create Module](#create-module)*
     - [General Responses](#general-responses)
+
+`*` Requested that are only allowed for system **`admins`**
 
 ## Course
 
 > Routes related to the courses, like create new course, find course, modules or sections. As well 
+
+### Find Course
+
+> Route used for find an existing course on the application and see the details
+
+#### Find Course Request
+
+```http
+GET /course/{courseId}
+```
+
+#### Find Course Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "id": "653b5f0f-7460-4b36-95f6-f7f71811d050",
+  "name": "Javascript",
+  "authorName": "code&go",
+  "description": "The Code&Go base Javascript Course",
+  "courseIcon": null,
+  "language": {
+    "name": "Javascript",
+    "value": 1
+  },
+  "sections": [
+    {
+      "id": "1c88cb7c-b3f3-4a20-bbd2-dc43bfaf7f9b",
+      "name": "Seção 1",
+      "description": "Básico do Javascript",
+      "modules": [
+        {
+          "id": "b9def288-a3c6-4011-8521-1cd4dd1786d6",
+          "name": "Declaração de Variáveis - Mudanças pelo tempo",
+          "totalLessons": 3,
+          "moduleType": "Skill"
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+```http
+404 NotFound
+```
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "Course with this id doesn't exists",
+  "traceId": "00-431e02c08ee2128cc5f5e16575f3398a-0f6d8ac12a5ad07b-00",
+  "errorsCodes": [
+    "Course.NotFound"
+  ]
+}
+```
+
+---
 
 ### Languages
 
@@ -49,7 +117,7 @@ GET /course/languages
 ]
 ```
 
-## List Courses
+### List Courses
 
 > This routes is for list courses of the application
 
@@ -256,8 +324,6 @@ POST course/{courseId}/module
 }
 ```
 
----
-
 ```http
 400 Bad Request
 ```
@@ -275,68 +341,7 @@ POST course/{courseId}/module
 }
 ```
 
-### Start Module
-
-> This route is used when the user start an module for practice
-> **BREAKING:** Probably this route going to change in future updates
-
-#### Start Module Request
-
-```http
-GET course/{courseId}/module/{moduleId}/start
-```
-```json
-{}
-```
-
-#### Start Module Response
-
-```http
-200 Ok
-```
-```json
-{
-  "questions": [
-    {
-      "id": "43696e04-0aef-4699-a4bb-ca47a8b01592",
-      "title": "Variáveis Javascript",
-      "description": "Qual é a **Keyword** para declarar variáveis em javascript",
-      "alternatives": [
-        {
-          "id": "6f32bd92-7372-4345-991c-c02f591e4521",
-          "description": "var myVariable: string = \"I'm an variable\""
-        },
-        {
-          "id": "b6c7cdf3-4880-4ae8-ae22-bef9fb903943",
-          "description": "var myVariable = \"I'm an variable\""
-        },
-        {
-          "id": "bf2e429b-b1c8-421f-9a93-21797381a48a",
-          "description": "string myVariable = \"I'm an variable\""
-        },
-        {
-          "id": "d9c6fc78-b86a-467d-82e2-34c423c2f7ef",
-          "description": "myVariable = \"I'm an variable\""
-        }
-      ]
-    }
-  ],
-  "exercises": [
-    {
-      "id": "666a0b1c-6534-4881-8f1f-9d2d8d45d231",
-      "title": "Declaração de MyVariable",
-      "description": "Usando o editor abaixo declare a variável 'MyVariable', e com seu valor(em string) de: I'm an variable",
-      "baseCode": "\nBaseCode\n\nconsole.log(myVariable);\n",
-      "testCases": [
-        {
-          "id": "ed46197e-851c-4fd9-a26c-d9568eb17036",
-          "title": "Test Case 1"
-        }
-      ]
-    }
-  ]
-}
-```
+---
 
 ### General Responses
 

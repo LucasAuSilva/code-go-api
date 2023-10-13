@@ -29,6 +29,8 @@ public sealed class Streak : ValueObject
             StreakLastUpdate = DateTime.UtcNow;
             return;
         }
+        if (today == lastUpdateDate)
+            return;
         StreakCount = 1;
         StreakLastUpdate = DateTime.UtcNow;
         return;

@@ -3,12 +3,17 @@
 
 - [Code&Go API](../../README.md)
   - [User](#user)
+    - [User Profile](#user-profile)
     - [Edit Profile](#edit-profile)
     - [Register Course](#register-course)
     - [Response Friend Request](#response-friend-request)
     - [Send Friend Request](#send-friend-request)
     - [List Friends Request](#list-friends-requests)
-    - [List Users by Email](#list-users-by-email)
+    - [List Users by Name](#list-users-by-name)
+    - [List Users by Email](#list-users-by-email)*
+    - [Update User Role](#update-user-role)*
+
+`*` Requested that are only allowed for system **`admins`**
 
 ## User
 
@@ -85,7 +90,7 @@ POST /user/{userId}/request/{otherUserId}
 
 ---
 
-### Response Friend Request
+#### Response Friend Request
 
 > This routes is used for respond an friendship request
 
@@ -374,6 +379,155 @@ GET /user/{userId}/requests?page=1&pagesize=10&name=luc
 > Empty list
 ```json
 []
+```
+
+---
+
+### User Profile
+
+> Route used for get the user profile details, can be used for see others users profile if they are friends or visibility is public
+
+#### User Profile Request
+
+```http
+GET /user/{userId}
+```
+
+#### User Profile Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "id": "aeb702af-6767-477f-aa63-93f7b44fac7a",
+  "firstName": "Lucas Augusto",
+  "lastName": "Silva",
+  "email": "lucas@email.com",
+  "profilePicture": null,
+  "bio": null,
+  "streakCount": 3,
+  "lifeCount": 5,
+  "lifeTotal": 5,
+  "experiencePoints": 300,
+  "visibility": 2, // 1 = Public | 2 = Private
+  "friendshipRequests": [], // or ["00000000-0000-0000-0000-000000000000", ...]
+  "friendIds": [], // or ["00000000-0000-0000-0000-000000000000", ...]
+  "courseIds": [
+    "653b5f0f-7460-4b36-95f6-f7f71811d050"
+  ]
+}
+```
+
+---
+
+```http
+404 NotFound
+```
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "User with this id doesn't exists",
+  "traceId": "00-fc1b9f61cb9b07d29f2109fb9210dda9-9fd9a0b5b932fa9c-00",
+  "errorsCodes": [
+    "User.NotFound"
+  ]
+}
+```
+
+---
+
+### Update User Role
+
+> Route used for update the user role to admin or back to normal user.
+> **IMPORTANT**: Only **`admins`** can use this request.
+
+#### Update User Role Request
+
+```http
+PUT /user/admin/{userId}/transform/{role}
+```
+
+```json
+{}
+```
+
+#### Update User Role Response
+
+```http
+200 OK
+```
+
+```json
+{
+  "id": "174bd611-c7c9-4387-b94b-51e748d22475",
+  "firstName": "Guilherme Arthur Leimann",
+  "lastName": "Illescas",
+  "email": "guilherme@email.com",
+  "profilePicture": null,
+  "bio": null,
+  "streakCount": 0,
+  "lifeCount": 5,
+  "lifeTotal": 5,
+  "experiencePoints": 0,
+  "level": null,
+  "visibility": 2,
+  "friendshipRequests": [
+    {
+      "id": "9c2b20ed-5068-4196-8796-d7e94d8329b2",
+      "requesterId": "aeb702af-6767-477f-aa63-93f7b44fac7a",
+      "requesterEmail": "lucas@email.com",
+      "requesterPhoto": null,
+      "message": "Lets be friends!!"
+    }
+  ],
+  "friendIds": [],
+  "courseIds": []
+}
+```
+
+---
+
+```http
+400 Bad Request
+```
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "00-2a50beca3cccb7c0a895218dcb120169-29e7a5b8041bb516-00",
+  "errors": {
+    "Role": [
+      "'Role' must be less than '3'."
+    ]
+  }
+}
+```
+
+---
+
+```http
+404 Not Found
+```
+
+```json
+
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "User with this id doesn't exists",
+  "traceId": "00-10248f5a2c3b26ac31c4f0bb1b23fa9e-1fdda2263647a697-00",
+  "errorsCodes": [
+    "User.NotFound"
+  ]
+}
 ```
 
 ---
