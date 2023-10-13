@@ -50,9 +50,12 @@ public sealed class Question : AggregateRoot<QuestionId, Guid>
         Difficulty difficulty,
         CategoryId categoryId,
         CourseId courseId,
-        List<Alternative>? alternatives = null)
+        List<Alternative> alternatives)
     {
-        if (alternatives is not null && alternatives.Any(alternative => alternative.IsCorrect))
+        var hasCorrectAnswer = alternatives
+            .Select(alternative => alternative.IsCorrect)
+            .Contains(true);
+        if (!hasCorrectAnswer)
             return Errors.Question.MissingCorrectAlternative;
         return new Question(
             id: QuestionId.CreateNew(),
