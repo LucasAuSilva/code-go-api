@@ -5,6 +5,9 @@ Documentation
 .github
 .env
 docker-compose.yml
+Requests/
+Docs/
+Configs/
 
 # Build results
 [Dd]ebug/

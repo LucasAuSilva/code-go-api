@@ -7,16 +7,13 @@ on:
     branches: [master]
 
 jobs:
-  deploy:
+  EC2-Deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{vars.APP_URL}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
+      - id: deploy
+        uses: bitovi/github-actions-deploy-docker-to-ec2@v0.5.8
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "code-go" #Must be unique in Heroku
-          heroku_email: "silvaaugustolucas@gmail.com"
-          usedocker: true
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_default_region: sa-east-1
+          dot_env: ${{ secrets.DOT_ENV }}
