@@ -8,6 +8,7 @@ public sealed class Period : ValueObject
 {
     public DateTime InitialDateTime { get; private set; }
     public DateTime EndDateTime { get; private set; }
+    public bool IsGoingToReset { get; private set; }
 
     private Period(DateTime initialDateTime, DateTime endDateTime)
     {
@@ -31,6 +32,11 @@ public sealed class Period : ValueObject
     {
         yield return InitialDateTime;
         yield return EndDateTime;
+    }
+
+    public int InMinutes()
+    {
+        return (EndDateTime - DateTime.Now).Minutes;
     }
 
 #pragma warning disable CS8618

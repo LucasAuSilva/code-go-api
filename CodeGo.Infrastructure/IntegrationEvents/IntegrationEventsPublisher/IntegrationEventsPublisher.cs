@@ -30,7 +30,9 @@ public class IntegrationEventsPublisher : IIntegrationEventsPublisher
         _channel = _connection.CreateModel();
     }
 
-    public void PublishEvent(IIntegrationEvent integrationEvent, IQueueSettings queueSettings)
+    public void PublishEvent(
+        IIntegrationEvent integrationEvent,
+        IQueueSettings queueSettings)
     {
         var props = _channel.CreateBasicProperties();
         string serializedIntegrationEvent = JsonSerializer.Serialize(integrationEvent);

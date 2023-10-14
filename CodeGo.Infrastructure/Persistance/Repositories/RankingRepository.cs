@@ -3,6 +3,7 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.RankingAggregateRoot;
+using CodeGo.Domain.RankingAggregateRoot.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeGo.Infrastructure.Persistance.Repositories;
@@ -29,6 +30,12 @@ public class RankingRepository : IRankingRepository
                 ranking => ranking.CourseId == courseId &&
                 ranking.Period.InitialDateTime < today &&
                 ranking.Period.EndDateTime > today);
+    }
+
+    public async Task<Ranking?> FindById(RankingId rankingId)
+    {
+        return await _dbContext.Rankings
+            .FirstOrDefaultAsync(ranking => ranking.Id == rankingId);
     }
 
     public async Task UpdateAsync(Ranking ranking)

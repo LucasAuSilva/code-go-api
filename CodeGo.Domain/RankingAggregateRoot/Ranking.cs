@@ -1,12 +1,11 @@
 
-using System.Text.RegularExpressions;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.CourseAggregateRoot.ValueObjects;
 using CodeGo.Domain.RankingAggregateRoot.Entities;
+using CodeGo.Domain.RankingAggregateRoot.Events;
 using CodeGo.Domain.RankingAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot;
-using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
 namespace CodeGo.Domain.RankingAggregateRoot;
 
@@ -30,10 +29,12 @@ public sealed class Ranking : AggregateRoot<RankingId, Guid>
         CourseId courseId)
     {
         var period = Period.TilNextSunday();
-        return new Ranking(
+        var ranking = new Ranking(
             RankingId.CreateNew(),
             courseId,
             period);
+        ranking.AddDomainEvent(new EndedRankingPeriodEvent(ranking));
+        return ranking;
     }
 
     public override RankingId IdToValueObject()
@@ -53,6 +54,21 @@ public sealed class Ranking : AggregateRoot<RankingId, Guid>
         if (isCorrect)
             progress.IncreasePoints(difficulty);
         return;
+    }
+
+    public void EndRanking()
+    {
+        var finalists = _rankingProgresses
+            .OrderBy(rp => rp.Points)
+            .Take(3)
+            .Select(ranking => ranking.UserId)
+            .ToList();
+        var position = 1;
+        foreach (var finalist in finalists)
+        {
+            AddDomainEvent(new FinishedRankingAsFinalist(finalist, position));
+            position++;
+        }
     }
 
 #pragma warning disable CS8618
