@@ -703,7 +703,7 @@ namespace CodeGo.Infrastructure.Migrations
 
                             b1.HasKey("RankingId", "Id");
 
-                            b1.ToTable("RankingProgresses", (string)null);
+                            b1.ToTable("rankingProgresses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("RankingId");
@@ -721,7 +721,7 @@ namespace CodeGo.Infrastructure.Migrations
 
                                     b2.HasKey("RankingProgressRankingId", "RankingProgressId");
 
-                                    b2.ToTable("RankingProgresses");
+                                    b2.ToTable("rankingProgresses");
 
                                     b2.WithOwner()
                                         .HasForeignKey("RankingProgressRankingId", "RankingProgressId");
@@ -741,6 +741,9 @@ namespace CodeGo.Infrastructure.Migrations
 
                             b1.Property<DateTime>("InitialDateTime")
                                 .HasColumnType("timestamp with time zone");
+
+                            b1.Property<bool>("IsGoingToReset")
+                                .HasColumnType("boolean");
 
                             b1.HasKey("RankingId");
 

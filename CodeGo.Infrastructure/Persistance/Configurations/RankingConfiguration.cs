@@ -20,7 +20,7 @@ public class RankingConfiguration : IEntityTypeConfiguration<Ranking>
     {
         builder.OwnsMany(r => r.RankingProgresses, rpb =>
         {
-            rpb.ToTable("RankingProgresses");
+            rpb.ToTable("rankingProgresses");
             rpb.WithOwner().HasForeignKey("RankingId");
             rpb.HasKey("RankingId", "Id");
             rpb.Property(rp => rp.Id)

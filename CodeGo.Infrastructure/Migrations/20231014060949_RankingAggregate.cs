@@ -18,7 +18,8 @@ namespace CodeGo.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CourseId = table.Column<Guid>(type: "uuid", nullable: false),
                     Period_InitialDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Period_EndDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Period_EndDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Period_IsGoingToReset = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,7 +27,7 @@ namespace CodeGo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RankingProgresses",
+                name: "rankingProgresses",
                 columns: table => new
                 {
                     RankingProgressId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -37,9 +38,9 @@ namespace CodeGo.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RankingProgresses", x => new { x.RankingId, x.RankingProgressId });
+                    table.PrimaryKey("PK_rankingProgresses", x => new { x.RankingId, x.RankingProgressId });
                     table.ForeignKey(
-                        name: "FK_RankingProgresses_rankings_RankingId",
+                        name: "FK_rankingProgresses_rankings_RankingId",
                         column: x => x.RankingId,
                         principalTable: "rankings",
                         principalColumn: "Id",
@@ -51,7 +52,7 @@ namespace CodeGo.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RankingProgresses");
+                name: "rankingProgresses");
 
             migrationBuilder.DropTable(
                 name: "rankings");

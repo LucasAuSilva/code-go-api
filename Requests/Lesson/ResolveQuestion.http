@@ -1,4 +1,4 @@
-@lessonId = 17b33c88-0b01-4aaf-a8e5-15eb0e92980f
+@lessonId = 1070ef4b-0d51-4a96-82c4-d9c6db4e221f
 
 PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
 Content-Type: application/json

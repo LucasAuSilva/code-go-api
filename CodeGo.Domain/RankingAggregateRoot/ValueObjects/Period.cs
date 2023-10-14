@@ -36,7 +36,7 @@ public sealed class Period : ValueObject
 
     public int InMinutes()
     {
-        return (EndDateTime - DateTime.Now).Minutes;
+        return (int)(EndDateTime - DateTime.UtcNow).TotalMinutes;
     }
 
 #pragma warning disable CS8618

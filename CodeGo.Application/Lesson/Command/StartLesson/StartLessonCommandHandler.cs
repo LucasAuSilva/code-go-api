@@ -62,6 +62,7 @@ public class StartLessonCommandHandler : IRequestHandler<StartLessonCommand, Err
         var moduleQuestions = course.SelectModuleQuestions(courseQuestions, moduleId);
         var moduleExercises = course.SelectModuleExercises(courseExercises, moduleId);
 
+        // TODO: Make check to see if requested module is the current or not
         var practices = moduleExercises
         .ConvertAll(exercise => Practice.CreateNew(
             exercise.Id.Value.ToString(),
