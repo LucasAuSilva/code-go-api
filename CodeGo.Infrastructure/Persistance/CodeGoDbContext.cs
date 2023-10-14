@@ -7,6 +7,7 @@ using CodeGo.Domain.ExerciseAggregateRoot;
 using CodeGo.Domain.LessonTrackingAggregateRoot;
 using CodeGo.Domain.ProgressAggregateRoot;
 using CodeGo.Domain.QuestionAggregateRoot;
+using CodeGo.Domain.RankingAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,7 @@ public class CodeGoDbContext : DbContext
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Progress> Progresses { get; set; } = null!;
     public DbSet<LessonTracking> LessonTrackings { get; set; } = null!;
+    public DbSet<Ranking> Rankings { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
