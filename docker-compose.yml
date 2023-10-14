@@ -4,9 +4,6 @@ services:
     container_name: code-go-app
     build: .
     env_file: .env
-
-    volumes:
-        - .:app
     
     ports:
         - 3000:3000
