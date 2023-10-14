@@ -210,6 +210,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return UserId.Create(Id.Value);
     }
 
+    public void FinishedRankingAsFinalist(int position)
+    {
+        Points.CalculatePointsByPosition(position);
+    }
+
 #pragma warning disable CS8618
     private User() {}
 #pragma warning restore CS8618

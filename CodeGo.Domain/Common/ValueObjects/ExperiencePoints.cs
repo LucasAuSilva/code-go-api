@@ -33,6 +33,23 @@ public sealed class ExperiencePoints : ValueObject
         Points += points.Points;
     }
 
+    public void CalculatePointsByPosition(int position)
+    {
+        switch(position) {
+            case 1:
+                Points += 1000;
+                break;
+            case 2:
+                Points += 500;
+                break;
+            case 3:
+                Points += 250;
+                break;
+            default:
+                break;
+        }
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Points;
