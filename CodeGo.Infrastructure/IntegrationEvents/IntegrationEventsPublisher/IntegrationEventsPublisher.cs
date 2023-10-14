@@ -61,10 +61,10 @@ public class IntegrationEventsPublisher : IIntegrationEventsPublisher
         var args = new Dictionary<string,object>
         {
             { "x-dead-letter-exchange", "" },
-            { "x-dead-letter-routing-key", queueSettings.QueueName }
+            { "x-dead-letter-routing-key", _brokerSettings.InQueue }
         };
         _channel.QueueDeclare(
-            queue: $"delayed.to.{queueSettings.QueueName}",
+            queue: $"{queueSettings.QueueName}",
             durable: true,
             exclusive: false,
             autoDelete: false,
@@ -73,7 +73,7 @@ public class IntegrationEventsPublisher : IIntegrationEventsPublisher
         props.Expiration = delayInMilliseconds.ToString();
         _channel.BasicPublish(
             exchange: string.Empty,
-            routingKey: $"delayed.to.{queueSettings.QueueName}",
+            routingKey: $"{queueSettings.QueueName}",
             basicProperties: props,
             body: body);
     }

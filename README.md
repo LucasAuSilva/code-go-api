@@ -122,10 +122,10 @@ BrokerSettings__Username=guest
 BrokerSettings__Password=guest
 BrokerSettings__Host=rabbit
 BrokerSettings__Port=5672
-BrokerSettings__Ssl=false
+BrokerSettings__InQueue="code-go.in"
 
 # Queue for recover life settings, no need to change
-LifeQueueSettings__QueueName=life.in
+LifeQueueSettings__QueueName=life.out
 LifeQueueSettings__DelayInMinutes=2
 
 # You don't need to setup this key, but the api to run exercise will not work ;)
