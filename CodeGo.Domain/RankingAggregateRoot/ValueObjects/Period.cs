@@ -1,5 +1,6 @@
 
 using CodeGo.Domain.Common.Models;
+using CodeGo.Domain.Common.Utils;
 
 namespace CodeGo.Domain.RankingAggregateRoot.ValueObjects;
 
@@ -17,6 +18,13 @@ public sealed class Period : ValueObject
     public static Period CreateNew(DateTime initialDateTime, DateTime endDateTime)
     {
         return new Period(initialDateTime, endDateTime);
+    }
+
+    public static Period TilNextSunday()
+    {
+        var today = DateTime.UtcNow;
+        var nextSunday = today.Next(DayOfWeek.Sunday);
+        return new Period(today, nextSunday);
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

@@ -1,5 +1,6 @@
 
 using CodeGo.Domain.Common.Models;
+using CodeGo.Domain.Common.ValueObjects;
 using CodeGo.Domain.RankingAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 
@@ -32,6 +33,11 @@ public sealed class RankingProgress : Entity<RankingProgressId>
             userId,
             userFullName,
             points);
+    }
+
+    public void IncreasePoints(Difficulty difficulty)
+    {
+        Points.CalculatePointsByDifficulty(difficulty);
     }
 
 #pragma warning disable CS8618
