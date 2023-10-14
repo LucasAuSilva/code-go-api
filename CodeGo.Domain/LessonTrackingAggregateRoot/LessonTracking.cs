@@ -76,7 +76,7 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         var practice = _practices.FirstOrDefault(practice => practice.ActivityId.Equals(activityId));
         if (practice is null)
             return Errors.LessonTrackings.PracticeNotFoundByActivity;
-        AddDomainEvent(new ResolvedPracticeEvent(practice, difficulty, userId));
+        AddDomainEvent(new ResolvedPracticeEvent(this, practice, difficulty, userId));
         return practice.Resolve(answerId, isCorrect);
     }
 

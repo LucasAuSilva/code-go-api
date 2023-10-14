@@ -9,6 +9,7 @@ using CodeGo.Infrastructure.Broker.Settings;
 using CodeGo.Infrastructure.Http.Judge0Api;
 using CodeGo.Infrastructure.IntegrationEvents.BackgroundServices;
 using CodeGo.Infrastructure.IntegrationEvents.IntegrationEventsPublisher;
+using CodeGo.Infrastructure.IntegrationEvents.Settings;
 using CodeGo.Infrastructure.Persistance;
 using CodeGo.Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -69,10 +70,13 @@ public static class DependencyInjection
     {
         var brokerSettings = new BrokerSettings();
         var lifeQueueSettings = new LifeQueueSettings();
+        var rankingQueueSettings = new RankingQueueSettings();
         configuration.Bind(BrokerSettings.SectionName, brokerSettings);
         configuration.Bind(LifeQueueSettings.SectionName, lifeQueueSettings);
+        configuration.Bind(RankingQueueSettings.SectionName, rankingQueueSettings);
         services.AddSingleton(Options.Create(brokerSettings));
         services.AddSingleton(Options.Create(lifeQueueSettings));
+        services.AddSingleton(Options.Create(rankingQueueSettings));
         services.AddSingleton<IIntegrationEventsPublisher, IntegrationEventsPublisher>();
         services.AddHostedService<ConsumeIntegrationEventsBackgroundService>();
         return services;
@@ -91,6 +95,7 @@ public static class DependencyInjection
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProgressRepository, ProgressRepository>();
         services.AddScoped<ILessonTrackingRepository, LessonTrackingRepository>();
+        services.AddScoped<IRankingRepository, RankingRepository>();
         return services;
     }
 

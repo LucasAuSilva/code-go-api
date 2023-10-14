@@ -55,7 +55,7 @@ public class ConsumeIntegrationEventsBackgroundService : IHostedService
             autoDelete: false);
         var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += PublishIntegrationEvent;
-        _channel.BasicConsume(_lifeQueueSettings.QueueName, autoAck: false, consumer);
+        _channel.BasicConsume(_brokerSettings.InQueue, autoAck: false, consumer);
     }
 
     private async void PublishIntegrationEvent(object? sender, BasicDeliverEventArgs eventArgs)

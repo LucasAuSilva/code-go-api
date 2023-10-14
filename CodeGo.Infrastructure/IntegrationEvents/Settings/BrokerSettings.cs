@@ -7,6 +7,7 @@ public class BrokerSettings
     public string Username { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string Host { get; set; } = null!;
+    public string InQueue { get; set; } = null!;
     public int Port { get; set; }
     public bool Ssl { get; set; }
 }

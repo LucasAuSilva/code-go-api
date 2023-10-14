@@ -1,0 +1,4 @@
+GET {{baseUrl}}/ranking/{{courseId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+

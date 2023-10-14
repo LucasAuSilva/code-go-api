@@ -154,6 +154,7 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
             .FirstModule();
     }
 
+    // TODO: Make the quantity of question depend on the user time to make lessons
     public List<Question> SelectModuleQuestions(
         List<Question> questions,
         ModuleId moduleId)
@@ -171,6 +172,7 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         return selectedQuestions.ToList();
     }
 
+    // TODO: Make the quantity of exercises depend on the user time to make lessons
     public List<Exercise> SelectModuleExercises(
         List<Exercise> exercises,
         ModuleId moduleId)

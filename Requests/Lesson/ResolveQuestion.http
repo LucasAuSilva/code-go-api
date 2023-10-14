@@ -1,4 +1,4 @@
-@lessonId = f17fdf71-859e-455b-9a18-ab3c7b2ad896
+@lessonId = 1070ef4b-0d51-4a96-82c4-d9c6db4e221f
 
 PUT {{baseUrl}}/lesson/{{lessonId}}/resolve/question
 Content-Type: application/json
@@ -6,7 +6,7 @@ Authorization: Bearer {{token}}
 
 {
     "questionId": "eb939990-0d6a-45e0-bb70-b4bd1f841326",
-    "alternativeId": "6e0f987b-977c-4050-ab66-db2656bf21cd"
+    "alternativeId": "446d057e-fb5a-4adc-9576-7aceb2ebf94f"
 }
 
 ###

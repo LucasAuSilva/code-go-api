@@ -7,6 +7,7 @@ using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 namespace CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 
 public record ResolvedPracticeEvent(
+    LessonTracking LessonTracking,
     Practice Practice,
     Difficulty Difficulty,
     UserId UserId
