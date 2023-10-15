@@ -94,7 +94,9 @@ public class UserController : ApiController
     [HttpGet("list")]
     public async Task<IActionResult> FindUsersByName([FromQuery] ListUsersByNameRequest request)
     {
-        var query = _mapper.Map<ListUsersByNameQuery>(request);
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null) return Problem();
+        var query = _mapper.Map<ListUsersByNameQuery>((loggedUserId, request));
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<PagedListResult<ListUsersByNameResponse>>(result)),

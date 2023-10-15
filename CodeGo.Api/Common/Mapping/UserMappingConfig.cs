@@ -6,6 +6,7 @@ using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Command.UpdateUserRole;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
 using CodeGo.Application.Users.Queries.ListUsersByEmail;
+using CodeGo.Application.Users.Queries.ListUsersByName;
 using CodeGo.Application.Users.Queries.UserProfile;
 using CodeGo.Contracts.Users;
 using CodeGo.Domain.UserAggregateRoot;
@@ -27,6 +28,7 @@ public class UserMappingConfig : IRegister
         ListFriendsRequestsMapping(config);
         ListUsersByEmailRequestMapping(config);
         ListUsersByEmailResponseMapping(config);
+        ListUsersByNameRequestMapping(config);
         ListUsersByNameResponseMapping(config);
         UpdateUserRoleRequestMapping(config);
     }
@@ -108,6 +110,13 @@ public class UserMappingConfig : IRegister
     {
         config.NewConfig<ListUsersByEmailRequest, ListUsersByEmailQuery>()
             .Map(dest => dest.Email, src => src.Email);
+    }
+
+    private static void ListUsersByNameRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(ListUsersByNameRequest Request, string LoggedUserId), ListUsersByNameQuery>()
+            .Map(dest => dest.LoggedUserId, src => src.LoggedUserId)
+            .Map(dest => dest, src => src.Request);
     }
 
     private static void ListUsersByEmailResponseMapping(TypeAdapterConfig config)
