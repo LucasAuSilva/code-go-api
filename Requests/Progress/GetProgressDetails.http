@@ -1,0 +1,3 @@
+GET {{baseUrl}}/progress/{{courseId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}

@@ -28,6 +28,6 @@ public class RankingDetailsQueryHandler : IRequestHandler<RankingDetailsQuery, E
             ranking = Ranking.CreateNew(courseId);
             await _rankingRepository.AddAsync(ranking);
         }
-        return ranking;
+        return ranking.Ordered();
     }
 }

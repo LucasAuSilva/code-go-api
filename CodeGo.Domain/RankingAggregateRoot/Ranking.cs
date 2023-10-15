@@ -6,6 +6,7 @@ using CodeGo.Domain.RankingAggregateRoot.Entities;
 using CodeGo.Domain.RankingAggregateRoot.Events;
 using CodeGo.Domain.RankingAggregateRoot.ValueObjects;
 using CodeGo.Domain.UserAggregateRoot;
+using ErrorOr;
 
 namespace CodeGo.Domain.RankingAggregateRoot;
 
@@ -69,6 +70,12 @@ public sealed class Ranking : AggregateRoot<RankingId, Guid>
             AddDomainEvent(new FinishedRankingAsFinalist(finalist, position));
             position++;
         }
+    }
+
+    public ErrorOr<Ranking> Ordered()
+    {
+        _rankingProgresses = _rankingProgresses.OrderBy(rp => rp.Points).ToList();
+        return this;
     }
 
 #pragma warning disable CS8618

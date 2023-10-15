@@ -2,7 +2,6 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 using CodeGo.Domain.RankingAggregateRoot;
-using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using MediatR;
 
 namespace CodeGo.Application.Users.Events;
