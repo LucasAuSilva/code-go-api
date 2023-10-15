@@ -21,19 +21,16 @@ public class ConsumeIntegrationEventsBackgroundService : IHostedService
     private readonly IConnection _connection;
     private readonly IModel _channel;
     private readonly BrokerSettings _brokerSettings;
-    private readonly LifeQueueSettings _lifeQueueSettings;
 
     public ConsumeIntegrationEventsBackgroundService(
         ILogger<ConsumeIntegrationEventsBackgroundService> logger,
         IServiceScopeFactory serviceScopeFactory,
-        IOptions<BrokerSettings> brokerSettings,
-        IOptions<LifeQueueSettings> lifeQueueSettings)
+        IOptions<BrokerSettings> brokerSettings)
     {
         _logger = logger;
         _cts = new CancellationTokenSource();
         _serviceScopeFactory = serviceScopeFactory;
         _brokerSettings = brokerSettings.Value;
-        _lifeQueueSettings = lifeQueueSettings.Value;
         IConnectionFactory connectionFactory = new ConnectionFactory
         {
             HostName = _brokerSettings.Host,
@@ -49,7 +46,7 @@ public class ConsumeIntegrationEventsBackgroundService : IHostedService
         _connection = connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(
-            queue: _lifeQueueSettings.QueueName,
+            queue: _brokerSettings.InQueue,
             durable: true,
             exclusive: false,
             autoDelete: false);

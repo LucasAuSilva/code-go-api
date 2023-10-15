@@ -128,6 +128,9 @@ BrokerSettings__InQueue="code-go.in"
 LifeQueueSettings__QueueName=life.out
 LifeQueueSettings__DelayInMinutes=2
 
+# Queue for ranking reset, no need to change
+RankingQueueName__QueueName=ranking.out
+
 # You don't need to setup this key, but the api to run exercise will not work ;)
 Judge0Settings__ApiKey=YourApiKeyHere
 Judge0Settings__Host=YourJudge0HostHere
