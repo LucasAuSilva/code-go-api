@@ -92,12 +92,15 @@ public sealed class User : AggregateRoot<UserId, Guid>
             updatedAt: DateTime.UtcNow);
     }
 
-    // TODO: Check if user is already registered in the course
-    public void RegisterCourse(Course course)
+    public ErrorOr<Success> RegisterCourse(Course course)
     {
+        var courseId = CourseId.Create(course.Id.Value);
+        if (_courseIds.Contains(courseId))
+            return Errors.Users.AlreadyRegisteredCourse;
         AddDomainEvent(
             new RegisteredNewCourseEvent(UserId.Create(Id.Value), course));
-        _courseIds.Add(CourseId.Create(course.Id.Value));
+        _courseIds.Add(courseId);
+        return Result.Success;
     }
 
     public void ResolvePractice(bool IsCorrect, Difficulty difficulty)
