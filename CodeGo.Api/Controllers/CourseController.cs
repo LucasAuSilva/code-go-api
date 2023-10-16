@@ -65,7 +65,7 @@ public class CourseController : ApiController
         var command = _mapper.Map<CreateCourseCommand>(request);
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<CourseResponse>(result)),
+            result => Created(_mapper.Map<CourseResponse>(result)),
             Problem);
     }
 
@@ -76,7 +76,7 @@ public class CourseController : ApiController
         var command = _mapper.Map<CreateSectionCommand>((request, courseId));
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<CourseResponse>(result)),
+            result => Created(_mapper.Map<CourseResponse>(result)),
             Problem);
     }
 
@@ -87,7 +87,7 @@ public class CourseController : ApiController
         var command = _mapper.Map<CreateModuleCommand>((request, courseId));
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<CourseResponse>(result)),
+            result => Created(_mapper.Map<CourseResponse>(result)),
             Problem);
     }
 }
