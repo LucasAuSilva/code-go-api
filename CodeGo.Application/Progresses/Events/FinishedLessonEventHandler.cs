@@ -1,5 +1,4 @@
 
-using System.Diagnostics.CodeAnalysis;
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 using MediatR;
@@ -31,7 +30,7 @@ public class FinishedLessonEventHandler : INotificationHandler<FinishedLessonEve
         var course = await _courseRepository.FindById(notification.LessonTracking.CourseId);
         if (course is null)
             return;
-        progress.UpdateModuleTracking(course, notification.LessonTracking.Status);
+        progress.UpdateModuleTracking(course, notification.LessonTracking.Status, notification.LessonTracking.ModuleId);
         await _progressRepository.UpdateAsync(progress);
     }
 }
