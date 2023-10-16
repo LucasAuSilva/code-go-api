@@ -2,6 +2,7 @@
 using CodeGo.Application.Questions.Command.CreateQuestion;
 using CodeGo.Application.Questions.Command.DeleteQuestion;
 using CodeGo.Application.Questions.Command.EditQuestion;
+using CodeGo.Application.Questions.Queries.ListQuestionsByCourse;
 using CodeGo.Contracts.Common;
 using CodeGo.Contracts.Questions;
 using MapsterMapper;
@@ -58,5 +59,14 @@ public class QuestionController : ApiController
     }
 
 
-    // TODO: request for list questions from specific course
+    [HttpGet("{courseId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ListQuestionByCourse(string courseId)
+    {
+        var query = new ListQuestionsByCourseQuery(courseId);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<List<QuestionResponse>>(result)),
+            Problem);
+    }
 }
