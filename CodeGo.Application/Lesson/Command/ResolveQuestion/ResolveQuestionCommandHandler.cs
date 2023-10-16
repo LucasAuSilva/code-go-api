@@ -37,6 +37,9 @@ public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionComm
         var lessonTracking = await _lessonTrackingRepository.FindByIdAndUserId(
             LessonTrackingId.Create(command.LessonTrackingId),
             userId);
+        var user = await _userRepository.FindById(userId);
+        if (user is null)
+            return Errors.Users.NotFound;
         if (lessonTracking is null)
             return Errors.LessonTrackings.NotFound;
         var question = await _questionRepository.FindById(QuestionId.Create(command.QuestionId));
@@ -50,14 +53,15 @@ public class ResolveQuestionCommandHandler : IRequestHandler<ResolveQuestionComm
             answerId: command.AlternativeId,
             isCorrect: questionResult.Value,
             difficulty: question.Difficulty,
-            userId: userId
-        );
+            user: user);
         if (lessonResult.IsError)
             return lessonResult.Errors;
         await _lessonTrackingRepository.UpdateAsync(lessonTracking);
         var message = questionResult.Value ? "Resposta Correta" : "Resposta Errada";
         return new ResolvePracticeResult(
             message,
-            questionResult.Value);
+            questionResult.Value,
+            lessonResult.Value,
+            lessonResult.Value ? user.Life.Count + 1 : user.Life.Count - 1);
     }
 }

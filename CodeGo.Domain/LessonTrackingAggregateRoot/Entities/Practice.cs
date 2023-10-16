@@ -3,6 +3,7 @@ using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
 using CodeGo.Domain.LessonTrackingAggregateRoot.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 
 namespace CodeGo.Domain.LessonTrackingAggregateRoot.Entities;

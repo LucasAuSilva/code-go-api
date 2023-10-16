@@ -8,6 +8,7 @@ using CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 using CodeGo.Domain.LessonTrackingAggregateRoot.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 
@@ -66,18 +67,26 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         return lessonTracking;
     }
 
-    public ErrorOr<Success> ResolvePractice(
+    public ErrorOr<bool> ResolvePractice(
         string activityId,
         string answerId,
         bool isCorrect,
         Difficulty difficulty,
-        UserId userId)
+        User user)
     {
         var practice = _practices.FirstOrDefault(practice => practice.ActivityId.Equals(activityId));
         if (practice is null)
             return Errors.LessonTrackings.PracticeNotFoundByActivity;
-        AddDomainEvent(new ResolvedPracticeEvent(this, practice, difficulty, userId));
-        return practice.Resolve(answerId, isCorrect);
+        AddDomainEvent(new ResolvedPracticeEvent(this, practice, difficulty, user));
+        var practiceResult = practice.Resolve(answerId, isCorrect);
+        if (practiceResult.IsError)
+            return practiceResult.Errors;
+        if (!isCorrect && user.Life.Count == 1)
+        {
+            Status = LessonStatus.Failed;
+            return true;
+        }
+        return false;
     }
 
     // TODO: Maybe gain more points to finish lesson with success (or bonus points depending on higher percentage)
