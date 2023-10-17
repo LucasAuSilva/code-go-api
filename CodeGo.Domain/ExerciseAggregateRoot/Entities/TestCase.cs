@@ -28,6 +28,17 @@ public sealed class TestCase : Entity<TestCaseId>
             result);
     }
 
+    public static TestCase Create(
+        TestCaseId testCaseId,
+        string title,
+        string result)
+    {
+        return new TestCase(
+            testCaseId,
+            title,
+            result);
+    }
+
 #pragma warning disable CS8618
     private TestCase() {}
 #pragma warning restore CS8618

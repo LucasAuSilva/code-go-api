@@ -39,4 +39,16 @@ public class ExerciseRepository : IExerciseRepository
     {
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task UpdateAsync(Exercise exercise)
+    {
+        _dbContext.Update(exercise);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Exercise exercise)
+    {
+        _dbContext.Exercises.Remove(exercise);
+        await _dbContext.SaveChangesAsync();
+    }
 }

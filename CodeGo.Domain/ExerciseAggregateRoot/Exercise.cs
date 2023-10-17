@@ -51,6 +51,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         _testCases = testCases;
     }
 
+    // TODO: make validation for at least one testCase 
     public static Exercise CreateNew(
         string title,
         string description,
@@ -97,6 +98,22 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
     public override ExerciseId IdToValueObject()
     {
         return ExerciseId.Create(Id.Value);
+    }
+
+    public void Update(
+        string title,
+        string description,
+        string baseCode,
+        Difficulty difficulty,
+        ExerciseType type,
+        List<TestCase> testCases)
+    {
+        Title = title;
+        Description = description;
+        BaseCode = baseCode;
+        Difficulty = difficulty;
+        Type = type;
+        _testCases = testCases;
     }
 
 #pragma warning disable CS8618

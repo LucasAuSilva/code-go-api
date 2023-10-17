@@ -1,0 +1,19 @@
+PUT {{baseUrl}}/exercise/{{exerciseId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "Declaração de MyVariable",
+    "description": "Usando o editor abaixo declare a variavel 'myVariable', e com seu valor(em string) de: I'm an variable",
+    "categoryId": "{{categoryId}}",
+    "difficultyValue": 1,
+    "typeValue": 1,
+    "testCases": [
+        {
+            "testCaseId": "{{testCaseId}}",
+            "title": "Test Case",
+            "result": "I'm an variable"
+        }
+    ],
+    "baseCode": "\nBaseCode\n\nconsole.log(myVariable);\n"
+}

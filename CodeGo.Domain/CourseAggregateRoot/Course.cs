@@ -210,6 +210,11 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         _questionIds.Remove(questionId);
     }
 
+    public void RemoveExerciseId(ExerciseId exerciseId)
+    {
+        _exerciseIds.Remove(exerciseId);
+    }
+
 #pragma warning disable CS8618
     private Course() {}
 #pragma warning restore CS8618
