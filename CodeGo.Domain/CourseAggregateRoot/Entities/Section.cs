@@ -58,6 +58,12 @@ public sealed class Section : Entity<SectionId>
         var module = _modules.Find(module => module.Id == moduleId);
         return module != null;
     }
+
+    internal void OrderModules()
+    {
+        _modules.OrderBy(module => module.Position);
+    }
+
 #pragma warning disable CS8618
     private Section() {}
 #pragma warning restore CS8618

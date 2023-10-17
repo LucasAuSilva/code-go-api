@@ -190,6 +190,12 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         return selectedExercises;
     }
 
+    public void OrderSections()
+    {
+        _sections.OrderBy(section => section.Position);
+        _sections.ForEach(section => section.OrderModules());
+    }
+
     public override CourseId IdToValueObject()
     {
         return CourseId.Create(Id.Value);
@@ -209,6 +215,7 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
     {
         _questionIds.Remove(questionId);
     }
+
 
 #pragma warning disable CS8618
     private Course() {}

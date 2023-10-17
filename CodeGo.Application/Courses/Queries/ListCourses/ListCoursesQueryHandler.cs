@@ -18,6 +18,7 @@ public class ListCoursesQueryHandler : IRequestHandler<ListCoursesQuery, ErrorOr
     public async Task<ErrorOr<List<Course>>> Handle(ListCoursesQuery request, CancellationToken cancellationToken)
     {
         var courses = await _courseRepository.ListAsync();
+        courses.ForEach(course => course.OrderSections());
         return courses;
     }
 }
