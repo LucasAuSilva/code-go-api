@@ -28,7 +28,7 @@ public class EditExerciseCommandHandler : IRequestHandler<EditExerciseCommand, E
             ExerciseId.Create(command.ExerciseId));
         if (exercise is null)
             return Errors.Exercise.NotFound;
-        exercise.Update(
+        var result = exercise.Update(
             command.Title,
             command.Description,
             command.BaseCode,
@@ -38,6 +38,8 @@ public class EditExerciseCommandHandler : IRequestHandler<EditExerciseCommand, E
                 TestCaseId.Create(testCase.TestCaseId),
                 testCase.Title,
                 testCase.Result)));
+        if (result.IsError)
+            return result.Errors;
         await _exerciseRepository.UpdateAsync(exercise);
         return exercise;
     }

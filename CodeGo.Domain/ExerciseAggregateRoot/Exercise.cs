@@ -1,4 +1,5 @@
 
+using System.Net.WebSockets;
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
@@ -100,7 +101,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         return ExerciseId.Create(Id.Value);
     }
 
-    public void Update(
+    public ErrorOr<Success> Update(
         string title,
         string description,
         string baseCode,
@@ -108,12 +109,21 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         ExerciseType type,
         List<TestCase> testCases)
     {
+        ErrorOr<Success> result = Result.Success;
+        foreach (var testCase in testCases)
+        {
+            if (_testCases.Exists(tc => tc.Id == testCase.Id))
+                continue;
+            result = Errors.Exercise.TestCaseNotFound;
+            break;
+        }
         Title = title;
         Description = description;
         BaseCode = baseCode;
         Difficulty = difficulty;
         Type = type;
         _testCases = testCases;
+        return result;
     }
 
 #pragma warning disable CS8618
