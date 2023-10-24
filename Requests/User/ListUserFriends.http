@@ -1,0 +1,3 @@
+GET {{baseUrl}}/user/friends
+Content-Type: application/json
+Authorization: Bearer {{token}}

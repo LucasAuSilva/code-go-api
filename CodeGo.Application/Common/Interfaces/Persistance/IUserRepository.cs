@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<User?> FindById(UserId id);
     Task Update(User user);
     Task Add(User user);
+    Task<List<User>> FindUserFriendsById(UserId userId);
 }

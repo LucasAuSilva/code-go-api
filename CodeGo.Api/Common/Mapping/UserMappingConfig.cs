@@ -31,6 +31,16 @@ public class UserMappingConfig : IRegister
         ListUsersByNameRequestMapping(config);
         ListUsersByNameResponseMapping(config);
         UpdateUserRoleRequestMapping(config);
+        ListUserFriendsResponseMapping(config);
+    }
+
+    private static void ListUserFriendsResponseMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<User, ListUserFriendsResponse>()
+            .Map(dest => dest.Id, src => src.Id.Value.ToString())
+            .Map(dest => dest.Points, src => src.Points.Points)
+            .Map(dest => dest.LastName, src => src.LastName)
+            .Map(dest => dest.FirstName, src => src.FirstName);
     }
 
     private static void RegisterCourseCommandMapping(TypeAdapterConfig config)

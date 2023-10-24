@@ -5,6 +5,7 @@ using CodeGo.Application.Users.Command.ResponseFriendshipRequest;
 using CodeGo.Application.Users.Command.SendFriendshipRequest;
 using CodeGo.Application.Users.Command.UpdateUserRole;
 using CodeGo.Application.Users.Queries.ListFriendsRequests;
+using CodeGo.Application.Users.Queries.ListUserFriends;
 using CodeGo.Application.Users.Queries.ListUsersByEmail;
 using CodeGo.Application.Users.Queries.ListUsersByName;
 using CodeGo.Application.Users.Queries.UserProfile;
@@ -90,7 +91,18 @@ public class UserController : ApiController
             Problem);
     }
 
-    // TODO: make ignore the logged user in the return of the users
+    [HttpGet("friends")]
+    public async Task<IActionResult> FindUserFriends()
+    {
+        var loggedUserId = GetUserId();
+        if (loggedUserId is null) return Problem();
+        var query = new ListUserFriendsQuery(loggedUserId);
+        var result = await _sender.Send(query);
+        return result.Match(
+            result => Ok(_mapper.Map<List<ListUserFriendsResponse>>(result)),
+            Problem);
+    }
+
     [HttpGet("list")]
     public async Task<IActionResult> FindUsersByName([FromQuery] ListUsersByNameRequest request)
     {
