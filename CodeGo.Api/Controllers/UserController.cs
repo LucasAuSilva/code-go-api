@@ -108,7 +108,7 @@ public class UserController : ApiController
     {
         var loggedUserId = GetUserId();
         if (loggedUserId is null) return Problem();
-        var query = _mapper.Map<ListUsersByNameQuery>((loggedUserId, request));
+        var query = _mapper.Map<ListUsersByNameQuery>((request, loggedUserId));
         var result = await _sender.Send(query);
         return result.Match(
             result => Ok(_mapper.Map<PagedListResult<ListUsersByNameResponse>>(result)),
