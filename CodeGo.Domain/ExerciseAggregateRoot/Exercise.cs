@@ -52,8 +52,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         _testCases = testCases;
     }
 
-    // TODO: make validation for at least one testCase 
-    public static Exercise CreateNew(
+    public static ErrorOr<Exercise> CreateNew(
         string title,
         string description,
         string baseCode,
@@ -63,6 +62,8 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         CourseId courseId,
         List<TestCase>? testCases = null)
     {
+        if (testCases is not null && testCases.Count >= 1)
+            return Errors.Exercise.TestCaseNotFound;
         return new Exercise(
             id: ExerciseId.CreateNew(),
             title: title,
