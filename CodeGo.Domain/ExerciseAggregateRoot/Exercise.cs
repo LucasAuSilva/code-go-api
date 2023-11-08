@@ -62,8 +62,6 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         CourseId courseId,
         List<TestCase>? testCases = null)
     {
-        if (testCases is not null && testCases.Count >= 1)
-            return Errors.Exercise.TestCaseNotFound;
         return new Exercise(
             id: ExerciseId.CreateNew(),
             title: title,
