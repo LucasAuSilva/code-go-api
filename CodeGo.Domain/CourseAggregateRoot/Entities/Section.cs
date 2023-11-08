@@ -59,11 +59,11 @@ public sealed class Section : Entity<SectionId>
         return module != null;
     }
 
-    public Section OrderPositions()
+    internal void OrderModules()
     {
-        _modules = _modules.OrderBy(module => module.Position).ToList();
-        return this;
+        _modules.OrderBy(module => module.Position);
     }
+
 #pragma warning disable CS8618
     private Section() {}
 #pragma warning restore CS8618

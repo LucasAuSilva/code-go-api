@@ -190,12 +190,25 @@ public sealed class Course : AggregateRoot<CourseId, Guid>
         return selectedExercises;
     }
 
+    public void OrderSections()
+    {
+        _sections.OrderBy(section => section.Position);
+        _sections.ForEach(section => section.OrderModules());
+    }
+
+<<<<<<< HEAD
     public void OrderPositions()
     {
         _sections = _sections
             .Select(section => section.OrderPositions())
             .OrderBy(section => section.Position)
             .ToList();
+=======
+    public void OrderSections()
+    {
+        _sections.OrderBy(section => section.Position);
+        _sections.ForEach(section => section.OrderModules());
+>>>>>>> master
     }
 
     public override CourseId IdToValueObject()
