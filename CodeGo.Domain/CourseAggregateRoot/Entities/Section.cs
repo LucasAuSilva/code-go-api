@@ -59,9 +59,9 @@ public sealed class Section : Entity<SectionId>
         return module != null;
     }
 
-    internal void OrderModules()
+    public void OrderModules()
     {
-        _modules.OrderBy(module => module.Position);
+        _modules = _modules.OrderBy(module => module.Position).ToList();
     }
 
 #pragma warning disable CS8618
