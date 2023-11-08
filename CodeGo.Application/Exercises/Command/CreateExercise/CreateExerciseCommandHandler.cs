@@ -42,7 +42,7 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
             return Errors.Categories.NotEqualToCourse;
         var type = ExerciseType.FromValue(command.TypeValue);
         var difficulty = Difficulty.CreateNew(command.DifficultyValue);
-        var exercise = Exercise.CreateNew(
+        var result = Exercise.CreateNew(
             command.Title,
             command.Description,
             command.BaseCode,
@@ -53,6 +53,9 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
             testCases: command.TestCases.ConvertAll(testCase => TestCase.CreateNew(
                 testCase.Title,
                 testCase.Result)));
+        if (result.IsError)
+            return result.Errors;
+        var exercise = result.Value;
         course.AddExerciseId(exercise.IdToValueObject());
         await _exerciseRepository.Add(exercise);
         return exercise;

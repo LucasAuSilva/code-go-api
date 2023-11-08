@@ -40,7 +40,7 @@ public class CategoryController : ApiController
         var command = _mapper.Map<CreateCategoryCommand>(request);
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<CategoryResponse>(result)),
+            result => Created(_mapper.Map<CategoryResponse>(result)),
             Problem);
     }
 }

@@ -150,19 +150,19 @@ cd code-go-api
 ```
 ```bash
 # Executing the docker compose
-docker compose -f docker-compose.develop.yml up
+docker compose up
 ```
 ```bash
 # Or you can use this for detach mode
-docker compose -f docker-compose.develop.yml up -d
+docker compose -d
 ```
 ```bash
 # For take the application down even when you CTRL+C the app you need to make this
-docker compose -f docker-compose.develop.yml down
+docker compose down
 ```
 > ***IMPORTANT:** If any change happens in the code, and you have already done the `docker-compose up`, you will need to run the follow command to apply the changes:
 ```bash
-docker compose -f docker-compose.develop.yml up --build
+docker compose --build
 ```
 
 ### Database

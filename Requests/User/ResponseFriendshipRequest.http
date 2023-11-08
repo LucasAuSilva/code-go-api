@@ -1,6 +1,6 @@
 POST {{baseUrl}}/user/{{otherUserId}}/request/{{requestId}}/response
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{anotherToken}}
 
 {
     // Can be Accepted - 2, Refused - 3, Ignored - 4, Blocked - 5

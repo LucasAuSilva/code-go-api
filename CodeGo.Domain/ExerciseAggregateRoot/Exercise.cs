@@ -1,4 +1,5 @@
 
+using System.Net.WebSockets;
 using CodeGo.Domain.CategoryAggregateRoot.ValueObjects;
 using CodeGo.Domain.Common.Errors;
 using CodeGo.Domain.Common.Models;
@@ -51,7 +52,7 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         _testCases = testCases;
     }
 
-    public static Exercise CreateNew(
+    public static ErrorOr<Exercise> CreateNew(
         string title,
         string description,
         string baseCode,
@@ -61,6 +62,8 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
         CourseId courseId,
         List<TestCase>? testCases = null)
     {
+        if (testCases is not null && testCases.Count >= 1)
+            return Errors.Exercise.TestCaseNotFound;
         return new Exercise(
             id: ExerciseId.CreateNew(),
             title: title,
@@ -97,6 +100,31 @@ public sealed class Exercise : AggregateRoot<ExerciseId, Guid>
     public override ExerciseId IdToValueObject()
     {
         return ExerciseId.Create(Id.Value);
+    }
+
+    public ErrorOr<Success> Update(
+        string title,
+        string description,
+        string baseCode,
+        Difficulty difficulty,
+        ExerciseType type,
+        List<TestCase> testCases)
+    {
+        ErrorOr<Success> result = Result.Success;
+        foreach (var testCase in testCases)
+        {
+            if (_testCases.Exists(tc => tc.Id == testCase.Id))
+                continue;
+            result = Errors.Exercise.TestCaseNotFound;
+            break;
+        }
+        Title = title;
+        Description = description;
+        BaseCode = baseCode;
+        Difficulty = difficulty;
+        Type = type;
+        _testCases = testCases;
+        return result;
     }
 
 #pragma warning disable CS8618

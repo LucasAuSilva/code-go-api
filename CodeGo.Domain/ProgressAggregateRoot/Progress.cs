@@ -64,13 +64,15 @@ public sealed class Progress : AggregateRoot<ProgressId, Guid>
     }
 
     // HACK: find better way o dealing with this rule
-    public ErrorOr<Success> UpdateModuleTracking(Course course, LessonStatus status)
+    public ErrorOr<Success> UpdateModuleTracking(Course course, LessonStatus status, ModuleId lessonModuleId)
     {
         if (status.Equals(LessonStatus.Failed))
             return Result.Success;
         var currentModuleTracking = _moduleTrackings.FirstOrDefault(mt => mt.Status.Equals(ModuleStatus.Current));
         if (currentModuleTracking is null)
             return Errors.Progresses.NotFoundModuleTrackingWithCurrent;
+        if (currentModuleTracking.ModuleId != lessonModuleId)
+            return Result.Success;
         var resultModule = course.GetModuleFromId(currentModuleTracking.ModuleId);
         if (resultModule.IsError)
             return resultModule.Errors;

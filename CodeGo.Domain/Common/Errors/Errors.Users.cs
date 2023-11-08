@@ -48,5 +48,9 @@ public static partial class Errors
         public static Error AlreadyRequested => Error.Validation(
             code: "User.AlreadyRequested",
             description: "Already send an friend request to this user");
+
+        public static Error AlreadyRegisteredCourse => Error.Validation(
+            code: "User.AlreadyRegisteredCourse",
+            description: "User already register on this course");
     }
 }

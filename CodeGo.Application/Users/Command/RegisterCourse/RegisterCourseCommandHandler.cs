@@ -32,7 +32,9 @@ public class RegisterCourseCommandHandler : IRequestHandler<RegisterCourseComman
         if (user is null)
             return Errors.Users.NotFound;
         // Register Course In User
-        user.RegisterCourse(course);
+        var result = user.RegisterCourse(course);
+        if (result.IsError)
+            return result.Errors;
         // Save In Database
         await _userRepository.Update(user);
         // Return User

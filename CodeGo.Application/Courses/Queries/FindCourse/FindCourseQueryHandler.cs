@@ -24,6 +24,7 @@ public class FindCourseQueryHandler : IRequestHandler<FindCourseQuery, ErrorOr<C
         var course = await _courseRepository.FindById(CourseId.Create(query.CourseId));
         if (course is null)
             return Errors.Course.CourseNotFound;
+        course.OrderSections();
         return course;
     }
 }

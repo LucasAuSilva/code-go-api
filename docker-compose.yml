@@ -1,9 +1,52 @@
-version: '3.9'
+
 services:
-  app:
-    container_name: code-go-app
-    build: .
-    env_file: .env
-    
-    ports:
-        - 3000:3000
+    rabbitmq:
+        container_name: rabbit
+        image: rabbitmq:3-management
+        hostname: rabbit
+        volumes:
+            - ./Configs/RabbitMQ/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+            - ./Configs/RabbitMQ/definitions.json:/etc/rabbitmq/definitions.json:ro
+        ports:
+            - "3939:15672"
+            - "5672:5672"
+        networks:
+            - codegodev-network
+    db:
+        container_name: db
+        image: postgres:latest
+        volumes:
+            - codego-data:/var/lib/postgresql/data/
+        environment:
+            POSTGRES_PASSWORD: teste@123
+            POSTGRES_USER: user
+            POSTGRES_DB: codegodev
+        ports:
+            - "5432:5432"
+        restart: always
+        networks:
+            - codegodev-network
+    app:
+        container_name: app
+        build:
+            context: .
+            dockerfile: Dockerfile.develop
+        environment:
+            - ASPNETCORE_HTTP_PORT=https://+:2601
+            - ASPNETCORE_URLS=http://+:2600
+            - ASPNETCORE_ENVIRONMENT=Docker
+        env_file: .env
+        ports:
+            - "2600:2600"
+            - "2601:2601"
+        restart: always
+        networks:
+            - codegodev-network
+        depends_on:
+            - db
+            - rabbitmq
+networks:
+    codegodev-network:
+        driver: bridge
+volumes:
+    codego-data: null

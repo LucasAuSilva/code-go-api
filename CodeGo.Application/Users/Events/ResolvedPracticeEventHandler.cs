@@ -23,9 +23,7 @@ public class ResolvedPracticeEventHandler : INotificationHandler<ResolvedPractic
         ResolvedPracticeEvent notification,
         CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindById(notification.UserId)
-            ?? throw new NullReferenceException($"An user with this id {notification.UserId.Value} does't exist");
-        user.ResolvePractice(
+        notification.User.ResolvePractice(
             notification.Practice.IsCorrect,
             notification.Difficulty);
         var ranking = await _rankingRepository.FindByCourseIdAndPeriod(notification.LessonTracking.CourseId, DateTime.UtcNow);
@@ -35,9 +33,9 @@ public class ResolvedPracticeEventHandler : INotificationHandler<ResolvedPractic
             await _rankingRepository.AddAsync(ranking);
         }
         ranking.UpdateUserRankingProgress(
-            user,
+            notification.User,
             notification.Practice.IsCorrect,
             notification.Difficulty);
-        await _userRepository.Update(user);
+        await _userRepository.Update(notification.User);
     }
 }

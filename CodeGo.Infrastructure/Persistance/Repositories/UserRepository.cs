@@ -31,6 +31,12 @@ public class UserRepository : IUserRepository
         return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id); 
     }
 
+    public async Task<List<User>> FindUserFriendsById(UserId userId)
+    {
+        return await _dbContext.Users
+            .ToListAsync();
+    }
+
     public async Task<List<User>> ListUsersByEmail(string? email)
     {
         if (email is null)

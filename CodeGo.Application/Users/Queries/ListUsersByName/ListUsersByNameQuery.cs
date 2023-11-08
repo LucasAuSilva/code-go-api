@@ -7,6 +7,7 @@ using MediatR;
 namespace CodeGo.Application.Users.Queries.ListUsersByName;
 
 public record ListUsersByNameQuery(
+    string LoggedUserId,
     string? Name,
     int Page,
     int PageSize

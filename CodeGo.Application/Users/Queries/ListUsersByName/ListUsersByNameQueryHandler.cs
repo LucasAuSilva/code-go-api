@@ -2,6 +2,7 @@
 using CodeGo.Application.Common.Interfaces.Persistance;
 using CodeGo.Application.Common.Results;
 using CodeGo.Domain.UserAggregateRoot;
+using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 using MediatR;
 
@@ -20,8 +21,10 @@ public class ListUsersByNameQueryHandler : IRequestHandler<ListUsersByNameQuery,
         ListUsersByNameQuery query,
         CancellationToken cancellationToken)
     {
+        var userId = UserId.Create(query.LoggedUserId);
         var users = await _userRepository.ListUsersByName(
             query.Name);
+        users = users.Where(u => u.IdToValueObject() != userId).ToList();
         return PagedListResult<User>.Create(users, query.Page, query.PageSize);
     }
 }

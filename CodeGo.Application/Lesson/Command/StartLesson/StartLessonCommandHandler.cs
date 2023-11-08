@@ -62,7 +62,6 @@ public class StartLessonCommandHandler : IRequestHandler<StartLessonCommand, Err
         var moduleQuestions = course.SelectModuleQuestions(courseQuestions, moduleId);
         var moduleExercises = course.SelectModuleExercises(courseExercises, moduleId);
 
-        // TODO: Make check to see if requested module is the current or not
         var practices = moduleExercises
         .ConvertAll(exercise => Practice.CreateNew(
             exercise.Id.Value.ToString(),
@@ -76,8 +75,8 @@ public class StartLessonCommandHandler : IRequestHandler<StartLessonCommand, Err
         var lessonTracking = LessonTracking.CreateNew(
             userId,
             courseId,
-            practices
-        );
+            moduleId,
+            practices);
 
         progress.AddLessonTrackingId(LessonTrackingId.Create(lessonTracking.Id.Value));
         await _lessonTrackingRepository.AddAsync(lessonTracking);

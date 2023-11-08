@@ -28,7 +28,7 @@ public class AuthenticationController : ApiController
         var command = _mapper.Map<RegisterCommand>(request);
         var result = await _sender.Send(command);
         return result.Match(
-            result => Ok(_mapper.Map<AuthenticationResponse>(result)),
+            result => Created(_mapper.Map<AuthenticationResponse>(result)),
             Problem);
     }
 

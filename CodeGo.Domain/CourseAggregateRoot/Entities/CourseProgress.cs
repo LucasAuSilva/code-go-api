@@ -36,7 +36,6 @@ public sealed class CourseProgress : Entity<CourseProgressId>
         ModuleId currentModuleId,
         Difficulty difficultyLevel)
     {
-        // TODO: think better in the difficulty level scale
         return new CourseProgress(
             CourseProgressId.CreateNew(),
             userId,

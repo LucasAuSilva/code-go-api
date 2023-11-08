@@ -60,6 +60,10 @@ public class LessonTrackingConfiguration : IEntityTypeConfiguration<LessonTracki
             .HasConversion(
                 courseId => courseId.Value,
                 value => CourseId.Create(value));
+        builder.Property(lt => lt.ModuleId)
+            .HasConversion(
+                moduleId => moduleId.Value,
+                value => ModuleId.Create(value));
         builder.Property(lt => lt.Status)
             .HasConversion(
                 status => status.Value,

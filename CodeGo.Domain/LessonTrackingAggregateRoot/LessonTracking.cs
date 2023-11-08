@@ -8,6 +8,7 @@ using CodeGo.Domain.LessonTrackingAggregateRoot.Entities;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Enums;
 using CodeGo.Domain.LessonTrackingAggregateRoot.Events;
 using CodeGo.Domain.LessonTrackingAggregateRoot.ValueObjects;
+using CodeGo.Domain.UserAggregateRoot;
 using CodeGo.Domain.UserAggregateRoot.ValueObjects;
 using ErrorOr;
 
@@ -18,6 +19,7 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
     private List<Practice> _practices = new();
     public UserId UserId { get; private set; }
     public CourseId CourseId { get; private set; }
+    public ModuleId ModuleId { get; private set; }
     public DateTime StartDateTime { get; private set; }
     public DateTime? EndDateTime { get; private set; }
     public LessonStatus Status { get; private set; }
@@ -29,6 +31,7 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         LessonTrackingId id,
         UserId userId,
         CourseId courseId,
+        ModuleId moduleId,
         DateTime startDateTime,
         DateTime? endDateTime,
         LessonStatus status,
@@ -38,6 +41,7 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
     {
         UserId = userId;
         CourseId = courseId;
+        ModuleId =  moduleId;
         StartDateTime = startDateTime;
         EndDateTime = endDateTime;
         Status = status;
@@ -49,6 +53,7 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
     public static LessonTracking CreateNew(
         UserId userId,
         CourseId courseId,
+        ModuleId moduleId,
         List<Practice> practices)
     {
         var id = LessonTrackingId.CreateNew(); 
@@ -56,6 +61,7 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
             id: id,
             userId: userId,
             courseId: courseId,
+            moduleId: moduleId,
             startDateTime: DateTime.UtcNow,
             endDateTime: null,
             status: LessonStatus.InProgress,
@@ -66,18 +72,27 @@ public sealed class LessonTracking : AggregateRoot<LessonTrackingId, Guid>
         return lessonTracking;
     }
 
-    public ErrorOr<Success> ResolvePractice(
+    public ErrorOr<bool> ResolvePractice(
         string activityId,
         string answerId,
         bool isCorrect,
         Difficulty difficulty,
-        UserId userId)
+        User user)
     {
         var practice = _practices.FirstOrDefault(practice => practice.ActivityId.Equals(activityId));
         if (practice is null)
             return Errors.LessonTrackings.PracticeNotFoundByActivity;
-        AddDomainEvent(new ResolvedPracticeEvent(this, practice, difficulty, userId));
-        return practice.Resolve(answerId, isCorrect);
+        AddDomainEvent(new ResolvedPracticeEvent(this, practice, difficulty, user));
+        var practiceResult = practice.Resolve(answerId, isCorrect);
+        if (practiceResult.IsError)
+            return practiceResult.Errors;
+        if (!isCorrect && user.Life.Count == 1)
+        {
+            AddDomainEvent(new FinishedLessonEvent(this));
+            Status = LessonStatus.Failed;
+            return true;
+        }
+        return false;
     }
 
     // TODO: Maybe gain more points to finish lesson with success (or bonus points depending on higher percentage)

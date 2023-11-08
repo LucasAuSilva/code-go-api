@@ -39,6 +39,9 @@ public class ResolveExerciseCommandHandler : IRequestHandler<ResolveExerciseComm
         var lessonTracking = await _lessonTrackingRepository.FindByIdAndUserId(
             LessonTrackingId.Create(command.LessonTrackingId),
             userId);
+        var user = await _userRepository.FindById(userId);
+        if (user is null)
+            return Errors.Users.NotFound;
         if (lessonTracking is null)
             return Errors.LessonTrackings.NotFound;
         var exerciseId = ExerciseId.Create(command.ExerciseId);
@@ -63,14 +66,15 @@ public class ResolveExerciseCommandHandler : IRequestHandler<ResolveExerciseComm
             answerId: command.TestCaseId,
             isCorrect: exerciseResult.Value,
             difficulty: exercise.Difficulty,
-            userId: userId
-        );
+            user: user);
         if (lessonResult.IsError)
             return lessonResult.Errors;
         await _lessonTrackingRepository.UpdateAsync(lessonTracking);
         var message = exerciseResult.Value ? "Sucesso no Teste" : "Falha no Teste";
         return new ResolvePracticeResult(
             message,
-            exerciseResult.Value);
+            exerciseResult.Value,
+            lessonResult.Value,
+            lessonResult.Value ? user.Life.Count + 1 : user.Life.Count - 1);
     }
 }

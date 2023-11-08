@@ -1,4 +1,5 @@
 
+using CodeGo.Application.Exercises.Command.EditExercise;
 using CodeGo.Contracts.Exercises;
 using CodeGo.Domain.ExerciseAggregateRoot;
 using Mapster;
@@ -10,6 +11,19 @@ namespace CodeGo.Api.Common.Mapping;
 public class ExerciseMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
+    {
+        EditExerciseRequestMapping(config);
+        ExerciseResponseMapping(config);
+    }
+
+    private static void EditExerciseRequestMapping(TypeAdapterConfig config)
+    {
+        config.NewConfig<(EditExerciseRequest Request, string ExerciseId), EditExerciseCommand>()
+            .Map(dest => dest.ExerciseId, src => src.ExerciseId)
+            .Map(dest => dest, src => src.Request);
+    }
+
+    private static void ExerciseResponseMapping(TypeAdapterConfig config)
     {
         config.NewConfig<Exercise, ExerciseResponse>()
             .Map(dest => dest.ExerciseId, src => src.Id.Value.ToString())

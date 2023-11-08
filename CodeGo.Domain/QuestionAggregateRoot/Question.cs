@@ -13,7 +13,7 @@ namespace CodeGo.Domain.QuestionAggregateRoot;
 
 public sealed class Question : AggregateRoot<QuestionId, Guid>
 {
-    public List<Alternative> _alternatives = new();
+    private List<Alternative> _alternatives = new();
     public string Title { get; private set; }
     public string Description { get; private set; }
     public CategoryId CategoryId { get; private set; }
